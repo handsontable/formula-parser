@@ -1,0 +1,7 @@
+dist
+node_modules
+coverage
+*.tgz
+.idea
+
+dev.html
