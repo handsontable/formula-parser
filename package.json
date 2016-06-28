@@ -1,6 +1,6 @@
 {
   "name": "formula-parser",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Formula parser",
   "main": "dist/formula-parser.js",
   "scripts": {
