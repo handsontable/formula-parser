@@ -8,6 +8,7 @@ import webpack from 'webpack';
 import webpackStream from 'webpack-stream';
 import source from 'vinyl-source-stream';
 import jison from 'gulp-jison';
+import yargs from 'yargs';
 
 import mochaGlobals from './test/setup/.globals';
 import manifest  from './package.json';
@@ -76,8 +77,16 @@ function build() {
       },
       module: {
         loaders: [
-          { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' }
-        ]
+          {
+            test: /\.js$/,
+            exclude: /node_modules/,
+            loader: require.resolve('babel-loader'),
+            babelrc: false,
+            query: {
+              presets: [require.resolve('babel-preset-es2015')]
+            }
+          }
+        ],
       },
       devtool: 'source-map'
     }))
@@ -91,11 +100,17 @@ function build() {
 }
 
 function _mocha() {
-  return gulp.src(['test/setup/node.js', 'test/unit/**/*.js'], {read: false})
+  const envs = $.env.set({
+    NODE_ENV: 'test'
+  });
+
+  return gulp.src(['test/setup/node.js', 'test/unit/**/*.js', 'test/integration/**/*.js'], {read: false})
+    .pipe(envs)
     .pipe($.mocha({
       reporter: 'dot',
       globals: Object.keys(mochaGlobals.globals),
-      ignoreLeaks: false
+      ignoreLeaks: false,
+      grep: yargs.argv.grep
     }));
 }
 
@@ -110,8 +125,8 @@ function test() {
 
 function coverage(done) {
   _registerBabel();
-  gulp.src(['src/**/*.js'])
-    .pipe($.istanbul({ instrumenter: Instrumenter }))
+  gulp.src(['src/**/*.js', '!src/grammar-parser/*'])
+    .pipe($.istanbul({instrumenter: Instrumenter}))
     .pipe($.istanbul.hookRequire())
     .on('finish', () => {
       return test()
@@ -122,17 +137,18 @@ function coverage(done) {
 
 const watchFiles = ['src/**/*', 'test/**/*', 'package.json', '**/.eslintrc', '.jscsrc'];
 
-// Run the headless unit tests as you make changes.
+// Run the headless tests as you make changes.
 function watch() {
   gulp.watch(watchFiles, ['test']);
 }
 
 function testBrowser() {
-  // Our testing bundle is made up of our unit tests, which
+  // Our testing bundle is made up of our tests, which
   // should individually load up pieces of our application.
   // We also include the browser setup file.
-  const testFiles = glob.sync('./test/unit/**/*.js');
-  const allFiles = ['./test/setup/browser.js'].concat(testFiles);
+  const unitTestFiles = glob.sync('./test/unit/**/*.js');
+  const integrationTestFiles = glob.sync('./test/integration/**/*.js');
+  const allFiles = ['./test/setup/browser.js'].concat(unitTestFiles, integrationTestFiles);
 
   // Lets us differentiate between the first build and subsequent builds
   var firstBuild = true;
@@ -200,13 +216,13 @@ gulp.task('_build', build);
 // Lint and run our tests
 gulp.task('test', ['lint'], test);
 
-// Set up coverage and run tests
-gulp.task('coverage', ['lint'], coverage);
+// Set up coverage
+gulp.task('coverage', coverage);
 
 // Set up a livereload environment for our spec runner `test/runner.html`
 gulp.task('test-browser', ['lint', 'clean-tmp'], testBrowser);
 
-// Run the headless unit tests as you make changes
+// Run the headless tests as you make changes
 gulp.task('watch', watch);
 
 // Generate parser

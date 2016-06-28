@@ -4,20 +4,11 @@ import * as formulajs from 'formulajs';
 
 export const SYMBOL = SUPPORTED_FORMULAS;
 
-// @TODO: Delete this
-if (typeof window !== 'undefined') {
-  window.formulajs = formulajs;
-}
-
 export default function func(symbol) {
-  return function(params) {
+  return function(...params) {
     const symbolParts = symbol.split('.');
     let foundFormula = false;
     let result;
-
-    if (!symbolParts.length) {
-      throw Error(ERROR_NAME);
-    }
 
     if (symbolParts.length === 1) {
       if (formulajs[symbolParts[0]]) {

@@ -15,7 +15,14 @@
     "type": "git",
     "url": "https://github.com/handsontable/formula-parser.git"
   },
-  "keywords": [],
+  "keywords": [
+    "formula",
+    "formulas",
+    "parser",
+    "formula-parser",
+    "excel",
+    "spreadsheet"
+  ],
   "author": "Handsoncode <hello@handsontable.com>",
   "license": "MIT",
   "bugs": {
@@ -25,7 +32,7 @@
   "devDependencies": {
     "babel-core": "^6.3.26",
     "babel-eslint": "^4.1.6",
-    "babel-loader": "^6.2.0",
+    "babel-loader": "^6.2.4",
     "babel-polyfill": "^6.3.14",
     "babel-preset-es2015": "^6.3.13",
     "babel-register": "^6.3.13",
@@ -34,9 +41,11 @@
     "glob": "^6.0.3",
     "gulp": "^3.9.0",
     "gulp-babel": "^6.1.1",
+    "gulp-env": "^0.4.0",
     "gulp-eslint": "^1.1.1",
     "gulp-filter": "^3.0.0",
     "gulp-istanbul": "^0.10.3",
+    "gulp-jison": "^1.2.0",
     "gulp-jscs": "^3.0.0",
     "gulp-livereload": "^3.8.1",
     "gulp-load-plugins": "^1.1.0",
@@ -54,14 +63,15 @@
     "sinon-chai": "^2.8.0",
     "vinyl-source-stream": "^1.1.0",
     "webpack": "^1.12.9",
-    "webpack-stream": "^3.1.0"
+    "webpack-stream": "^3.1.0",
+    "yargs": "^4.7.1"
   },
   "babelBoilerplateOptions": {
-    "entryFileName": "formula-parser",
-    "mainVarName": "spreadsheetFormulaParser"
+    "entryFileName": "parser",
+    "mainVarName": "formulaParser"
   },
   "dependencies": {
-    "formulajs": "^1.0.7",
+    "formulajs": "github:handsontable/formula.js",
     "mixin": "^0.2.0",
     "tiny-emitter": "^1.0.2"
   }

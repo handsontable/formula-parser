@@ -20,6 +20,12 @@ const errors = {
   [ERROR_VALUE]: '#VALUE?',
 };
 
+/**
+ * Return error type based on provided error id.
+ *
+ * @param {String} type Error type.
+ * @returns {String|null} Returns error id.
+ */
 export default function error(type) {
   let error;
 

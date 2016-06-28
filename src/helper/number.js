@@ -1,3 +1,9 @@
+/**
+ * Convert value into number.
+ *
+ * @param {String|Number} number
+ * @returns {*}
+ */
 export function toNumber(number) {
   let result;
 
@@ -11,6 +17,12 @@ export function toNumber(number) {
   return result;
 }
 
+/**
+ * Invert provided number.
+ *
+ * @param {Number} number
+ * @returns {Number} Returns inverted number.
+ */
 export function invertNumber(number) {
   return -1 * toNumber(number);
 }

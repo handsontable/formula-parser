@@ -29,7 +29,14 @@ registerOperation(multiply.SYMBOL, multiply);
 registerOperation(notEqual.SYMBOL, notEqual);
 registerOperation(minus.SYMBOL, minus);
 
-export default function evaluateByOperator(operator, ...params) {
+/**
+ * Evaluate values by operator id.
+ *
+ * @param {String} operator Operator id.
+ * @param {Array} params Arguments to evaluate.
+ * @returns {*}
+ */
+export default function evaluateByOperator(operator, params) {
   if (!availableOperators.has(operator)) {
     throw Error(ERROR_NAME);
   }
@@ -37,6 +44,12 @@ export default function evaluateByOperator(operator, ...params) {
   return availableOperators.get(operator)(...params);
 }
 
+/**
+ * Register operator.
+ *
+ * @param {String|Array} symbol Symbol to register.
+ * @param {Function} func Logic to register for this symbol.
+ */
 export function registerOperation(symbol, func) {
   if (!Array.isArray(symbol)) {
     symbol = [symbol];

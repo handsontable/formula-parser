@@ -1,10 +1,10 @@
-import {FormulaParser} from '../../../src/formula-parser';
+import {Parser} from '../../../src/parser';
 
-describe('FormulaParser parse() logical', () => {
+describe('.parse() logical', () => {
   let parser;
 
   beforeEach(() => {
-    parser = new FormulaParser();
+    parser = new Parser();
   });
   afterEach(() => {
     parser = null;

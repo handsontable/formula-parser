@@ -1,9 +1,20 @@
+const LABEL_EXTRACT_REGEXP = /^([$])?([A-Za-z]+)([$])?([0-9]+)$/;
+
+/**
+ * Extract cell coordinates.
+ *
+ * @param {String} label Cell coordinates (eq. 'A1', '$B6', '$N$98').
+ * @returns {Array} Returns an array of objects.
+ */
 export function extractLabel(label) {
-  const [, columnAbs, column, rowAbs, row] = label.match(/(\$)?([A-Za-z]+)(\$)?([0-9]+)/) || [];
+  if (!LABEL_EXTRACT_REGEXP.test(label)) {
+    return [];
+  }
+  const [, columnAbs, column, rowAbs, row] = label.match(LABEL_EXTRACT_REGEXP);
 
   return [
     {
-      index: parseInt(row, 10),
+      index: parseInt(row, 10) - 1,
       label: row,
       isAbsolute: rowAbs === '$',
     },
@@ -15,35 +26,40 @@ export function extractLabel(label) {
   ];
 }
 
-export function labelToCoords(label) {
-  return 1;
-}
-
-export function coordsToLabel(coords) {
-  return 1;
-}
-
 const COLUMN_LABEL_BASE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+const COLUMN_LABEL_BASE_LENGTH = COLUMN_LABEL_BASE.length;
 
+/**
+ * Convert column label to index.
+ *
+ * @param {String} label Column label (eq. 'ABB', 'CNQ')
+ * @returns {Number} Returns -1 if label is not recognized otherwise proper column index.
+ */
 export function columnLabelToIndex(label) {
   let result = 0;
 
-  for (let i = 0, j = label.length - 1; i < label.length; i += 1, j -= 1) {
-    result += Math.pow(COLUMN_LABEL_BASE.length, j) * (COLUMN_LABEL_BASE.indexOf(label[i]) + 1);
+  if (label) {
+    for (let i = 0, j = label.length - 1; i < label.length; i += 1, j -= 1) {
+      result += Math.pow(COLUMN_LABEL_BASE_LENGTH, j) * (COLUMN_LABEL_BASE.indexOf(label[i]) + 1);
+    }
   }
-  if (result) {
-    --result;
-  }
+  --result;
 
   return result;
 }
 
+/**
+ * Convert column index to label.
+ *
+ * @param {Number} column Column index.
+ * @returns {String} Returns column label (eq. 'ABB', 'CNQ').
+ */
 export function columnIndexToLabel(column) {
   let result = '';
 
   while (column >= 0) {
-    result = String.fromCharCode(column % 26 + 97) + result;
-    column = Math.floor(column / 26) - 1;
+    result = String.fromCharCode(column % COLUMN_LABEL_BASE_LENGTH + 97) + result;
+    column = Math.floor(column / COLUMN_LABEL_BASE_LENGTH) - 1;
   }
 
   return result.toUpperCase();
