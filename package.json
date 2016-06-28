@@ -1,6 +1,6 @@
 {
-  "name": "formula-parser",
-  "version": "1.0.0",
+  "name": "hot-formula-parser",
+  "version": "1.0.1",
   "description": "Formula parser",
   "main": "dist/formula-parser.js",
   "scripts": {
@@ -61,6 +61,7 @@
     "jison": "^0.4.17",
     "json-loader": "^0.5.3",
     "mocha": "^2.3.4",
+    "proxyquire": "^1.7.9",
     "sinon": "^1.17.2",
     "sinon-chai": "^2.8.0",
     "vinyl-source-stream": "^1.1.0",
