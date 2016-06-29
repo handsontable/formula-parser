@@ -1,4 +1,4 @@
-Formula Parser [![Build Status](https://travis-ci.org/handsontable/formula-parser.png?branch=master)](https://travis-ci.org/handsontable/formula-parser)
+Formula Parser [![Build Status](https://travis-ci.org/handsontable/formula-parser.png?branch=master)](https://travis-ci.org/handsontable/formula-parser) [![Code Climate](https://codeclimate.com/github/fed135/Kalm/badges/gpa.svg)](https://codeclimate.com/github/fed135/Kalm) [![hot-formula-parser](https://img.shields.io/npm/v/hot-formula-parser.svg)](https://www.npmjs.com/package/hot-formula-parser)
 ==========
 Library provides a `Parser` class that evaluates excel and mathematical formulas. 
 
@@ -38,7 +38,7 @@ It supports:
  * Logical operations like `AND()`, `OR()`, `NOT()`, `XOR()`;
  * Comparison operations like `=`, `>`, `>=`, `<`, `<=`, `<>`;
  * All JavaScript Math constants like `PI()`, `E()`, `LN10()`, `LN2()`, `LOG10E()`, `LOG2E()`, `SQRT1_2()`, `SQRT2()`;
- * String operations like `&` (concatenation eq. `parser.parse('-(2&5)');` will returns `-25`);
+ * String operations like `&` (concatenation eq. `parser.parse('-(2&5)');` will return `-25`);
  * All excel formulas defined in [formula.js](https://github.com/handsontable/formula.js);
  * Relative and absolute cell coordinates like `A1`, `$A1`, `A$1`, `$A$1`;
  * Build-in variables like `TRUE`, `FALSE`, `NULL`
