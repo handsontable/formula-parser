@@ -1,4 +1,4 @@
-Formula Parser [![Build Status](https://travis-ci.org/handsontable/formula-parser.png?branch=master)](https://travis-ci.org/handsontable/formula-parser) [![Code Climate](https://codeclimate.com/github/fed135/Kalm/badges/gpa.svg)](https://codeclimate.com/github/fed135/Kalm) [![hot-formula-parser](https://img.shields.io/npm/v/hot-formula-parser.svg)](https://www.npmjs.com/package/hot-formula-parser)
+Formula Parser [![Build Status](https://travis-ci.org/handsontable/formula-parser.png?branch=master)](https://travis-ci.org/handsontable/formula-parser) [![Test Coverage](https://codeclimate.com/repos/57739f5a0fbc62007d005f05/badges/35e70c68c984c6d7580b/coverage.svg)](https://codeclimate.com/repos/57739f5a0fbc62007d005f05/coverage) [![hot-formula-parser](https://img.shields.io/npm/v/hot-formula-parser.svg)](https://www.npmjs.com/package/hot-formula-parser)
 ==========
 Library provides a `Parser` class that evaluates excel and mathematical formulas. 
 
