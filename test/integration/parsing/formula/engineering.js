@@ -13,25 +13,25 @@ describe('.parse() engineering formulas', () => {
   it('BESSELI', () => {
     expect(parser.parse('BESSELI()')).to.deep.equal({error: '#VALUE?', result: null});
     expect(parser.parse('BESSELI(1.4)')).to.deep.equal({error: '#VALUE?', result: null});
-    expect(parser.parse('BESSELI(1.4, 1)')).to.deep.equal({error: null, result: 0.8860919793963105});
+    expect(parser.parse('BESSELI(1.4, 1)')).to.almost.eql({error: null, result: 0.8860919793963105}, 1e-9);
   });
 
   it('BESSELJ', () => {
     expect(parser.parse('BESSELJ()')).to.deep.equal({error: '#VALUE?', result: null});
     expect(parser.parse('BESSELJ(1.4)')).to.deep.equal({error: '#VALUE?', result: null});
-    expect(parser.parse('BESSELJ(1.4, 1)')).to.deep.equal({error: null, result: 0.5419477138848564});
+    expect(parser.parse('BESSELJ(1.4, 1)')).to.almost.eql({error: null, result: 0.5419477138848564}, 1e-9);
   });
 
   it('BESSELK', () => {
     expect(parser.parse('BESSELK()')).to.deep.equal({error: '#VALUE?', result: null});
     expect(parser.parse('BESSELK(1.4)')).to.deep.equal({error: '#VALUE?', result: null});
-    expect(parser.parse('BESSELK(1.4, 1)')).to.deep.equal({error: null, result: 0.32083590550458985});
+    expect(parser.parse('BESSELK(1.4, 1)')).to.deep.equal({error: null, result: 0.32083590550458985}, 1e-9);
   });
 
   it('BESSELY', () => {
     expect(parser.parse('BESSELY()')).to.deep.equal({error: '#VALUE?', result: null});
     expect(parser.parse('BESSELY(1.4)')).to.deep.equal({error: '#VALUE?', result: null});
-    expect(parser.parse('BESSELY(1.4, 1)')).to.deep.equal({error: null, result: -0.47914697411134044});
+    expect(parser.parse('BESSELY(1.4, 1)')).to.deep.equal({error: null, result: -0.47914697411134044}, 1e-9);
   });
 
   it('BIN2DEC', () => {
@@ -140,14 +140,14 @@ describe('.parse() engineering formulas', () => {
 
   it('ERF', () => {
     expect(parser.parse('ERF()')).to.deep.equal({error: '#VALUE?', result: null});
-    expect(parser.parse('ERF(1)')).to.deep.equal({error: null, result: 0.8427007929497149});
-    expect(parser.parse('ERF(2)')).to.deep.equal({error: null, result: 0.9953222650189527});
+    expect(parser.parse('ERF(1)')).to.almost.eql({error: null, result: 0.8427007929497149}, 1e-9);
+    expect(parser.parse('ERF(2)')).to.almost.eql({error: null, result: 0.9953222650189527}, 1e-9);
   });
 
   it('ERFC', () => {
     expect(parser.parse('ERFC()')).to.deep.equal({error: '#VALUE?', result: null});
-    expect(parser.parse('ERFC(0)')).to.deep.equal({error: null, result: 0.9999999999999999});
-    expect(parser.parse('ERFC(1)')).to.deep.equal({error: null, result: 0.1572992070502851});
+    expect(parser.parse('ERFC(0)')).to.almost.eql({error: null, result: 1}, 1e-9);
+    expect(parser.parse('ERFC(1)')).to.almost.eql({error: null, result: 0.1572992070502851}, 1e-9);
   });
 
   it('GESTEP', () => {
@@ -191,7 +191,7 @@ describe('.parse() engineering formulas', () => {
     expect(parser.parse('IMARGUMENT()')).to.deep.equal({error: '#VALUE?', result: null});
     expect(parser.parse('IMARGUMENT(1)')).to.deep.equal({error: '#ERROR!', result: null});
     expect(parser.parse('IMARGUMENT(0)')).to.deep.equal({error: '#DIV/0!', result: null});
-    expect(parser.parse('IMARGUMENT("3+4i")')).to.deep.equal({error: null, result: 0.9272952180016122});
+    expect(parser.parse('IMARGUMENT("3+4i")')).to.almost.eql({error: null, result: 0.9272952180016122}, 1e-9);
   });
 
   it('IMCONJUGATE', () => {

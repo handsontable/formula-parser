@@ -38,6 +38,7 @@
     "babel-preset-es2015": "^6.3.13",
     "babel-register": "^6.3.13",
     "chai": "^3.4.1",
+    "chai-stats": "^0.3.0",
     "del": "^2.2.0",
     "generate-release": "^0.6.3",
     "glob": "^6.0.3",
