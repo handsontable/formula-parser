@@ -62,6 +62,7 @@
     "jison": "^0.4.17",
     "json-loader": "^0.5.3",
     "mocha": "^2.3.4",
+    "null-loader": "^0.1.1",
     "proxyquire": "^1.7.9",
     "sinon": "^1.17.2",
     "sinon-chai": "^2.8.0",

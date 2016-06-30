@@ -1,14 +1,14 @@
-import gulp from 'gulp';
-import loadPlugins from 'gulp-load-plugins';
 import del from 'del';
 import glob from 'glob';
+import gulp from 'gulp';
+import jison from 'gulp-jison';
+import loadPlugins from 'gulp-load-plugins';
 import path from 'path';
-import {Instrumenter} from 'isparta';
+import source from 'vinyl-source-stream';
 import webpack from 'webpack';
 import webpackStream from 'webpack-stream';
-import source from 'vinyl-source-stream';
-import jison from 'gulp-jison';
 import yargs from 'yargs';
+import {Instrumenter} from 'isparta';
 
 import mochaGlobals from './test/setup/.globals';
 import manifest  from './package.json';
@@ -77,6 +77,10 @@ function build() {
       },
       module: {
         loaders: [
+          {
+            test: /\/numbro\/languages\/(([a-z]+\-[A-Z]+)|index)\.js$/,
+            loader: require.resolve('null-loader')
+          },
           {
             test: /\.js$/,
             exclude: /node_modules/,
