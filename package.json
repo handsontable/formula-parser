@@ -77,7 +77,6 @@
   },
   "dependencies": {
     "formulajs": "github:handsontable/formula.js",
-    "mixin": "^0.2.0",
     "tiny-emitter": "^1.0.2"
   }
 }

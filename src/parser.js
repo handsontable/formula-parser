@@ -1,6 +1,5 @@
 import Emitter from 'tiny-emitter';
 import evaluateByOperator from './evaluate-by-operator/evaluate-by-operator';
-import mixin from 'mixin';
 import {Parser as GrammarParser} from './grammar-parser/grammar-parser';
 import {trimEdges} from './helper/string';
 import {toNumber, invertNumber} from './helper/number';
@@ -14,8 +13,9 @@ const variables = new WeakMap();
 /**
  * @class Parser
  */
-class Parser {
+class Parser extends Emitter {
   constructor() {
+    super();
     this.parser = new GrammarParser();
     this.parser.yy = {
       toNumber,
@@ -162,7 +162,5 @@ class Parser {
     return value;
   }
 }
-
-Parser = mixin(Parser, Emitter);
 
 export {Parser};
