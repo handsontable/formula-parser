@@ -72,7 +72,7 @@
     "yargs": "^4.7.1"
   },
   "babelBoilerplateOptions": {
-    "entryFileName": "parser",
+    "entryFileName": "index",
     "mainVarName": "formulaParser"
   },
   "dependencies": {

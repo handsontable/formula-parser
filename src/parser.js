@@ -4,7 +4,7 @@ import {Parser as GrammarParser} from './grammar-parser/grammar-parser';
 import {trimEdges} from './helper/string';
 import {toNumber, invertNumber} from './helper/number';
 import {default as errorParser, ERROR, ERROR_NAME} from './error';
-import {extractLabel} from './helper/cell';
+import {extractLabel, toLabel} from './helper/cell';
 
 export {default as SUPPORTED_FORMULAS} from './supported-formulas';
 
@@ -132,30 +132,41 @@ class Parser extends Emitter {
   }
 
   /**
-   * Retrieve value by its label (`B3`, `B$3`, `B$3`, `$B$3`).
+   * Retrieve value by its label (`B3:A1`, `B$3:A1`, `B$3:$A1`, `$B$3:A$1`).
    *
-   * @param {String} firstLabel Coordinates of the first cell.
-   * @param {String} lastLabel Coordinates of the last cell.
+   * @param {String} startLabel Coordinates of the first cell.
+   * @param {String} endLabel Coordinates of the last cell.
    * @returns {Array} Returns an array of mixed values.
    * @private
    */
-  _callRangeValue(firstLabel, lastLabel) {
-    const [firstRow, firstColumn] = extractLabel(firstLabel);
-    const [lastRow, lastColumn] = extractLabel(lastLabel);
+  _callRangeValue(startLabel, endLabel) {
+    const [startRow, startColumn] = extractLabel(startLabel);
+    const [endRow, endColumn] = extractLabel(endLabel);
+    let startCell = {};
+    let endCell = {};
 
-    const firstCell = {
-      label: firstLabel,
-      row: firstRow,
-      column: firstColumn,
-    };
-    const lastCell = {
-      label: lastLabel,
-      row: lastRow,
-      column: lastColumn,
-    };
+    if (startRow.index <= endRow.index) {
+      startCell.row = startRow;
+      endCell.row = endRow;
+    } else {
+      startCell.row = endRow;
+      endCell.row = startRow;
+    }
+
+    if (startColumn.index <= endColumn.index) {
+      startCell.column = startColumn;
+      endCell.column = endColumn;
+    } else {
+      startCell.column = endColumn;
+      endCell.column = startColumn;
+    }
+
+    startCell.label = toLabel(startCell.row, startCell.column);
+    endCell.label = toLabel(endCell.row, endCell.column);
+
     let value = [];
 
-    this.emit('callRangeValue', firstCell, lastCell, (_value = []) => {
+    this.emit('callRangeValue', startCell, endCell, (_value = []) => {
       value = _value;
     });
 

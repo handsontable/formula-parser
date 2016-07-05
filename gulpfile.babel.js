@@ -67,7 +67,7 @@ function lintGulpfile() {
 }
 
 function build() {
-  return gulp.src(path.join('src', config.entryFileName + '.js'))
+  return gulp.src(path.join(config.entryFileName + '.js'))
     .pipe($.plumber())
     .pipe(webpackStream({
       output: {
