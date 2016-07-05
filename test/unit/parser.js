@@ -290,5 +290,45 @@ describe('Parser', () => {
       expect(parser._callRangeValue('A$1', '$D4')).to.deep.equal([['a', 'b'], ['z', 'd']]);
       expect(parser._callRangeValue('$A$1', '$E$5')).to.deep.equal([[true, false], [true, true]]);
     });
+
+    it('should convert coordinates in top-left bottom-right format (from bottom-left to top-right)', () => {
+      const obj = {cb: function() {}};
+
+      spy(obj, 'cb');
+
+      parser.on('callRangeValue', obj.cb);
+      parser._callRangeValue('$A$9', 'B2');
+
+      const startCell = {
+        row: {index: 1, isAbsolute: false, label: '2'},
+        column: {index: 0, isAbsolute: true, label: 'A'},
+      };
+      const endCell = {
+        row: {index: 8, isAbsolute: true, label: '9'},
+        column: {index: 1, isAbsolute: false, label: 'B'},
+      };
+
+      sinon.assert.calledWithMatch(obj.cb, startCell, endCell);
+    });
+
+    it('should convert coordinates in top-left bottom-right format (from top-right to bottom-left)', () => {
+      const obj = {cb: function() {}};
+
+      spy(obj, 'cb');
+
+      parser.on('callRangeValue', obj.cb);
+      parser._callRangeValue('B$2', 'A$8');
+
+      const startCell = {
+        row: {index: 1, isAbsolute: true, label: '2'},
+        column: {index: 0, isAbsolute: false, label: 'A'},
+      };
+      const endCell = {
+        row: {index: 7, isAbsolute: true, label: '8'},
+        column: {index: 1, isAbsolute: false, label: 'B'},
+      };
+
+      sinon.assert.calledWithMatch(obj.cb, startCell, endCell);
+    });
   });
 });

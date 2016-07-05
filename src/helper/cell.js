@@ -14,7 +14,7 @@ export function extractLabel(label) {
 
   return [
     {
-      index: parseInt(row, 10) - 1,
+      index: rowLabelToIndex(row),
       label: row,
       isAbsolute: rowAbs === '$',
     },
@@ -24,6 +24,20 @@ export function extractLabel(label) {
       isAbsolute: columnAbs === '$'
     }
   ];
+}
+
+/**
+ * Convert row and column indexes into cell label.
+ *
+ * @param {Object} row Object with `index` and `isAbsolute` properties.
+ * @param {Object} column Object with `index` and `isAbsolute` properties.
+ * @returns {String} Returns cell label.
+ */
+export function toLabel(row, column) {
+  const rowLabel = (row.isAbsolute ? '$' : '') + rowIndexToLabel(row.index);
+  const columnLabel = (column.isAbsolute ? '$' : '') + columnIndexToLabel(column.index);
+
+  return columnLabel + rowLabel;
 }
 
 const COLUMN_LABEL_BASE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -63,4 +77,38 @@ export function columnIndexToLabel(column) {
   }
 
   return result.toUpperCase();
+}
+
+/**
+ * Convert row label to index.
+ *
+ * @param {String} label Row label (eq. '1', '5')
+ * @returns {Number} Returns -1 if label is not recognized otherwise proper row index.
+ */
+export function rowLabelToIndex(label) {
+  let result = parseInt(label, 10);
+
+  if (isNaN(result)) {
+    result = -1;
+  } else {
+    result = Math.max(result - 1, -1);
+  }
+
+  return result;
+}
+
+/**
+ * Convert row index to label.
+ *
+ * @param {Number} row Row index.
+ * @returns {String} Returns row label (eq. '1', '7').
+ */
+export function rowIndexToLabel(row) {
+  let result = '';
+
+  if (row >= 0) {
+    result = `${row + 1}`;
+  }
+
+  return result;
 }
