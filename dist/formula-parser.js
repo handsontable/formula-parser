@@ -59,13 +59,44 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
+	exports.rowLabelToIndex = exports.rowIndexToLabel = exports.columnLabelToIndex = exports.columnIndexToLabel = exports.toLabel = exports.extractLabel = exports.error = exports.Parser = exports.SUPPORTED_FORMULAS = undefined;
+	
+	var _parser = __webpack_require__(1);
+	
+	var _error = __webpack_require__(9);
+	
+	var _error2 = _interopRequireDefault(_error);
+	
+	var _cell = __webpack_require__(43);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	exports.SUPPORTED_FORMULAS = _parser.SUPPORTED_FORMULAS;
+	exports.Parser = _parser.Parser;
+	exports.error = _error2.default;
+	exports.extractLabel = _cell.extractLabel;
+	exports.toLabel = _cell.toLabel;
+	exports.columnIndexToLabel = _cell.columnIndexToLabel;
+	exports.columnLabelToIndex = _cell.columnLabelToIndex;
+	exports.rowIndexToLabel = _cell.rowIndexToLabel;
+	exports.rowLabelToIndex = _cell.rowLabelToIndex;
+
+/***/ },
+/* 1 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
 	exports.Parser = exports.SUPPORTED_FORMULAS = undefined;
 	
 	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
-	var _supportedFormulas = __webpack_require__(1);
+	var _supportedFormulas = __webpack_require__(2);
 	
 	Object.defineProperty(exports, 'SUPPORTED_FORMULAS', {
 	  enumerable: true,
@@ -74,25 +105,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	});
 	
-	var _tinyEmitter = __webpack_require__(2);
+	var _tinyEmitter = __webpack_require__(3);
 	
 	var _tinyEmitter2 = _interopRequireDefault(_tinyEmitter);
 	
-	var _evaluateByOperator = __webpack_require__(3);
+	var _evaluateByOperator = __webpack_require__(4);
 	
 	var _evaluateByOperator2 = _interopRequireDefault(_evaluateByOperator);
 	
-	var _grammarParser = __webpack_require__(39);
+	var _grammarParser = __webpack_require__(40);
 	
-	var _string = __webpack_require__(41);
+	var _string = __webpack_require__(42);
 	
-	var _number = __webpack_require__(5);
+	var _number = __webpack_require__(6);
 	
-	var _error = __webpack_require__(8);
+	var _error = __webpack_require__(9);
 	
 	var _error2 = _interopRequireDefault(_error);
 	
-	var _cell = __webpack_require__(42);
+	var _cell = __webpack_require__(43);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -261,45 +292,56 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	    /**
-	     * Retrieve value by its label (`B3`, `B$3`, `B$3`, `$B$3`).
+	     * Retrieve value by its label (`B3:A1`, `B$3:A1`, `B$3:$A1`, `$B$3:A$1`).
 	     *
-	     * @param {String} firstLabel Coordinates of the first cell.
-	     * @param {String} lastLabel Coordinates of the last cell.
+	     * @param {String} startLabel Coordinates of the first cell.
+	     * @param {String} endLabel Coordinates of the last cell.
 	     * @returns {Array} Returns an array of mixed values.
 	     * @private
 	     */
 	
 	  }, {
 	    key: '_callRangeValue',
-	    value: function _callRangeValue(firstLabel, lastLabel) {
-	      var _extractLabel3 = (0, _cell.extractLabel)(firstLabel);
+	    value: function _callRangeValue(startLabel, endLabel) {
+	      var _extractLabel3 = (0, _cell.extractLabel)(startLabel);
 	
 	      var _extractLabel4 = _slicedToArray(_extractLabel3, 2);
 	
-	      var firstRow = _extractLabel4[0];
-	      var firstColumn = _extractLabel4[1];
+	      var startRow = _extractLabel4[0];
+	      var startColumn = _extractLabel4[1];
 	
-	      var _extractLabel5 = (0, _cell.extractLabel)(lastLabel);
+	      var _extractLabel5 = (0, _cell.extractLabel)(endLabel);
 	
 	      var _extractLabel6 = _slicedToArray(_extractLabel5, 2);
 	
-	      var lastRow = _extractLabel6[0];
-	      var lastColumn = _extractLabel6[1];
+	      var endRow = _extractLabel6[0];
+	      var endColumn = _extractLabel6[1];
 	
+	      var startCell = {};
+	      var endCell = {};
 	
-	      var firstCell = {
-	        label: firstLabel,
-	        row: firstRow,
-	        column: firstColumn
-	      };
-	      var lastCell = {
-	        label: lastLabel,
-	        row: lastRow,
-	        column: lastColumn
-	      };
+	      if (startRow.index <= endRow.index) {
+	        startCell.row = startRow;
+	        endCell.row = endRow;
+	      } else {
+	        startCell.row = endRow;
+	        endCell.row = startRow;
+	      }
+	
+	      if (startColumn.index <= endColumn.index) {
+	        startCell.column = startColumn;
+	        endCell.column = endColumn;
+	      } else {
+	        startCell.column = endColumn;
+	        endCell.column = startColumn;
+	      }
+	
+	      startCell.label = (0, _cell.toLabel)(startCell.row, startCell.column);
+	      endCell.label = (0, _cell.toLabel)(endCell.row, endCell.column);
+	
 	      var value = [];
 	
-	      this.emit('callRangeValue', firstCell, lastCell, function () {
+	      this.emit('callRangeValue', startCell, endCell, function () {
 	        var _value = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
 	
 	        value = _value;
@@ -315,7 +357,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.Parser = Parser;
 
 /***/ },
-/* 1 */
+/* 2 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -328,7 +370,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = SUPPORTED_FORMULAS;
 
 /***/ },
-/* 2 */
+/* 3 */
 /***/ function(module, exports) {
 
 	function E () {
@@ -400,7 +442,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 3 */
+/* 4 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -411,59 +453,59 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.default = evaluateByOperator;
 	exports.registerOperation = registerOperation;
 	
-	var _add = __webpack_require__(4);
+	var _add = __webpack_require__(5);
 	
 	var _add2 = _interopRequireDefault(_add);
 	
-	var _ampersand = __webpack_require__(6);
+	var _ampersand = __webpack_require__(7);
 	
 	var _ampersand2 = _interopRequireDefault(_ampersand);
 	
-	var _divide = __webpack_require__(7);
+	var _divide = __webpack_require__(8);
 	
 	var _divide2 = _interopRequireDefault(_divide);
 	
-	var _equal = __webpack_require__(9);
+	var _equal = __webpack_require__(10);
 	
 	var _equal2 = _interopRequireDefault(_equal);
 	
-	var _formulaFunction = __webpack_require__(10);
+	var _formulaFunction = __webpack_require__(11);
 	
 	var _formulaFunction2 = _interopRequireDefault(_formulaFunction);
 	
-	var _greaterThan = __webpack_require__(31);
+	var _greaterThan = __webpack_require__(32);
 	
 	var _greaterThan2 = _interopRequireDefault(_greaterThan);
 	
-	var _greaterThanOrEqual = __webpack_require__(32);
+	var _greaterThanOrEqual = __webpack_require__(33);
 	
 	var _greaterThanOrEqual2 = _interopRequireDefault(_greaterThanOrEqual);
 	
-	var _lessThan = __webpack_require__(33);
+	var _lessThan = __webpack_require__(34);
 	
 	var _lessThan2 = _interopRequireDefault(_lessThan);
 	
-	var _lessThanOrEqual = __webpack_require__(34);
+	var _lessThanOrEqual = __webpack_require__(35);
 	
 	var _lessThanOrEqual2 = _interopRequireDefault(_lessThanOrEqual);
 	
-	var _minus = __webpack_require__(35);
+	var _minus = __webpack_require__(36);
 	
 	var _minus2 = _interopRequireDefault(_minus);
 	
-	var _multiply = __webpack_require__(36);
+	var _multiply = __webpack_require__(37);
 	
 	var _multiply2 = _interopRequireDefault(_multiply);
 	
-	var _notEqual = __webpack_require__(37);
+	var _notEqual = __webpack_require__(38);
 	
 	var _notEqual2 = _interopRequireDefault(_notEqual);
 	
-	var _power = __webpack_require__(38);
+	var _power = __webpack_require__(39);
 	
 	var _power2 = _interopRequireDefault(_power);
 	
-	var _error = __webpack_require__(8);
+	var _error = __webpack_require__(9);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -520,7 +562,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 4 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -531,7 +573,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.SYMBOL = undefined;
 	exports.default = func;
 	
-	var _number = __webpack_require__(5);
+	var _number = __webpack_require__(6);
 	
 	var SYMBOL = exports.SYMBOL = '+';
 	
@@ -548,7 +590,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	func.SYMBOL = SYMBOL;
 
 /***/ },
-/* 5 */
+/* 6 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -587,7 +629,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 6 */
+/* 7 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -611,7 +653,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	func.SYMBOL = SYMBOL;
 
 /***/ },
-/* 7 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -622,9 +664,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.SYMBOL = undefined;
 	exports.default = func;
 	
-	var _number = __webpack_require__(5);
+	var _number = __webpack_require__(6);
 	
-	var _error = __webpack_require__(8);
+	var _error = __webpack_require__(9);
 	
 	var SYMBOL = exports.SYMBOL = '/';
 	
@@ -650,7 +692,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	func.SYMBOL = SYMBOL;
 
 /***/ },
-/* 8 */
+/* 9 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -696,7 +738,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 9 */
+/* 10 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -714,7 +756,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	func.SYMBOL = SYMBOL;
 
 /***/ },
-/* 10 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -725,13 +767,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.SYMBOL = undefined;
 	exports.default = func;
 	
-	var _supportedFormulas = __webpack_require__(1);
+	var _supportedFormulas = __webpack_require__(2);
 	
 	var _supportedFormulas2 = _interopRequireDefault(_supportedFormulas);
 	
-	var _error = __webpack_require__(8);
+	var _error = __webpack_require__(9);
 	
-	var _formulajs = __webpack_require__(11);
+	var _formulajs = __webpack_require__(12);
 	
 	var formulajs = _interopRequireWildcard(_formulajs);
 	
@@ -784,22 +826,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	func.SYMBOL = SYMBOL;
 
 /***/ },
-/* 11 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var categories = [
-	  __webpack_require__(12),
-	  __webpack_require__(27),
-	  __webpack_require__(24),
-	  __webpack_require__(28),
 	  __webpack_require__(13),
-	  __webpack_require__(17),
-	  __webpack_require__(26),
+	  __webpack_require__(28),
+	  __webpack_require__(25),
 	  __webpack_require__(29),
-	  __webpack_require__(23),
+	  __webpack_require__(14),
+	  __webpack_require__(18),
+	  __webpack_require__(27),
 	  __webpack_require__(30),
-	  __webpack_require__(16),
-	  __webpack_require__(22)
+	  __webpack_require__(24),
+	  __webpack_require__(31),
+	  __webpack_require__(17),
+	  __webpack_require__(23)
 	];
 	
 	for (var c in categories) {
@@ -811,13 +853,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 12 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var mathTrig = __webpack_require__(13);
-	var statistical = __webpack_require__(16);
-	var engineering = __webpack_require__(24);
-	var dateTime = __webpack_require__(26);
+	var mathTrig = __webpack_require__(14);
+	var statistical = __webpack_require__(17);
+	var engineering = __webpack_require__(25);
+	var dateTime = __webpack_require__(27);
 	
 	function set(fn, root) {
 	  if (root) {
@@ -904,13 +946,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 13 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var utils = __webpack_require__(14);
-	var error = __webpack_require__(15);
-	var statistical = __webpack_require__(16);
-	var information = __webpack_require__(23);
+	var utils = __webpack_require__(15);
+	var error = __webpack_require__(16);
+	var statistical = __webpack_require__(17);
+	var information = __webpack_require__(24);
 	
 	exports.ABS = function(number) {
 	  number = utils.parseNumber(number);
@@ -2012,10 +2054,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 14 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var error = __webpack_require__(15);
+	var error = __webpack_require__(16);
 	
 	function flattenShallow(array) {
 	  if (!array || !array.reduce) { return array; }
@@ -2235,7 +2277,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 15 */
+/* 16 */
 /***/ function(module, exports) {
 
 	exports.nil = new Error('#NULL!');
@@ -2250,15 +2292,15 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 16 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var mathTrig = __webpack_require__(13);
-	var text = __webpack_require__(17);
-	var jStat = __webpack_require__(21).jStat;
-	var utils = __webpack_require__(14);
-	var error = __webpack_require__(15);
-	var misc = __webpack_require__(22);
+	var mathTrig = __webpack_require__(14);
+	var text = __webpack_require__(18);
+	var jStat = __webpack_require__(22).jStat;
+	var utils = __webpack_require__(15);
+	var error = __webpack_require__(16);
+	var misc = __webpack_require__(23);
 	
 	var SQRT2PI = 2.5066282746310002;
 	
@@ -4000,12 +4042,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 17 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var utils = __webpack_require__(14);
-	var error = __webpack_require__(15);
-	var numbro = __webpack_require__(18);
+	var utils = __webpack_require__(15);
+	var error = __webpack_require__(16);
+	var numbro = __webpack_require__(19);
 	
 	//TODO
 	exports.ASC = function() {
@@ -4318,7 +4360,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 18 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(process) {/*!
@@ -5327,7 +5369,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    numbro.loadCulturesInNode = function() {
 	        // TODO: Rename the folder in 2.0.0
-	        var cultures = __webpack_require__(20);
+	        var cultures = __webpack_require__(21);
 	
 	        for(var langLocaleCode in cultures) {
 	            if(langLocaleCode) {
@@ -5586,10 +5628,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	}.call(typeof window === 'undefined' ? this : window));
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(19)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20)))
 
 /***/ },
-/* 19 */
+/* 20 */
 /***/ function(module, exports) {
 
 	// shim for using process in browser
@@ -5714,13 +5756,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 20 */
+/* 21 */
 /***/ function(module, exports) {
 
 	// empty (null-loader)
 
 /***/ },
-/* 21 */
+/* 22 */
 /***/ function(module, exports) {
 
 	this.j$ = this.jStat = (function(Math, undefined) {
@@ -9881,11 +9923,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 22 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var utils = __webpack_require__(14);
-	var numbro = __webpack_require__(18);
+	var utils = __webpack_require__(15);
+	var numbro = __webpack_require__(19);
 	
 	exports.UNIQUE = function () {
 	  var result = [];
@@ -9947,10 +9989,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 23 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var error = __webpack_require__(15);
+	var error = __webpack_require__(16);
 	
 	// TODO
 	exports.CELL = function() {
@@ -10086,14 +10128,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 24 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var error = __webpack_require__(15);
-	var jStat = __webpack_require__(21).jStat;
-	var text = __webpack_require__(17);
-	var utils = __webpack_require__(14);
-	var bessel = __webpack_require__(25);
+	var error = __webpack_require__(16);
+	var jStat = __webpack_require__(22).jStat;
+	var text = __webpack_require__(18);
+	var utils = __webpack_require__(15);
+	var bessel = __webpack_require__(26);
 	
 	function isValidBinaryNumber(number) {
 	  return (/^[01]{1,10}$/).test(number);
@@ -11647,7 +11689,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 25 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var M = Math;
@@ -11862,11 +11904,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 26 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var error = __webpack_require__(15);
-	var utils = __webpack_require__(14);
+	var error = __webpack_require__(16);
+	var utils = __webpack_require__(15);
 	
 	var d1900 = new Date(1900, 0, 1);
 	var WEEK_STARTS = [
@@ -12415,13 +12457,13 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 27 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var error = __webpack_require__(15);
-	var stats = __webpack_require__(16);
-	var maths = __webpack_require__(13);
-	var utils = __webpack_require__(14);
+	var error = __webpack_require__(16);
+	var stats = __webpack_require__(17);
+	var maths = __webpack_require__(14);
+	var utils = __webpack_require__(15);
 	
 	function compact(array) {
 	  if (!array) { return array; }
@@ -12793,12 +12835,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 28 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var error = __webpack_require__(15);
-	var utils = __webpack_require__(14);
-	var information = __webpack_require__(23);
+	var error = __webpack_require__(16);
+	var utils = __webpack_require__(15);
+	var information = __webpack_require__(24);
 	
 	exports.AND = function() {
 	  var args = utils.flatten(arguments);
@@ -12906,12 +12948,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 29 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var error = __webpack_require__(15);
-	var dateTime = __webpack_require__(26);
-	var utils = __webpack_require__(14);
+	var error = __webpack_require__(16);
+	var dateTime = __webpack_require__(27);
+	var utils = __webpack_require__(15);
 	
 	function validDate(d) {
 	  return d && d.getTime && !isNaN(d.getTime());
@@ -14001,10 +14043,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 30 */
+/* 31 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var error = __webpack_require__(15);
+	var error = __webpack_require__(16);
 	
 	exports.MATCH = function(lookupValue, lookupArray, matchType) {
 	  if (!lookupValue && !lookupArray) {
@@ -14066,7 +14108,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 31 */
+/* 32 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -14084,7 +14126,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	func.SYMBOL = SYMBOL;
 
 /***/ },
-/* 32 */
+/* 33 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -14102,7 +14144,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	func.SYMBOL = SYMBOL;
 
 /***/ },
-/* 33 */
+/* 34 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -14120,7 +14162,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	func.SYMBOL = SYMBOL;
 
 /***/ },
-/* 34 */
+/* 35 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -14138,7 +14180,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	func.SYMBOL = SYMBOL;
 
 /***/ },
-/* 35 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -14149,7 +14191,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.SYMBOL = undefined;
 	exports.default = func;
 	
-	var _number = __webpack_require__(5);
+	var _number = __webpack_require__(6);
 	
 	var SYMBOL = exports.SYMBOL = '-';
 	
@@ -14166,7 +14208,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	func.SYMBOL = SYMBOL;
 
 /***/ },
-/* 36 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -14177,7 +14219,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.SYMBOL = undefined;
 	exports.default = func;
 	
-	var _number = __webpack_require__(5);
+	var _number = __webpack_require__(6);
 	
 	var SYMBOL = exports.SYMBOL = '*';
 	
@@ -14194,7 +14236,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	func.SYMBOL = SYMBOL;
 
 /***/ },
-/* 37 */
+/* 38 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -14212,7 +14254,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	func.SYMBOL = SYMBOL;
 
 /***/ },
-/* 38 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -14223,7 +14265,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.SYMBOL = undefined;
 	exports.default = func;
 	
-	var _number = __webpack_require__(5);
+	var _number = __webpack_require__(6);
 	
 	var SYMBOL = exports.SYMBOL = '^';
 	
@@ -14234,7 +14276,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	func.SYMBOL = SYMBOL;
 
 /***/ },
-/* 39 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(module, process) {"use strict";
@@ -15260,10 +15302,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	        exports.main(process.argv.slice(1));
 	    }
 	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(40)(module), __webpack_require__(19)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(41)(module), __webpack_require__(20)))
 
 /***/ },
-/* 40 */
+/* 41 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -15279,7 +15321,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 41 */
+/* 42 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -15304,7 +15346,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 42 */
+/* 43 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -15316,8 +15358,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _slicedToArray = function () { function sliceIterator(arr, i) { var _arr = []; var _n = true; var _d = false; var _e = undefined; try { for (var _i = arr[Symbol.iterator](), _s; !(_n = (_s = _i.next()).done); _n = true) { _arr.push(_s.value); if (i && _arr.length === i) break; } } catch (err) { _d = true; _e = err; } finally { try { if (!_n && _i["return"]) _i["return"](); } finally { if (_d) throw _e; } } return _arr; } return function (arr, i) { if (Array.isArray(arr)) { return arr; } else if (Symbol.iterator in Object(arr)) { return sliceIterator(arr, i); } else { throw new TypeError("Invalid attempt to destructure non-iterable instance"); } }; }();
 	
 	exports.extractLabel = extractLabel;
+	exports.toLabel = toLabel;
 	exports.columnLabelToIndex = columnLabelToIndex;
 	exports.columnIndexToLabel = columnIndexToLabel;
+	exports.rowLabelToIndex = rowLabelToIndex;
+	exports.rowIndexToLabel = rowIndexToLabel;
 	var LABEL_EXTRACT_REGEXP = /^([$])?([A-Za-z]+)([$])?([0-9]+)$/;
 	
 	/**
@@ -15342,7 +15387,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	
 	  return [{
-	    index: parseInt(row, 10) - 1,
+	    index: rowLabelToIndex(row),
 	    label: row,
 	    isAbsolute: rowAbs === '$'
 	  }, {
@@ -15350,6 +15395,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	    label: column,
 	    isAbsolute: columnAbs === '$'
 	  }];
+	}
+	
+	/**
+	 * Convert row and column indexes into cell label.
+	 *
+	 * @param {Object} row Object with `index` and `isAbsolute` properties.
+	 * @param {Object} column Object with `index` and `isAbsolute` properties.
+	 * @returns {String} Returns cell label.
+	 */
+	function toLabel(row, column) {
+	  var rowLabel = (row.isAbsolute ? '$' : '') + rowIndexToLabel(row.index);
+	  var columnLabel = (column.isAbsolute ? '$' : '') + columnIndexToLabel(column.index);
+	
+	  return columnLabel + rowLabel;
 	}
 	
 	var COLUMN_LABEL_BASE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -15389,6 +15448,40 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	
 	  return result.toUpperCase();
+	}
+	
+	/**
+	 * Convert row label to index.
+	 *
+	 * @param {String} label Row label (eq. '1', '5')
+	 * @returns {Number} Returns -1 if label is not recognized otherwise proper row index.
+	 */
+	function rowLabelToIndex(label) {
+	  var result = parseInt(label, 10);
+	
+	  if (isNaN(result)) {
+	    result = -1;
+	  } else {
+	    result = Math.max(result - 1, -1);
+	  }
+	
+	  return result;
+	}
+	
+	/**
+	 * Convert row index to label.
+	 *
+	 * @param {Number} row Row index.
+	 * @returns {String} Returns row label (eq. '1', '7').
+	 */
+	function rowIndexToLabel(row) {
+	  var result = '';
+	
+	  if (row >= 0) {
+	    result = '' + (row + 1);
+	  }
+	
+	  return result;
 	}
 
 /***/ }
