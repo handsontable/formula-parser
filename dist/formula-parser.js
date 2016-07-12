@@ -59,7 +59,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.rowLabelToIndex = exports.rowIndexToLabel = exports.columnLabelToIndex = exports.columnIndexToLabel = exports.toLabel = exports.extractLabel = exports.error = exports.Parser = exports.SUPPORTED_FORMULAS = undefined;
+	exports.rowLabelToIndex = exports.rowIndexToLabel = exports.columnLabelToIndex = exports.columnIndexToLabel = exports.toLabel = exports.extractLabel = exports.error = exports.Parser = exports.ERROR_VALUE = exports.ERROR_REF = exports.ERROR_NUM = exports.ERROR_NULL = exports.ERROR_NOT_AVAILABLE = exports.ERROR_NEED_UPDATE = exports.ERROR_NAME = exports.ERROR_DIV_ZERO = exports.ERROR = exports.SUPPORTED_FORMULAS = undefined;
 	
 	var _parser = __webpack_require__(1);
 	
@@ -72,6 +72,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
 	exports.SUPPORTED_FORMULAS = _parser.SUPPORTED_FORMULAS;
+	exports.ERROR = _error.ERROR;
+	exports.ERROR_DIV_ZERO = _error.ERROR_DIV_ZERO;
+	exports.ERROR_NAME = _error.ERROR_NAME;
+	exports.ERROR_NEED_UPDATE = _error.ERROR_NEED_UPDATE;
+	exports.ERROR_NOT_AVAILABLE = _error.ERROR_NOT_AVAILABLE;
+	exports.ERROR_NULL = _error.ERROR_NULL;
+	exports.ERROR_NUM = _error.ERROR_NUM;
+	exports.ERROR_REF = _error.ERROR_REF;
+	exports.ERROR_VALUE = _error.ERROR_VALUE;
 	exports.Parser = _parser.Parser;
 	exports.error = _error2.default;
 	exports.extractLabel = _cell.extractLabel;
