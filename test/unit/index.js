@@ -9,6 +9,42 @@ describe('Public API', () => {
     expect(lib.SUPPORTED_FORMULAS).to.be.a('array');
   });
 
+  it('ERROR should be defined', () => {
+    expect(lib.ERROR).to.be.a('string');
+  });
+
+  it('ERROR_DIV_ZERO should be defined', () => {
+    expect(lib.ERROR_DIV_ZERO).to.be.a('string');
+  });
+
+  it('ERROR_NAME should be defined', () => {
+    expect(lib.ERROR_NAME).to.be.a('string');
+  });
+
+  it('ERROR_NEED_UPDATE should be defined', () => {
+    expect(lib.ERROR_NEED_UPDATE).to.be.a('string');
+  });
+
+  it('ERROR_NOT_AVAILABLE should be defined', () => {
+    expect(lib.ERROR_NOT_AVAILABLE).to.be.a('string');
+  });
+
+  it('ERROR_NULL should be defined', () => {
+    expect(lib.ERROR_NULL).to.be.a('string');
+  });
+
+  it('ERROR_NUM should be defined', () => {
+    expect(lib.ERROR_NUM).to.be.a('string');
+  });
+
+  it('ERROR_REF should be defined', () => {
+    expect(lib.ERROR_REF).to.be.a('string');
+  });
+
+  it('ERROR_VALUE should be defined', () => {
+    expect(lib.ERROR_VALUE).to.be.a('string');
+  });
+
   it('error should be defined', () => {
     expect(lib.error).to.be.a('function');
   });
