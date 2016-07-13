@@ -40,7 +40,7 @@
     "chai": "^3.4.1",
     "chai-stats": "^0.3.0",
     "del": "^2.2.0",
-    "generate-release": "^0.6.3",
+    "generate-release": "^0.10.1",
     "glob": "^6.0.3",
     "gulp": "^3.9.0",
     "gulp-babel": "^6.1.1",
