@@ -13,7 +13,7 @@ import {default as notEqual} from './operator/not-equal';
 import {default as power} from './operator/power';
 import {ERROR_NAME} from './../error';
 
-const availableOperators = new Map();
+const availableOperators = Object.create(null);
 
 registerOperation(add.SYMBOL, add);
 registerOperation(ampersand.SYMBOL, ampersand);
@@ -30,18 +30,18 @@ registerOperation(notEqual.SYMBOL, notEqual);
 registerOperation(minus.SYMBOL, minus);
 
 /**
- * Evaluate values by operator id.
+ * Evaluate values by operator id.git
  *
  * @param {String} operator Operator id.
  * @param {Array} params Arguments to evaluate.
  * @returns {*}
  */
 export default function evaluateByOperator(operator, params) {
-  if (!availableOperators.has(operator)) {
+  if (!availableOperators[operator]) {
     throw Error(ERROR_NAME);
   }
 
-  return availableOperators.get(operator)(...params);
+  return availableOperators[operator](...params);
 }
 
 /**
@@ -56,9 +56,9 @@ export function registerOperation(symbol, func) {
   }
   symbol.forEach((s) => {
     if (func.isFactory) {
-      availableOperators.set(s, func(s));
+      availableOperators[s] = func(s);
     } else {
-      availableOperators.set(s, func);
+      availableOperators[s] = func;
     }
   });
 }
