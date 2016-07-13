@@ -20,7 +20,7 @@ describe('.parse() logical formulas', () => {
     expect(parser.parse('CHOOSE()')).to.deep.equal({error: '#N/A', result: null});
     expect(parser.parse('CHOOSE(1, "foo", "bar", "baz")')).to.deep.equal({error: null, result: 'foo'});
     expect(parser.parse('CHOOSE(3, "foo", "bar", "baz")')).to.deep.equal({error: null, result: 'baz'});
-    expect(parser.parse('CHOOSE(4, "foo", "bar", "baz")')).to.deep.equal({error: '#VALUE?', result: null});
+    expect(parser.parse('CHOOSE(4, "foo", "bar", "baz")')).to.deep.equal({error: '#VALUE!', result: null});
   });
 
   it('FALSE', () => {

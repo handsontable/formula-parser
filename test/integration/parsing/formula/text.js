@@ -11,7 +11,7 @@ describe('.parse() text formulas', () => {
   });
 
   it('CHAR', () => {
-    expect(parser.parse('CHAR()')).to.deep.equal({error: '#VALUE?', result: null});
+    expect(parser.parse('CHAR()')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('CHAR(33)')).to.deep.equal({error: null, result: '!'});
   });
 
@@ -33,7 +33,7 @@ describe('.parse() text formulas', () => {
   });
 
   it('DOLLAR', () => {
-    expect(parser.parse('DOLLAR()')).to.deep.equal({error: '#VALUE?', result: null});
+    expect(parser.parse('DOLLAR()')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('DOLLAR(1100)')).to.deep.equal({error: null, result: '$1,100.00'});
     expect(parser.parse('DOLLAR(1100, -2)')).to.deep.equal({error: null, result: '$1,100'});
   });
@@ -54,7 +54,7 @@ describe('.parse() text formulas', () => {
   });
 
   it('FIXED', () => {
-    expect(parser.parse('FIXED()')).to.deep.equal({error: '#VALUE?', result: null});
+    expect(parser.parse('FIXED()')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('FIXED(12345.11, -1)')).to.deep.equal({error: null, result: '12,350'});
     expect(parser.parse('FIXED(12345.11, 0)')).to.deep.equal({error: null, result: '12,345'});
     expect(parser.parse('FIXED(12345.11, 0, TRUE)')).to.deep.equal({error: null, result: '12345'});
@@ -67,34 +67,34 @@ describe('.parse() text formulas', () => {
   });
 
   it('LEFT', () => {
-    expect(parser.parse('LEFT()')).to.deep.equal({error: '#VALUE?', result: null});
+    expect(parser.parse('LEFT()')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('LEFT("Foo Bar")')).to.deep.equal({error: null, result: 'F'});
     expect(parser.parse('LEFT("Foo Bar", 3)')).to.deep.equal({error: null, result: 'Foo'});
   });
 
   it('LEN', () => {
     expect(parser.parse('LEN()')).to.deep.equal({error: '#ERROR!', result: null});
-    expect(parser.parse('LEN(TRUE)')).to.deep.equal({error: '#VALUE?', result: null});
-    expect(parser.parse('LEN(1023)')).to.deep.equal({error: '#VALUE?', result: null});
+    expect(parser.parse('LEN(TRUE)')).to.deep.equal({error: '#VALUE!', result: null});
+    expect(parser.parse('LEN(1023)')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('LEN("Foo Bar")')).to.deep.equal({error: null, result: 7});
   });
 
   it('LOWER', () => {
-    expect(parser.parse('LOWER()')).to.deep.equal({error: '#VALUE?', result: null});
+    expect(parser.parse('LOWER()')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('LOWER("")')).to.deep.equal({error: null, result: ''});
     expect(parser.parse('LOWER("Foo Bar")')).to.deep.equal({error: null, result: 'foo bar'});
   });
 
   it('MID', () => {
-    expect(parser.parse('MID()')).to.deep.equal({error: '#VALUE?', result: null});
-    expect(parser.parse('MID("")')).to.deep.equal({error: '#VALUE?', result: null});
-    expect(parser.parse('MID("Foo Bar", 2)')).to.deep.equal({error: '#VALUE?', result: null});
+    expect(parser.parse('MID()')).to.deep.equal({error: '#VALUE!', result: null});
+    expect(parser.parse('MID("")')).to.deep.equal({error: '#VALUE!', result: null});
+    expect(parser.parse('MID("Foo Bar", 2)')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('MID("Foo Bar", 2, 5)')).to.deep.equal({error: null, result: 'oo Ba'});
   });
 
   it('PROPER', () => {
-    expect(parser.parse('PROPER()')).to.deep.equal({error: '#VALUE?', result: null});
-    expect(parser.parse('PROPER("")')).to.deep.equal({error: '#VALUE?', result: null});
+    expect(parser.parse('PROPER()')).to.deep.equal({error: '#VALUE!', result: null});
+    expect(parser.parse('PROPER("")')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('PROPER(TRUE)')).to.deep.equal({error: null, result: 'True'});
     expect(parser.parse('PROPER(1234)')).to.deep.equal({error: null, result: '1234'});
     expect(parser.parse('PROPER("foo bar")')).to.deep.equal({error: null, result: 'Foo Bar'});
@@ -122,16 +122,16 @@ describe('.parse() text formulas', () => {
   });
 
   it('REPLACE', () => {
-    expect(parser.parse('REPLACE()')).to.deep.equal({error: '#VALUE?', result: null});
-    expect(parser.parse('REPLACE("foo bar")')).to.deep.equal({error: '#VALUE?', result: null});
-    expect(parser.parse('REPLACE("foo bar", 2)')).to.deep.equal({error: '#VALUE?', result: null});
-    expect(parser.parse('REPLACE("foo bar", 2, 5)')).to.deep.equal({error: '#VALUE?', result: null});
+    expect(parser.parse('REPLACE()')).to.deep.equal({error: '#VALUE!', result: null});
+    expect(parser.parse('REPLACE("foo bar")')).to.deep.equal({error: '#VALUE!', result: null});
+    expect(parser.parse('REPLACE("foo bar", 2)')).to.deep.equal({error: '#VALUE!', result: null});
+    expect(parser.parse('REPLACE("foo bar", 2, 5)')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('REPLACE("foo bar", 2, 5, "*")')).to.deep.equal({error: null, result: 'f*r'});
   });
 
   it('REPT', () => {
-    expect(parser.parse('REPT()')).to.deep.equal({error: '#VALUE?', result: null});
-    expect(parser.parse('REPT("foo ")')).to.deep.equal({error: '#VALUE?', result: null});
+    expect(parser.parse('REPT()')).to.deep.equal({error: '#VALUE!', result: null});
+    expect(parser.parse('REPT("foo ")')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('REPT("foo ", 5)')).to.deep.equal({error: null, result: 'foo foo foo foo foo '});
   });
 
@@ -142,8 +142,8 @@ describe('.parse() text formulas', () => {
   });
 
   it('SEARCH', () => {
-    expect(parser.parse('SEARCH()')).to.deep.equal({error: '#VALUE?', result: null});
-    expect(parser.parse('SEARCH("bar")')).to.deep.equal({error: '#VALUE?', result: null});
+    expect(parser.parse('SEARCH()')).to.deep.equal({error: '#VALUE!', result: null});
+    expect(parser.parse('SEARCH("bar")')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('SEARCH("bar", "foo bar")')).to.deep.equal({error: null, result: 5});
   });
 
@@ -174,14 +174,14 @@ describe('.parse() text formulas', () => {
   });
 
   it('TRIM', () => {
-    expect(parser.parse('TRIM()')).to.deep.equal({error: '#VALUE?', result: null});
+    expect(parser.parse('TRIM()')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('TRIM("")')).to.deep.equal({error: null, result: ''});
     expect(parser.parse('TRIM("     ")')).to.deep.equal({error: null, result: ''});
     expect(parser.parse('TRIM("   foo  ")')).to.deep.equal({error: null, result: 'foo'});
   });
 
   it('UNICHAR', () => {
-    expect(parser.parse('UNICHAR()')).to.deep.equal({error: '#VALUE?', result: null});
+    expect(parser.parse('UNICHAR()')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('UNICHAR(33)')).to.deep.equal({error: null, result: '!'});
   });
 
@@ -191,12 +191,12 @@ describe('.parse() text formulas', () => {
   });
 
   it('UPPER', () => {
-    expect(parser.parse('UPPER()')).to.deep.equal({error: '#VALUE?', result: null});
+    expect(parser.parse('UPPER()')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('UPPER("foo Bar")')).to.deep.equal({error: null, result: 'FOO BAR'});
   });
 
   it('VALUE', () => {
-    expect(parser.parse('VALUE()')).to.deep.equal({error: '#VALUE?', result: null});
+    expect(parser.parse('VALUE()')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('VALUE("$1,000")')).to.deep.equal({error: null, result: 1000});
     expect(parser.parse('VALUE("01:00:00")')).to.deep.equal({error: null, result: 3600});
     expect(parser.parse('VALUE("foo Bar")')).to.deep.equal({error: null, result: 0});
