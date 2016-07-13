@@ -63,7 +63,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _parser = __webpack_require__(1);
 	
-	var _error = __webpack_require__(9);
+	var _error = __webpack_require__(7);
 	
 	var _error2 = _interopRequireDefault(_error);
 	
@@ -128,7 +128,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _number = __webpack_require__(6);
 	
-	var _error = __webpack_require__(9);
+	var _error = __webpack_require__(7);
 	
 	var _error2 = _interopRequireDefault(_error);
 	
@@ -466,11 +466,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _add2 = _interopRequireDefault(_add);
 	
-	var _ampersand = __webpack_require__(7);
+	var _ampersand = __webpack_require__(8);
 	
 	var _ampersand2 = _interopRequireDefault(_ampersand);
 	
-	var _divide = __webpack_require__(8);
+	var _divide = __webpack_require__(9);
 	
 	var _divide2 = _interopRequireDefault(_divide);
 	
@@ -514,7 +514,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _power2 = _interopRequireDefault(_power);
 	
-	var _error = __webpack_require__(9);
+	var _error = __webpack_require__(7);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -584,6 +584,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _number = __webpack_require__(6);
 	
+	var _error = __webpack_require__(7);
+	
 	var SYMBOL = exports.SYMBOL = '+';
 	
 	function func(first) {
@@ -591,9 +593,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    rest[_key - 1] = arguments[_key];
 	  }
 	
-	  return rest.reduce(function (acc, value) {
+	  var result = rest.reduce(function (acc, value) {
 	    return acc + (0, _number.toNumber)(value);
 	  }, (0, _number.toNumber)(first));
+	
+	  if (isNaN(result)) {
+	    throw Error(_error.ERROR_VALUE);
+	  }
+	
+	  return result;
 	};
 	
 	func.SYMBOL = SYMBOL;
@@ -646,69 +654,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.default = func;
-	var SYMBOL = exports.SYMBOL = '&';
-	
-	function func() {
-	  for (var _len = arguments.length, params = Array(_len), _key = 0; _key < _len; _key++) {
-	    params[_key] = arguments[_key];
-	  }
-	
-	  return params.reduce(function (acc, value) {
-	    return acc + value.toString();
-	  }, '');
-	};
-	
-	func.SYMBOL = SYMBOL;
-
-/***/ },
-/* 8 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.SYMBOL = undefined;
-	exports.default = func;
-	
-	var _number = __webpack_require__(6);
-	
-	var _error = __webpack_require__(9);
-	
-	var SYMBOL = exports.SYMBOL = '/';
-	
-	function func(first) {
-	  for (var _len = arguments.length, rest = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-	    rest[_key - 1] = arguments[_key];
-	  }
-	
-	  var result = rest.reduce(function (acc, value) {
-	    return acc / (0, _number.toNumber)(value);
-	  }, (0, _number.toNumber)(first));
-	
-	  if (result === Infinity) {
-	    throw Error(_error.ERROR_DIV_ZERO);
-	  }
-	  if (isNaN(result)) {
-	    throw Error(_error.ERROR_VALUE);
-	  }
-	
-	  return result;
-	};
-	
-	func.SYMBOL = SYMBOL;
-
-/***/ },
-/* 9 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
 	
 	var _errors;
 	
@@ -747,6 +692,69 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
+/* 8 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = func;
+	var SYMBOL = exports.SYMBOL = '&';
+	
+	function func() {
+	  for (var _len = arguments.length, params = Array(_len), _key = 0; _key < _len; _key++) {
+	    params[_key] = arguments[_key];
+	  }
+	
+	  return params.reduce(function (acc, value) {
+	    return acc + value.toString();
+	  }, '');
+	};
+	
+	func.SYMBOL = SYMBOL;
+
+/***/ },
+/* 9 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.SYMBOL = undefined;
+	exports.default = func;
+	
+	var _number = __webpack_require__(6);
+	
+	var _error = __webpack_require__(7);
+	
+	var SYMBOL = exports.SYMBOL = '/';
+	
+	function func(first) {
+	  for (var _len = arguments.length, rest = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+	    rest[_key - 1] = arguments[_key];
+	  }
+	
+	  var result = rest.reduce(function (acc, value) {
+	    return acc / (0, _number.toNumber)(value);
+	  }, (0, _number.toNumber)(first));
+	
+	  if (result === Infinity) {
+	    throw Error(_error.ERROR_DIV_ZERO);
+	  }
+	  if (isNaN(result)) {
+	    throw Error(_error.ERROR_VALUE);
+	  }
+	
+	  return result;
+	};
+	
+	func.SYMBOL = SYMBOL;
+
+/***/ },
 /* 10 */
 /***/ function(module, exports) {
 
@@ -780,7 +788,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _supportedFormulas2 = _interopRequireDefault(_supportedFormulas);
 	
-	var _error = __webpack_require__(9);
+	var _error = __webpack_require__(7);
 	
 	var _formulajs = __webpack_require__(12);
 	
@@ -14202,6 +14210,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _number = __webpack_require__(6);
 	
+	var _error = __webpack_require__(7);
+	
 	var SYMBOL = exports.SYMBOL = '-';
 	
 	function func(first) {
@@ -14209,9 +14219,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    rest[_key - 1] = arguments[_key];
 	  }
 	
-	  return rest.reduce(function (acc, value) {
+	  var result = rest.reduce(function (acc, value) {
 	    return acc - (0, _number.toNumber)(value);
 	  }, (0, _number.toNumber)(first));
+	
+	  if (isNaN(result)) {
+	    throw Error(_error.ERROR_VALUE);
+	  }
+	
+	  return result;
 	};
 	
 	func.SYMBOL = SYMBOL;
@@ -14230,6 +14246,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _number = __webpack_require__(6);
 	
+	var _error = __webpack_require__(7);
+	
 	var SYMBOL = exports.SYMBOL = '*';
 	
 	function func(first) {
@@ -14237,9 +14255,15 @@ return /******/ (function(modules) { // webpackBootstrap
 	    rest[_key - 1] = arguments[_key];
 	  }
 	
-	  return rest.reduce(function (acc, value) {
+	  var result = rest.reduce(function (acc, value) {
 	    return acc * (0, _number.toNumber)(value);
 	  }, (0, _number.toNumber)(first));
+	
+	  if (isNaN(result)) {
+	    throw Error(_error.ERROR_VALUE);
+	  }
+	
+	  return result;
 	};
 	
 	func.SYMBOL = SYMBOL;
@@ -14276,10 +14300,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _number = __webpack_require__(6);
 	
+	var _error = __webpack_require__(7);
+	
 	var SYMBOL = exports.SYMBOL = '^';
 	
 	function func(exp1, exp2) {
-	  return Math.pow((0, _number.toNumber)(exp1), (0, _number.toNumber)(exp2));
+	  var result = Math.pow((0, _number.toNumber)(exp1), (0, _number.toNumber)(exp2));
+	
+	  if (isNaN(result)) {
+	    throw Error(_error.ERROR_VALUE);
+	  }
+	
+	  return result;
 	};
 	
 	func.SYMBOL = SYMBOL;
