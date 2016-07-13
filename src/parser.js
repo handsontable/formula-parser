@@ -8,8 +8,6 @@ import {extractLabel, toLabel} from './helper/cell';
 
 export {default as SUPPORTED_FORMULAS} from './supported-formulas';
 
-const variables = new WeakMap();
-
 /**
  * @class Parser
  */
@@ -27,11 +25,12 @@ class Parser extends Emitter {
       cellValue: (value) => this._callCellValue(value),
       rangeValue: (start, end) => this._callRangeValue(start, end),
     };
-    variables.set(this, {
-      TRUE: true,
-      FALSE: false,
-      NULL: null,
-    });
+    this.variables = Object.create(null);
+
+    this
+      .setVariable('TRUE', true)
+      .setVariable('FALSE', false)
+      .setVariable('NULL', null);
   }
 
   /**
@@ -75,7 +74,7 @@ class Parser extends Emitter {
    * @returns {Parser}
    */
   setVariable(name, value) {
-    variables.get(this)[name] = value;
+    this.variables[name] = value;
 
     return this;
   }
@@ -87,7 +86,7 @@ class Parser extends Emitter {
    * @returns {*}
    */
   getVariable(name) {
-    return variables.get(this)[name];
+    return this.variables[name];
   }
 
   /**

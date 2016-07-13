@@ -142,8 +142,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 	
-	var variables = new WeakMap();
-	
 	/**
 	 * @class Parser
 	 */
@@ -173,11 +171,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	        return _this._callRangeValue(start, end);
 	      }
 	    };
-	    variables.set(_this, {
-	      TRUE: true,
-	      FALSE: false,
-	      NULL: null
-	    });
+	    _this.variables = Object.create(null);
+	
+	    _this.setVariable('TRUE', true).setVariable('FALSE', false).setVariable('NULL', null);
 	    return _this;
 	  }
 	
@@ -229,7 +225,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'setVariable',
 	    value: function setVariable(name, value) {
-	      variables.get(this)[name] = value;
+	      this.variables[name] = value;
 	
 	      return this;
 	    }
@@ -244,7 +240,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: 'getVariable',
 	    value: function getVariable(name) {
-	      return variables.get(this)[name];
+	      return this.variables[name];
 	    }
 	
 	    /**
