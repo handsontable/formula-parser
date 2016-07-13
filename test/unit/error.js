@@ -75,10 +75,10 @@ describe('.error()', () => {
   });
 
   it('should return `#VALUE?`', () => {
-    expect(error('VALUE')).to.eq('#VALUE?');
-    expect(error('VALUE!')).to.eq('#VALUE?');
-    expect(error('#VALUE')).to.eq('#VALUE?');
-    expect(error('#VALUE!')).to.eq('#VALUE?');
-    expect(error('#VALUE?')).to.eq('#VALUE?');
+    expect(error('VALUE')).to.eq('#VALUE!');
+    expect(error('VALUE!')).to.eq('#VALUE!');
+    expect(error('#VALUE')).to.eq('#VALUE!');
+    expect(error('#VALUE!')).to.eq('#VALUE!');
+    expect(error('#VALUE?')).to.eq('#VALUE!');
   });
 });

@@ -17,7 +17,7 @@ const errors = {
   [ERROR_NULL]: '#NULL!',
   [ERROR_NUM]: '#NUM!',
   [ERROR_REF]: '#REF!',
-  [ERROR_VALUE]: '#VALUE?',
+  [ERROR_VALUE]: '#VALUE!',
 };
 
 /**

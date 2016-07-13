@@ -86,11 +86,11 @@ describe('Parser', () => {
       expect(parser.parse('foo')).to.deep.equal({error: '#REF!', result: null});
     });
 
-    it('should return `#VALUE?` when parser throws `#VALUE?` exception', () => {
-      stub(parser.parser, 'parse').throws(new Error('#VALUE?'));
+    it('should return `#VALUE!` when parser throws `#VALUE!` exception', () => {
+      stub(parser.parser, 'parse').throws(new Error('#VALUE!'));
       spy(parser, 'parse');
 
-      expect(parser.parse('foo')).to.deep.equal({error: '#VALUE?', result: null});
+      expect(parser.parse('foo')).to.deep.equal({error: '#VALUE!', result: null});
     });
 
     it('should return `#ERROR!` when parser returns error object (`some error`)', () => {
@@ -156,11 +156,11 @@ describe('Parser', () => {
       expect(parser.parse('foo')).to.deep.equal({error: '#REF!', result: null});
     });
 
-    it('should return `#VALUE?` when parser returns error object (`#VALUE?`)', () => {
-      stub(parser.parser, 'parse').returns(new Error('#VALUE?'));
+    it('should return `#VALUE!` when parser returns error object (`#VALUE!`)', () => {
+      stub(parser.parser, 'parse').returns(new Error('#VALUE!'));
       spy(parser, 'parse');
 
-      expect(parser.parse('foo')).to.deep.equal({error: '#VALUE?', result: null});
+      expect(parser.parse('foo')).to.deep.equal({error: '#VALUE!', result: null});
     });
 
     it('should not return `#ERROR!` when parser evaluate expression as `ERROR`', () => {
