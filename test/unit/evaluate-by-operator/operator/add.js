@@ -10,5 +10,7 @@ describe('add operator', () => {
     expect(func('2', 8.8)).to.eq(10.8);
     expect(func('2', '8.8')).to.eq(10.8);
     expect(func('2', '-8.8', 6, 0.4)).to.eq(-0.4000000000000007);
+    expect(() => func('foo', ' ', 'bar', ' baz')).to.throw('VALUE');
+    expect(() => func('foo', 2)).to.throw('VALUE');
   });
 });
