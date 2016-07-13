@@ -516,7 +516,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 	
-	var availableOperators = new Map();
+	var availableOperators = Object.create(null);
 	
 	registerOperation(_add2.default.SYMBOL, _add2.default);
 	registerOperation(_ampersand2.default.SYMBOL, _ampersand2.default);
@@ -533,18 +533,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	registerOperation(_minus2.default.SYMBOL, _minus2.default);
 	
 	/**
-	 * Evaluate values by operator id.
+	 * Evaluate values by operator id.git
 	 *
 	 * @param {String} operator Operator id.
 	 * @param {Array} params Arguments to evaluate.
 	 * @returns {*}
 	 */
 	function evaluateByOperator(operator, params) {
-	  if (!availableOperators.has(operator)) {
+	  if (!availableOperators[operator]) {
 	    throw Error(_error.ERROR_NAME);
 	  }
 	
-	  return availableOperators.get(operator).apply(undefined, _toConsumableArray(params));
+	  return availableOperators[operator].apply(availableOperators, _toConsumableArray(params));
 	}
 	
 	/**
@@ -559,9 +559,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  symbol.forEach(function (s) {
 	    if (func.isFactory) {
-	      availableOperators.set(s, func(s));
+	      availableOperators[s] = func(s);
 	    } else {
-	      availableOperators.set(s, func);
+	      availableOperators[s] = func;
 	    }
 	  });
 	}
