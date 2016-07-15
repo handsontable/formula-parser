@@ -27,8 +27,8 @@ describe('.parse() math-trig formulas', () => {
   });
 
   it('ACOT', () => {
-    expect(parser.parse('ACOT(1)')).to.almost.eql({error: null, result: 0.7853981633974483}, 1e-9);
-    expect(parser.parse('ACOT(-1)')).to.almost.eql({error: null, result: -0.7853981633974483}, 1e-9);
+    expect(parser.parse('ACOT(1)')).to.almost.eql({error: null, result: 0.7853981633974483});
+    expect(parser.parse('ACOT(-1)')).to.almost.eql({error: null, result: -0.7853981633974483});
   });
 
   it('ACOTH', () => {
@@ -65,26 +65,26 @@ describe('.parse() math-trig formulas', () => {
   it('ASIN', () => {
     expect(parser.parse('ASIN()')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('ASIN("value")')).to.deep.equal({error: '#VALUE!', result: null});
-    expect(parser.parse('ASIN(0.5)')).to.almost.eql({error: null, result: 0.5235987755982989}, 1e-9);
+    expect(parser.parse('ASIN(0.5)')).to.almost.eql({error: null, result: 0.5235987755982989});
   });
 
   it('ASINH', () => {
     expect(parser.parse('ASINH()')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('ASINH("value")')).to.deep.equal({error: '#VALUE!', result: null});
-    expect(parser.parse('ASINH(0.5)')).to.almost.eql({error: null, result: 0.48121182505960347}, 1e-9);
+    expect(parser.parse('ASINH(0.5)')).to.almost.eql({error: null, result: 0.48121182505960347});
   });
 
   it('ATAN', () => {
     expect(parser.parse('ATAN()')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('ATAN("value")')).to.deep.equal({error: '#VALUE!', result: null});
-    expect(parser.parse('ATAN(0.5)')).to.almost.eql({error: null, result: 0.4636476090008061}, 1e-9);
+    expect(parser.parse('ATAN(0.5)')).to.almost.eql({error: null, result: 0.4636476090008061});
   });
 
   it('ATAN2', () => {
     expect(parser.parse('ATAN2()')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('ATAN2(1)')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('ATAN2("value")')).to.deep.equal({error: '#VALUE!', result: null});
-    expect(parser.parse('ATAN2(1, 1)')).to.almost.eql({error: null, result: 0.7853981633974483}, 1e-9);
+    expect(parser.parse('ATAN2(1, 1)')).to.almost.eql({error: null, result: 0.7853981633974483});
   });
 
   it('ATANH', () => {
@@ -135,46 +135,46 @@ describe('.parse() math-trig formulas', () => {
     expect(parser.parse('COS()')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('COS("value")')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('COS(0)')).to.deep.equal({error: null, result: 1});
-    expect(parser.parse('COS(1)')).to.almost.eql({error: null, result: 0.5403023058681398}, 1e-9);
+    expect(parser.parse('COS(1)')).to.almost.eql({error: null, result: 0.5403023058681398});
   });
 
   it('COSH', () => {
     expect(parser.parse('COSH()')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('COSH("value")')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('COSH(0)')).to.deep.equal({error: null, result: 1});
-    expect(parser.parse('COSH(1)')).to.almost.eql({error: null, result: 1.5430806348152437}, 1e-9);
+    expect(parser.parse('COSH(1)')).to.almost.eql({error: null, result: 1.5430806348152437});
   });
 
   it('COT', () => {
     expect(parser.parse('COT()')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('COT("value")')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('COT(0)')).to.deep.equal({error: null, result: Infinity});
-    expect(parser.parse('COT(1)')).to.almost.eql({error: null, result: 0.6420926159343306}, 1e-9);
-    expect(parser.parse('COT(2)')).to.almost.eql({error: null, result: -0.45765755436028577}, 1e-9);
+    expect(parser.parse('COT(1)')).to.almost.eql({error: null, result: 0.6420926159343306});
+    expect(parser.parse('COT(2)')).to.almost.eql({error: null, result: -0.45765755436028577});
   });
 
   it('COTH', () => {
     expect(parser.parse('COTH()')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('COTH("value")')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('COTH(0)')).to.deep.equal({error: null, result: Infinity});
-    expect(parser.parse('COTH(1)')).to.almost.eql({error: null, result: 1.3130352854993312}, 1e-9);
-    expect(parser.parse('COTH(2)')).to.almost.eql({error: null, result: 1.0373147207275482}, 1e-9);
+    expect(parser.parse('COTH(1)')).to.almost.eql({error: null, result: 1.3130352854993312});
+    expect(parser.parse('COTH(2)')).to.almost.eql({error: null, result: 1.0373147207275482});
   });
 
   it('CSC', () => {
     expect(parser.parse('CSC()')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('CSC("value")')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('CSC(0)')).to.deep.equal({error: null, result: Infinity});
-    expect(parser.parse('CSC(1)')).to.almost.eql({error: null, result: 1.1883951057781212}, 1e-9);
-    expect(parser.parse('CSC(2)')).to.almost.eql({error: null, result: 1.0997501702946164}, 1e-9);
+    expect(parser.parse('CSC(1)')).to.almost.eql({error: null, result: 1.1883951057781212});
+    expect(parser.parse('CSC(2)')).to.almost.eql({error: null, result: 1.0997501702946164});
   });
 
   it('CSCH', () => {
     expect(parser.parse('CSCH()')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('CSCH("value")')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('CSCH(0)')).to.deep.equal({error: null, result: Infinity});
-    expect(parser.parse('CSCH(1)')).to.almost.eql({error: null, result: 0.8509181282393216}, 1e-9);
-    expect(parser.parse('CSCH(2)')).to.almost.eql({error: null, result: 0.27572056477178325}, 1e-9);
+    expect(parser.parse('CSCH(1)')).to.almost.eql({error: null, result: 0.8509181282393216});
+    expect(parser.parse('CSCH(2)')).to.almost.eql({error: null, result: 0.27572056477178325});
   });
 
   it('DECIMAL', () => {
@@ -191,7 +191,7 @@ describe('.parse() math-trig formulas', () => {
     expect(parser.parse('DEGREES("value")')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('DEGREES(PI())')).to.deep.equal({error: null, result: 180});
     expect(parser.parse('DEGREES(PI() / 2)')).to.deep.equal({error: null, result: 90});
-    expect(parser.parse('DEGREES(1.1)')).to.almost.eql({error: null, result: 63.02535746439057}, 1e-9);
+    expect(parser.parse('DEGREES(1.1)')).to.almost.eql({error: null, result: 63.02535746439057});
   });
 
   it('DIVIDE', () => {
@@ -327,9 +327,9 @@ describe('.parse() math-trig formulas', () => {
     expect(parser.parse('MINUS("value")')).to.deep.equal({error: '#N/A', result: null});
     expect(parser.parse('MINUS(1)')).to.deep.equal({error: '#N/A', result: null});
     expect(parser.parse('MINUS(1, 2)')).to.deep.equal({error: null, result: -1});
-    expect(parser.parse('MINUS(1.1, 1.2)')).to.almost.eql({error: null, result: -0.1}, 1e-9);
+    expect(parser.parse('MINUS(1.1, 1.2)')).to.almost.eql({error: null, result: -0.1});
     expect(parser.parse('MINUS(1.2, 1.2)')).to.deep.equal({error: null, result: 0});
-    expect(parser.parse('MINUS(1.3, 1.2)')).to.almost.eql({error: null, result: 0.1}, 1e-9);
+    expect(parser.parse('MINUS(1.3, 1.2)')).to.almost.eql({error: null, result: 0.1});
   });
 
   it('MOD', () => {
@@ -490,15 +490,15 @@ describe('.parse() math-trig formulas', () => {
   it('SEC', () => {
     expect(parser.parse('SEC()')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('SEC("value")')).to.deep.equal({error: '#VALUE!', result: null});
-    expect(parser.parse('SEC(1)')).to.almost.eql({error: null, result: 1.8508157176809255}, 1e-9);
-    expect(parser.parse('SEC(30)')).to.almost.eql({error: null, result: 6.482921234962678}, 1e-9);
+    expect(parser.parse('SEC(1)')).to.almost.eql({error: null, result: 1.8508157176809255});
+    expect(parser.parse('SEC(30)')).to.almost.eql({error: null, result: 6.482921234962678});
   });
 
   it('SECH', () => {
     expect(parser.parse('SECH()')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('SECH("value")')).to.deep.equal({error: '#VALUE!', result: null});
-    expect(parser.parse('SECH(1)')).to.almost.eql({error: null, result: 0.6480542736638855}, 1e-9);
-    expect(parser.parse('SECH(30)')).to.almost.eql({error: null, result: 1.8715245937680314e-13}, 1e-9);
+    expect(parser.parse('SECH(1)')).to.almost.eql({error: null, result: 0.6480542736638855});
+    expect(parser.parse('SECH(30)')).to.almost.eql({error: null, result: 1.8715245937680314e-13});
   });
 
   it('SERIESSUM', () => {
@@ -509,7 +509,7 @@ describe('.parse() math-trig formulas', () => {
       -1 / parser.parse('FACT(6)').result,
     ]);
 
-    expect(parser.parse('SERIESSUM(PI() / 4, 0, 2, SERIESSUM_ARR)')).to.almost.eql({error: null, result: 0.7071032148228457}, 1e-9);
+    expect(parser.parse('SERIESSUM(PI() / 4, 0, 2, SERIESSUM_ARR)')).to.almost.eql({error: null, result: 0.7071032148228457});
   });
 
   it('SIGN', () => {
@@ -530,7 +530,7 @@ describe('.parse() math-trig formulas', () => {
   it('SINH', () => {
     expect(parser.parse('SINH()')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('SINH("value")')).to.deep.equal({error: '#VALUE!', result: null});
-    expect(parser.parse('SINH(1)')).to.almost.eql({error: null, result: 1.1752011936438014}, 1e-9);
+    expect(parser.parse('SINH(1)')).to.almost.eql({error: null, result: 1.1752011936438014});
   });
 
   it('SQRT', () => {
@@ -544,7 +544,7 @@ describe('.parse() math-trig formulas', () => {
   it('SQRTPI', () => {
     expect(parser.parse('SQRTPI()')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('SQRTPI("value")')).to.deep.equal({error: '#VALUE!', result: null});
-    expect(parser.parse('SQRTPI(64)')).to.almost.eql({error: null, result: 14.179630807244127}, 1e-9);
+    expect(parser.parse('SQRTPI(64)')).to.almost.eql({error: null, result: 14.179630807244127});
   });
 
   it('SUBTOTAL', () => {});
@@ -553,7 +553,7 @@ describe('.parse() math-trig formulas', () => {
     expect(parser.parse('SUM()')).to.deep.equal({error: null, result: 0});
     expect(parser.parse('SUM("value")')).to.deep.equal({error: null, result: 0});
     expect(parser.parse('SUM(64)')).to.deep.equal({error: null, result: 64});
-    expect(parser.parse('SUM(64, 3.3, 0.1)')).to.almost.eql({error: null, result: 67.4}, 1e-9);
+    expect(parser.parse('SUM(64, 3.3, 0.1)')).to.almost.eql({error: null, result: 67.4});
   });
 
   it('SUMIF', () => {
@@ -588,7 +588,7 @@ describe('.parse() math-trig formulas', () => {
     expect(parser.parse('SUMSQ()')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('SUMSQ("value")')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('SUMSQ(64)')).to.deep.equal({error: null, result: 4096});
-    expect(parser.parse('SUMSQ(64, 3.3, 0.1)')).to.almost.eql({error: null, result: 4106.9}, 1e-9);
+    expect(parser.parse('SUMSQ(64, 3.3, 0.1)')).to.almost.eql({error: null, result: 4106.9});
   });
 
   it('SUMX2MY2', () => {
@@ -630,14 +630,14 @@ describe('.parse() math-trig formulas', () => {
   it('TAN', () => {
     expect(parser.parse('TAN()')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('TAN("value")')).to.deep.equal({error: '#VALUE!', result: null});
-    expect(parser.parse('TAN(1)')).to.almost.eql({error: null, result: 1.5574077246549023}, 1e-9);
-    expect(parser.parse('TAN(RADIANS(45))')).to.almost.eql({error: null, result: 1}, 1e-9);
+    expect(parser.parse('TAN(1)')).to.almost.eql({error: null, result: 1.5574077246549023});
+    expect(parser.parse('TAN(RADIANS(45))')).to.almost.eql({error: null, result: 1});
   });
 
   it('TANH', () => {
     expect(parser.parse('TANH()')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('TANH("value")')).to.deep.equal({error: '#VALUE!', result: null});
-    expect(parser.parse('TANH(1)')).to.almost.eql({error: null, result: 0.761594155955765}, 1e-9);
+    expect(parser.parse('TANH(1)')).to.almost.eql({error: null, result: 0.761594155955765});
   });
 
   it('TRUNC', () => {
