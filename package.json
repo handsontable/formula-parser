@@ -1,6 +1,6 @@
 {
   "name": "hot-formula-parser",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "description": "Formula parser",
   "main": "dist/formula-parser.js",
   "scripts": {
@@ -40,7 +40,7 @@
     "chai": "^3.4.1",
     "chai-stats": "^0.3.0",
     "del": "^2.2.0",
-    "generate-release": "^0.10.1",
+    "generate-release": "^0.10.2",
     "glob": "^6.0.3",
     "gulp": "^3.9.0",
     "gulp-babel": "^6.1.1",
@@ -76,7 +76,7 @@
     "mainVarName": "formulaParser"
   },
   "dependencies": {
-    "formulajs": "github:handsontable/formula.js",
+    "formulajs": "github:handsontable/formula.js#1.0.3",
     "tiny-emitter": "^1.0.2"
   }
 }

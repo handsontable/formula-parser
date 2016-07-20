@@ -117,7 +117,6 @@ const SUPPORTED_FORMULAS = [
   'FACT',
   'FACTDOUBLE',
   'FALSE',
-  'FALSE',
   'FDIST',
   'FDISTRT',
   'FIND',

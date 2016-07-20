@@ -21,7 +21,7 @@ describe('.parse() text formulas', () => {
   });
 
   it('CODE', () => {
-    expect(parser.parse('CODE()')).to.deep.equal({error: null, result: NaN});
+    expect(parser.parse('CODE()')).to.deep.equal({error: '#N/A', result: null});
     expect(parser.parse('CODE("a")')).to.deep.equal({error: null, result: 97});
   });
 
@@ -39,16 +39,16 @@ describe('.parse() text formulas', () => {
   });
 
   it('EXACT', () => {
-    expect(parser.parse('EXACT()')).to.deep.equal({error: null, result: true});
-    expect(parser.parse('EXACT(1100)')).to.deep.equal({error: null, result: false});
+    expect(parser.parse('EXACT()')).to.deep.equal({error: '#N/A', result: null});
+    expect(parser.parse('EXACT(1100)')).to.deep.equal({error: '#N/A', result: null});
     expect(parser.parse('EXACT(1100, -2)')).to.deep.equal({error: null, result: false});
     expect(parser.parse('EXACT(1100, 1100)')).to.deep.equal({error: null, result: true});
     expect(parser.parse('EXACT(1100, "1100")')).to.deep.equal({error: null, result: false});
   });
 
   it('FIND', () => {
-    expect(parser.parse('FIND()')).to.deep.equal({error: null, result: null});
-    expect(parser.parse('FIND("o")')).to.deep.equal({error: null, result: null});
+    expect(parser.parse('FIND()')).to.deep.equal({error: '#N/A', result: null});
+    expect(parser.parse('FIND("o")')).to.deep.equal({error: '#N/A', result: null});
     expect(parser.parse('FIND("o", "FooBar")')).to.deep.equal({error: null, result: 2});
     expect(parser.parse('FIND("O", "FooBar")')).to.deep.equal({error: null, result: 0});
   });
@@ -101,19 +101,19 @@ describe('.parse() text formulas', () => {
   });
 
   it('REGEXEXTRACT', () => {
-    expect(parser.parse('REGEXEXTRACT()')).to.deep.equal({error: '#ERROR!', result: null});
+    expect(parser.parse('REGEXEXTRACT()')).to.deep.equal({error: '#N/A', result: null});
     expect(parser.parse('REGEXEXTRACT("extract foo bar", "(foo)")')).to.deep.equal({error: null, result: 'foo'});
     expect(parser.parse('REGEXEXTRACT("pressure 12.21bar", "([0-9]+.[0-9]+)")')).to.deep.equal({error: null, result: '12.21'});
   });
 
   it('REGEXREPLACE', () => {
-    expect(parser.parse('REGEXREPLACE()')).to.deep.equal({error: '#ERROR!', result: null});
+    expect(parser.parse('REGEXREPLACE()')).to.deep.equal({error: '#N/A', result: null});
     expect(parser.parse('REGEXREPLACE("extract foo bar", "(foo)", "baz")')).to.deep.equal({error: null, result: 'extract baz bar'});
     expect(parser.parse('REGEXREPLACE("pressure 12.21bar", "([0-9]+.[0-9]+)", "43.1")')).to.deep.equal({error: null, result: 'pressure 43.1bar'});
   });
 
   it('REGEXMATCH', () => {
-    expect(parser.parse('REGEXMATCH()')).to.deep.equal({error: '#ERROR!', result: null});
+    expect(parser.parse('REGEXMATCH()')).to.deep.equal({error: '#N/A', result: null});
     expect(parser.parse('REGEXMATCH("pressure 12.21bar", "([0-9]+.[0-9]+)")')).to.deep.equal({error: null, result: true});
 
     const result = parser.parse('REGEXMATCH("pressure 12.33bar", "([0-9]+.[0-9]+)", TRUE)');
@@ -136,7 +136,7 @@ describe('.parse() text formulas', () => {
   });
 
   it('RIGHT', () => {
-    expect(parser.parse('RIGHT()')).to.deep.equal({error: null, result: null});
+    expect(parser.parse('RIGHT()')).to.deep.equal({error: '#N/A', result: null});
     expect(parser.parse('RIGHT("foo bar")')).to.deep.equal({error: null, result: 'r'});
     expect(parser.parse('RIGHT("foo bar", 4)')).to.deep.equal({error: null, result: ' bar'});
   });
@@ -154,8 +154,8 @@ describe('.parse() text formulas', () => {
   });
 
   it('SUBSTITUTE', () => {
-    expect(parser.parse('SUBSTITUTE()')).to.deep.equal({error: null, result: true});
-    expect(parser.parse('SUBSTITUTE("foo bar baz")')).to.deep.equal({error: null, result: 'foo bar baz'});
+    expect(parser.parse('SUBSTITUTE()')).to.deep.equal({error: '#N/A', result: null});
+    expect(parser.parse('SUBSTITUTE("foo bar baz")')).to.deep.equal({error: '#N/A', result: null});
     expect(parser.parse('SUBSTITUTE("foo bar baz", "a", "A")')).to.deep.equal({error: null, result: 'foo bAr bAz'});
   });
 
@@ -186,7 +186,7 @@ describe('.parse() text formulas', () => {
   });
 
   it('UNICODE', () => {
-    expect(parser.parse('UNICODE()')).to.deep.equal({error: null, result: NaN});
+    expect(parser.parse('UNICODE()')).to.deep.equal({error: '#N/A', result: null});
     expect(parser.parse('UNICODE("!")')).to.deep.equal({error: null, result: 33});
   });
 
