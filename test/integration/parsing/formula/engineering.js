@@ -257,8 +257,8 @@ describe('.parse() engineering formulas', () => {
     expect(parser.parse('IMPOWER("3+4i", 3)')).to.deep.equal({error: null, result: '-117+44.000000000000036i'});
   });
 
-  it('IMPOWER', () => {
-    expect(parser.parse('IMPRODUCT()')).to.deep.equal({error: null, result: true});
+  it('IMPRODUCT', () => {
+    expect(parser.parse('IMPRODUCT()')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('IMPRODUCT("3+4i")')).to.deep.equal({error: null, result: '3+4i'});
     expect(parser.parse('IMPRODUCT("3+4i", "1+2i")')).to.deep.equal({error: null, result: '-5+10i'});
   });
@@ -300,7 +300,7 @@ describe('.parse() engineering formulas', () => {
   });
 
   it('IMSUM', () => {
-    expect(parser.parse('IMSUM()')).to.deep.equal({error: null, result: true});
+    expect(parser.parse('IMSUM()')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('IMSUM("3+4i")')).to.deep.equal({error: null, result: '3+4i'});
     expect(parser.parse('IMSUM("3+4i", "2+3i")')).to.deep.equal({error: null, result: '5+7i'});
   });

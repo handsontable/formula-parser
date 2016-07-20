@@ -61,8 +61,9 @@ describe('.parse() logical formulas', () => {
   });
 
   it('SWITCH', () => {
-    expect(parser.parse('SWITCH()')).to.deep.equal({error: null, result: true});
+    expect(parser.parse('SWITCH()')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('SWITCH(7, "foo")')).to.deep.equal({error: null, result: 'foo'});
     expect(parser.parse('SWITCH(7, 9, "foo", 7, "bar")')).to.deep.equal({error: null, result: 'bar'});
+    expect(parser.parse('SWITCH(10, 9, "foo", 7, "bar")')).to.deep.equal({error: '#N/A', result: null});
   });
 });

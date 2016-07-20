@@ -19,14 +19,14 @@ describe('.parse() statistical formulas', () => {
   });
 
   it('AVERAGE', () => {
-    expect(parser.parse('AVERAGE()')).to.deep.equal({error: null, result: NaN});
+    expect(parser.parse('AVERAGE()')).to.deep.equal({error: '#NUM!', result: null});
     expect(parser.parse('AVERAGE(1.1)')).to.almost.eql({error: null, result: 1.1});
     expect(parser.parse('AVERAGE(1.1, 2, 5, 10)')).to.almost.eql({error: null, result: 4.525});
     expect(parser.parse('AVERAGE(1.1, TRUE, 2, NULL, 5, 10)')).to.almost.eql({error: null, result: 4.525});
   });
 
   it('AVERAGEA', () => {
-    expect(parser.parse('AVERAGEA()')).to.deep.equal({error: null, result: NaN});
+    expect(parser.parse('AVERAGEA()')).to.deep.equal({error: '#NUM!', result: null});
     expect(parser.parse('AVERAGEA(1.1)')).to.almost.eql({error: null, result: 1.1});
     expect(parser.parse('AVERAGEA(1.1, 2, 5, 10)')).to.almost.eql({error: null, result: 4.525});
     expect(parser.parse('AVERAGEA(1.1, TRUE, 2, NULL, 5, 10)')).to.almost.eql({error: null, result: 3.82});
@@ -251,7 +251,7 @@ describe('.parse() statistical formulas', () => {
     expect(parser.parse('EXPONDIST(0.2)')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('EXPONDIST(0.2, 10)')).to.almost.eql({error: null, result: 1.353352832366127});
     expect(parser.parse('EXPONDIST(0.2, 10, TRUE)')).to.almost.eql({error: null, result: 0.8646647167633873});
-    expect(parser.parse('EXPONDIST(0.2, 10, TRUE)')).to.almost.eql({error: null, result: 0.8646647167633873});
+    expect(parser.parse('EXPON.DIST(0.2, 10, TRUE)')).to.almost.eql({error: null, result: 0.8646647167633873});
   });
 
   it('FDIST', () => {
@@ -279,7 +279,7 @@ describe('.parse() statistical formulas', () => {
     expect(parser.parse('F.INV(0.1, 6, 4)')).to.almost.eql({error: null, result: 0.31438998832176834});
   });
 
-  it('FINV', () => {
+  it('FINVRT', () => {
     expect(parser.parse('FINVRT()')).to.deep.equal({error: '#N/A', result: null});
     expect(parser.parse('FINVRT(0.1)')).to.deep.equal({error: '#N/A', result: null});
     expect(parser.parse('FINVRT(0.1, 6)')).to.deep.equal({error: '#N/A', result: null});
@@ -456,7 +456,7 @@ describe('.parse() statistical formulas', () => {
   });
 
   it('MEDIAN', () => {
-    expect(parser.parse('MEDIAN()')).to.deep.equal({error: null, result: NaN});
+    expect(parser.parse('MEDIAN()')).to.deep.equal({error: '#NUM!', result: null});
     expect(parser.parse('MEDIAN(1, 9, 9.2, 4)')).to.deep.equal({error: null, result: 6.5});
   });
 
@@ -822,7 +822,7 @@ describe('.parse() statistical formulas', () => {
   });
 
   it('VARP', () => {
-    expect(parser.parse('VARP()')).to.deep.equal({error: null, result: NaN});
+    expect(parser.parse('VARP()')).to.deep.equal({error: '#NUM!', result: null});
     expect(parser.parse('VARP(1)')).to.deep.equal({error: null, result: 0});
     expect(parser.parse('VARP(1, 2)')).to.almost.eql({error: null, result: 0.25});
     expect(parser.parse('VARP(1, 2, 3)')).to.almost.eql({error: null, result: 0.6666666666});
@@ -850,7 +850,7 @@ describe('.parse() statistical formulas', () => {
   });
 
   it('VARPA', () => {
-    expect(parser.parse('VARPA()')).to.deep.equal({error: null, result: NaN});
+    expect(parser.parse('VARPA()')).to.deep.equal({error: '#NUM!', result: null});
     expect(parser.parse('VARPA(1)')).to.deep.equal({error: null, result: 0});
     expect(parser.parse('VARPA(1, 2)')).to.almost.eql({error: null, result: 0.25});
     expect(parser.parse('VARPA(1, 2, 3)')).to.almost.eql({error: null, result: 0.6666666666666});

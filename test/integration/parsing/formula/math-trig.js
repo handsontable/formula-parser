@@ -11,27 +11,32 @@ describe('.parse() math-trig formulas', () => {
   });
 
   it('ABS', () => {
+    expect(parser.parse('ABS()')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('ABS(-8)')).to.deep.equal({error: null, result: 8});
     expect(parser.parse('ABS(-8.89)')).to.deep.equal({error: null, result: 8.89});
     expect(parser.parse('ABS(8)')).to.deep.equal({error: null, result: 8});
   });
 
   it('ACOS', () => {
+    expect(parser.parse('ACOS()')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('ACOS(1)')).to.deep.equal({error: null, result: 0});
     expect(parser.parse('ACOS(-1)')).to.deep.equal({error: null, result: Math.PI});
   });
 
   it('ACOSH', () => {
+    expect(parser.parse('ACOSH()')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('ACOSH(1)')).to.deep.equal({error: null, result: 0});
-    expect(parser.parse('ACOSH(-1)')).to.deep.equal({error: null, result: NaN});
+    expect(parser.parse('ACOSH(-1)')).to.deep.equal({error: '#NUM!', result: null});
   });
 
   it('ACOT', () => {
+    expect(parser.parse('ACOT()')).to.deep.eql({error: '#VALUE!', result: null});
     expect(parser.parse('ACOT(1)')).to.almost.eql({error: null, result: 0.7853981633974483});
     expect(parser.parse('ACOT(-1)')).to.almost.eql({error: null, result: -0.7853981633974483});
   });
 
   it('ACOTH', () => {
+    expect(parser.parse('ACOTH()')).to.deep.equal({error: '#VALUE!', result: null});
     expect(parser.parse('ACOTH(1)')).to.deep.equal({error: null, result: Infinity});
     expect(parser.parse('ACOTH(-1)')).to.deep.equal({error: null, result: -Infinity});
   });
@@ -547,7 +552,13 @@ describe('.parse() math-trig formulas', () => {
     expect(parser.parse('SQRTPI(64)')).to.almost.eql({error: null, result: 14.179630807244127});
   });
 
-  it('SUBTOTAL', () => {});
+  it('SUBTOTAL', () => {
+    parser.on('callRangeValue', (a, b, done) => {
+      done([[120, 10, 150, 23]]);
+    });
+
+    expect(parser.parse('SUBTOTAL(9, A1:C1)')).to.deep.equal({error: null, result: 303});
+  });
 
   it('SUM', () => {
     expect(parser.parse('SUM()')).to.deep.equal({error: null, result: 0});
