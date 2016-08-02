@@ -158,6 +158,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	      toNumber: _number.toNumber,
 	      trimEdges: _string.trimEdges,
 	      invertNumber: _number.invertNumber,
+	      throwError: function throwError(errorName) {
+	        return _this._throwError(errorName);
+	      },
 	      callVariable: function callVariable(variable) {
 	        return _this._callVariable(variable);
 	      },
@@ -352,6 +355,26 @@ return /******/ (function(modules) { // webpackBootstrap
 	      });
 	
 	      return value;
+	    }
+	
+	    /**
+	     * Try to throw error by its name.
+	     *
+	     * @param {String} errorName Error name.
+	     * @returns {String}
+	     * @private
+	     */
+	
+	  }, {
+	    key: '_throwError',
+	    value: function _throwError(errorName) {
+	      var parsedError = (0, _error2.default)(errorName);
+	
+	      if (parsedError) {
+	        throw Error(parsedError);
+	      }
+	
+	      return errorName;
 	    }
 	  }]);
 	
@@ -14807,7 +14830,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    break;
 	                case 41:case 42:
 	
-	                    this.$ = $$[$0 - 2] + $$[$0 - 1] + $$[$0];
+	                    this.$ = yy.throwError($$[$0 - 2] + $$[$0 - 1] + $$[$0]);
 	
 	                    break;
 	            }
@@ -15528,6 +15551,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	    exports.parse = function () {
 	        return parser.parse.apply(parser, arguments);
 	    };
+	
 	    if (typeof module !== 'undefined' && __webpack_require__.c[0] === module) {
 	        exports.main(process.argv.slice(1));
 	    }
