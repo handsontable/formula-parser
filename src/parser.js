@@ -19,6 +19,7 @@ class Parser extends Emitter {
       toNumber,
       trimEdges,
       invertNumber,
+      throwError: (errorName) => this._throwError(errorName),
       callVariable: (variable) => this._callVariable(variable),
       evaluateByOperator,
       callFunction: evaluateByOperator,
@@ -170,6 +171,23 @@ class Parser extends Emitter {
     });
 
     return value;
+  }
+
+  /**
+   * Try to throw error by its name.
+   *
+   * @param {String} errorName Error name.
+   * @returns {String}
+   * @private
+   */
+  _throwError(errorName) {
+    const parsedError = errorParser(errorName);
+
+    if (parsedError) {
+      throw Error(parsedError);
+    }
+
+    return errorName;
   }
 }
 

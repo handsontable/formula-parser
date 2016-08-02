@@ -61,7 +61,7 @@ always keep evaluated value. If error occurs `error` property will be set as:
  * `#NAME?` Not recognised function name or variable name;
  * `#N/A` Indicates that a value is not available to a formula;
  * `#NUM!` Occurs when formula encounters an invalid number;
- * `#VALUE?` Occurs when one of formula arguments is of the wrong type.
+ * `#VALUE!` Occurs when one of formula arguments is of the wrong type.
  
 ```js
 parser.parse('(1 + 5 + (5 * 10)) / 10'); // returns `Object {error: null, result: 5.6}`
