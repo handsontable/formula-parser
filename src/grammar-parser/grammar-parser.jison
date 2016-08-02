@@ -220,10 +220,10 @@ number
 
 error
   : '#' VARIABLE '!' {
-      $$ = $1 + $2 + $3;
+      $$ = yy.throwError($1 + $2 + $3);
     }
   | VARIABLE '#' VARIABLE '!' {
-      $$ = $2 + $3 + $4;
+      $$ = yy.throwError($2 + $3 + $4);
     }
 ;
 
