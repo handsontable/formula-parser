@@ -33,10 +33,12 @@ registerOperation(minus.SYMBOL, minus);
  * Evaluate values by operator id.git
  *
  * @param {String} operator Operator id.
- * @param {Array} params Arguments to evaluate.
+ * @param {Array} [params=[]] Arguments to evaluate.
  * @returns {*}
  */
-export default function evaluateByOperator(operator, params) {
+export default function evaluateByOperator(operator, params = []) {
+  operator = operator.toUpperCase();
+
   if (!availableOperators[operator]) {
     throw Error(ERROR_NAME);
   }
@@ -52,7 +54,7 @@ export default function evaluateByOperator(operator, params) {
  */
 export function registerOperation(symbol, func) {
   if (!Array.isArray(symbol)) {
-    symbol = [symbol];
+    symbol = [symbol.toUpperCase()];
   }
   symbol.forEach((s) => {
     if (func.isFactory) {

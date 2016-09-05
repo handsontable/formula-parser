@@ -6,6 +6,8 @@ export const SYMBOL = SUPPORTED_FORMULAS;
 
 export default function func(symbol) {
   return function(...params) {
+    symbol = symbol.toUpperCase();
+
     const symbolParts = symbol.split('.');
     let foundFormula = false;
     let result;

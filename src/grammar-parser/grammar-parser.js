@@ -197,7 +197,7 @@ case 20:
 break;
 case 21:
 
-        this.$ = yy.callFunction($$[$0-2], '');
+        this.$ = yy.callFunction($$[$0-2]);
 
 break;
 case 22:

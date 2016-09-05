@@ -151,7 +151,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  function Parser() {
 	    _classCallCheck(this, Parser);
 	
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Parser).call(this));
+	    var _this = _possibleConstructorReturn(this, (Parser.__proto__ || Object.getPrototypeOf(Parser)).call(this));
 	
 	    _this.parser = new _grammarParser.Parser();
 	    _this.parser.yy = {
@@ -558,10 +558,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * Evaluate values by operator id.git
 	 *
 	 * @param {String} operator Operator id.
-	 * @param {Array} params Arguments to evaluate.
+	 * @param {Array} [params=[]] Arguments to evaluate.
 	 * @returns {*}
 	 */
-	function evaluateByOperator(operator, params) {
+	function evaluateByOperator(operator) {
+	  var params = arguments.length <= 1 || arguments[1] === undefined ? [] : arguments[1];
+	
+	  operator = operator.toUpperCase();
+	
 	  if (!availableOperators[operator]) {
 	    throw Error(_error.ERROR_NAME);
 	  }
@@ -577,7 +581,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 */
 	function registerOperation(symbol, func) {
 	  if (!Array.isArray(symbol)) {
-	    symbol = [symbol];
+	    symbol = [symbol.toUpperCase()];
 	  }
 	  symbol.forEach(function (s) {
 	    if (func.isFactory) {
@@ -820,6 +824,8 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	function func(symbol) {
 	  return function () {
+	    symbol = symbol.toUpperCase();
+	
 	    var symbolParts = symbol.split('.');
 	    var foundFormula = false;
 	    var result = void 0;
@@ -14766,7 +14772,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    break;
 	                case 21:
 	
-	                    this.$ = yy.callFunction($$[$0 - 2], '');
+	                    this.$ = yy.callFunction($$[$0 - 2]);
 	
 	                    break;
 	                case 22:

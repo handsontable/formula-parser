@@ -141,7 +141,7 @@ expression
         }
       }
     | FUNCTION '(' ')' {
-        $$ = yy.callFunction($1, '');
+        $$ = yy.callFunction($1);
       }
     | FUNCTION '(' expseq ')' {
         $$ = yy.callFunction($1, $3);
