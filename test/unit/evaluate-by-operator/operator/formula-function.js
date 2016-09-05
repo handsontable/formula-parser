@@ -49,6 +49,14 @@ describe('formula function operator', () => {
     sinon.assert.calledWith(spySUM, 8.8, 2, 1, 4);
   });
 
+  it('should correctly process formula passed in lower case', () => {
+    const result1 = func.default('Sum')(8.8, 2, 1, 4);
+    const result2 = func.default('Rank.eq')(2, [7, 3.5, 3.5, 1, 2]);
+
+    expect(result1).to.eq(15.8);
+    expect(result2).to.eq(4);
+  });
+
   it('should correctly process formula (deep call)', () => {
     const result = func.default('SUMA.T.Z')(8.8, 2, 1, 4);
 
