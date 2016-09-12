@@ -10,13 +10,13 @@ describe('.parse() variable', () => {
     parser = null;
   });
 
-  it('defaults', () => {
+  it('should evaluate defaults variables', () => {
     expect(parser.parse('TRUE')).to.deep.equal({error: null, result: true});
     expect(parser.parse('FALSE')).to.deep.equal({error: null, result: false});
     expect(parser.parse('NULL')).to.deep.equal({error: null, result: null});
   });
 
-  it('custom', () => {
+  it('should evaluate custom variables', () => {
     expect(parser.parse('foo')).to.deep.equal({error: '#NAME?', result: null});
 
     parser.setVariable('foo', 'bar');

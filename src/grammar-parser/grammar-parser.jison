@@ -155,17 +155,35 @@ cell
    : ABSOLUTE_CELL {
       $$ = yy.cellValue($1);
     }
+  | RELATIVE_CELL {
+      $$ = yy.cellValue($1);
+    }
+  | MIXED_CELL {
+      $$ = yy.cellValue($1);
+    }
   | ABSOLUTE_CELL ':' ABSOLUTE_CELL {
       $$ = yy.rangeValue($1, $3);
     }
-  | RELATIVE_CELL {
-      $$ = yy.cellValue($1);
+  | ABSOLUTE_CELL ':' RELATIVE_CELL {
+      $$ = yy.rangeValue($1, $3);
+    }
+  | ABSOLUTE_CELL ':' MIXED_CELL {
+      $$ = yy.rangeValue($1, $3);
+    }
+  | RELATIVE_CELL ':' ABSOLUTE_CELL {
+      $$ = yy.rangeValue($1, $3);
     }
   | RELATIVE_CELL ':' RELATIVE_CELL {
       $$ = yy.rangeValue($1, $3);
     }
-  | MIXED_CELL {
-      $$ = yy.cellValue($1);
+  | RELATIVE_CELL ':' MIXED_CELL {
+      $$ = yy.rangeValue($1, $3);
+    }
+  | MIXED_CELL ':' ABSOLUTE_CELL {
+      $$ = yy.rangeValue($1, $3);
+    }
+  | MIXED_CELL ':' RELATIVE_CELL {
+      $$ = yy.rangeValue($1, $3);
     }
   | MIXED_CELL ':' MIXED_CELL {
       $$ = yy.rangeValue($1, $3);

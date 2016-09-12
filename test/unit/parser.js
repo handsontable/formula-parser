@@ -331,4 +331,42 @@ describe('Parser', () => {
       sinon.assert.calledWithMatch(obj.cb, startCell, endCell);
     });
   });
+
+  describe('._throwError()', () => {
+    it('should throw general error', () => {
+      expect(() => parser._throwError('#ERROR!')).to.throw('ERROR');
+    });
+
+    it('should throw dividing by 0 error', () => {
+      expect(() => parser._throwError('#DIV/0!')).to.throw('DIV/0');
+    });
+
+    it('should throw name error', () => {
+      expect(() => parser._throwError('#NAME?')).to.throw('NAME');
+    });
+
+    it('should throw not available error', () => {
+      expect(() => parser._throwError('#N/A')).to.throw('N/A');
+    });
+
+    it('should throw null error', () => {
+      expect(() => parser._throwError('#NULL!')).to.throw('NULL');
+    });
+
+    it('should throw num error', () => {
+      expect(() => parser._throwError('#NUM!')).to.throw('NUM');
+    });
+
+    it('should throw ref error', () => {
+      expect(() => parser._throwError('#REF!')).to.throw('REF');
+    });
+
+    it('should throw value error', () => {
+      expect(() => parser._throwError('#VALUE!')).to.throw('VALUE');
+    });
+
+    it('should return value if not matched to any of defined error', () => {
+      expect(parser._throwError('VALUE foo')).to.be.eq('VALUE foo');
+    });
+  });
 });

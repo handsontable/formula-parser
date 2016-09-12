@@ -1,6 +1,6 @@
 {
   "name": "hot-formula-parser",
-  "version": "1.0.17",
+  "version": "1.0.18",
   "description": "Formula parser",
   "main": "dist/formula-parser.js",
   "scripts": {
