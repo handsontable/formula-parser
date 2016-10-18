@@ -15,6 +15,14 @@ describe('Parser', () => {
       expect(parser.parse).to.be.a('function');
     });
 
+    it('should not internally call `parse` method of grammar parser object when an empty string was passed', () => {
+      spy(parser.parser, 'parse');
+
+      parser.parse('');
+
+      expect(parser.parser.parse.called).to.false;
+    });
+
     it('should internally call `parse` method of grammar parser object', () => {
       spy(parser.parser, 'parse');
 
