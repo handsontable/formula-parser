@@ -17,7 +17,6 @@
 [A-Za-z_]+                                                                                      {return 'VARIABLE';}
 [0-9]+                                                                                          {return 'NUMBER';}
 '['(.*)?']'                                                                                     {return 'ARRAY';}
-"$"                                                                                             {/* skip whitespace */}
 "&"                                                                                             {return '&';}
 " "                                                                                             {return ' ';}
 [.]                                                                                             {return 'DECIMAL';}

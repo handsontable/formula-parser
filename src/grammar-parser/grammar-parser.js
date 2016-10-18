@@ -874,58 +874,56 @@ case 11:return 33;
 break;
 case 12:return 28;
 break;
-case 13:/* skip whitespace */
+case 13:return 9;
 break;
-case 14:return 9;
+case 14:return ' ';
 break;
-case 15:return ' ';
+case 15:return 32;
 break;
-case 16:return 32;
+case 16:return 27;
 break;
-case 17:return 27;
+case 17:return 29;
 break;
-case 18:return 29;
+case 18:return 30;
 break;
-case 19:return 30;
+case 19:return 18;
 break;
-case 20:return 18;
+case 20:return 19;
 break;
-case 21:return 19;
+case 21:return 17;
 break;
-case 22:return 17;
+case 22:return 11;
 break;
-case 23:return 11;
+case 23:return 20;
 break;
-case 24:return 20;
+case 24:return 12;
 break;
-case 25:return 12;
+case 25:return 13;
 break;
-case 26:return 13;
+case 26:return 15;
 break;
-case 27:return 15;
+case 27:return 14;
 break;
-case 28:return 14;
+case 28:return 16;
 break;
-case 29:return 16;
+case 29:return '"';
 break;
-case 30:return '"';
+case 30:return "'";
 break;
-case 31:return "'";
+case 31:return "!";
 break;
-case 32:return "!";
+case 32:return 10;
 break;
-case 33:return 10;
+case 33:return 34;
 break;
-case 34:return 34;
+case 34:return 35;
 break;
-case 35:return 35;
-break;
-case 36:return 5;
+case 35:return 5;
 break;
 }
 },
-rules: [/^(?:\s+)/,/^(?:"(\\["]|[^"])*")/,/^(?:'(\\[']|[^'])*')/,/^(?:[A-Za-z]{1,}[A-Za-z_0-9\.]+(?=[(]))/,/^(?:\$[A-Za-z]+\$[0-9]+)/,/^(?:\$[A-Za-z]+[0-9]+)/,/^(?:[A-Za-z]+\$[0-9]+)/,/^(?:[A-Za-z]+[0-9]+)/,/^(?:[A-Za-z\.]+(?=[(]))/,/^(?:[A-Za-z]{1,}[A-Za-z_0-9]+)/,/^(?:[A-Za-z_]+)/,/^(?:[0-9]+)/,/^(?:\[(.*)?\])/,/^(?:\$)/,/^(?:&)/,/^(?: )/,/^(?:[.])/,/^(?::)/,/^(?:;)/,/^(?:,)/,/^(?:\*)/,/^(?:\/)/,/^(?:-)/,/^(?:\+)/,/^(?:\^)/,/^(?:\()/,/^(?:\))/,/^(?:>)/,/^(?:<)/,/^(?:NOT\b)/,/^(?:")/,/^(?:')/,/^(?:!)/,/^(?:=)/,/^(?:%)/,/^(?:[#])/,/^(?:$)/],
-conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35,36],"inclusive":true}}
+rules: [/^(?:\s+)/,/^(?:"(\\["]|[^"])*")/,/^(?:'(\\[']|[^'])*')/,/^(?:[A-Za-z]{1,}[A-Za-z_0-9\.]+(?=[(]))/,/^(?:\$[A-Za-z]+\$[0-9]+)/,/^(?:\$[A-Za-z]+[0-9]+)/,/^(?:[A-Za-z]+\$[0-9]+)/,/^(?:[A-Za-z]+[0-9]+)/,/^(?:[A-Za-z\.]+(?=[(]))/,/^(?:[A-Za-z]{1,}[A-Za-z_0-9]+)/,/^(?:[A-Za-z_]+)/,/^(?:[0-9]+)/,/^(?:\[(.*)?\])/,/^(?:&)/,/^(?: )/,/^(?:[.])/,/^(?::)/,/^(?:;)/,/^(?:,)/,/^(?:\*)/,/^(?:\/)/,/^(?:-)/,/^(?:\+)/,/^(?:\^)/,/^(?:\()/,/^(?:\))/,/^(?:>)/,/^(?:<)/,/^(?:NOT\b)/,/^(?:")/,/^(?:')/,/^(?:!)/,/^(?:=)/,/^(?:%)/,/^(?:[#])/,/^(?:$)/],
+conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31,32,33,34,35],"inclusive":true}}
 });
 return lexer;
 })();
@@ -942,7 +940,6 @@ if (typeof require !== 'undefined' && typeof exports !== 'undefined') {
 exports.parser = parser;
 exports.Parser = parser.Parser;
 exports.parse = function () { return parser.parse.apply(parser, arguments); };
-
 if (typeof module !== 'undefined' && require.main === module) {
   exports.main(process.argv.slice(1));
 }

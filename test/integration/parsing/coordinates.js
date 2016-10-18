@@ -23,11 +23,17 @@ describe('.parse() coordinates', () => {
 
   it('should parse absolute cell', () => {
     expect(parser.parse('$A$1')).to.deep.equal({error: null, result: 55});
+    expect(parser.parse('$A$$$$1')).to.deep.equal({error: '#ERROR!', result: null});
+    expect(parser.parse('$$A$1')).to.deep.equal({error: '#ERROR!', result: null});
   });
 
   it('should parse mixed cell', () => {
     expect(parser.parse('$A1')).to.deep.equal({error: null, result: 55});
     expect(parser.parse('A$1')).to.deep.equal({error: null, result: 55});
+    expect(parser.parse('A$$1')).to.deep.equal({error: '#ERROR!', result: null});
+    expect(parser.parse('$$A1')).to.deep.equal({error: '#ERROR!', result: null});
+    expect(parser.parse('A1$')).to.deep.equal({error: '#ERROR!', result: null});
+    expect(parser.parse('A1$$$')).to.deep.equal({error: '#ERROR!', result: null});
   });
 
   it('should parse relative cells range', () => {
@@ -36,6 +42,10 @@ describe('.parse() coordinates', () => {
 
   it('should parse absolute cells range', () => {
     expect(parser.parse('$A$1:$B$2')).to.deep.equal({error: null, result: [[3, 6, 10]]});
+    expect(parser.parse('$A$$1:$B$2')).to.deep.equal({error: '#ERROR!', result: null});
+    expect(parser.parse('$A$1:$B$$2')).to.deep.equal({error: '#ERROR!', result: null});
+    expect(parser.parse('$A$1:$$B$2')).to.deep.equal({error: '#ERROR!', result: null});
+    expect(parser.parse('$$A$1:$B$2')).to.deep.equal({error: '#ERROR!', result: null});
   });
 
   it('should parse mixed cells range', () => {
@@ -46,5 +56,8 @@ describe('.parse() coordinates', () => {
     expect(parser.parse('A$1:B2')).to.deep.equal({error: null, result: [[3, 6, 10]]});
     expect(parser.parse('A$1:$B$2')).to.deep.equal({error: null, result: [[3, 6, 10]]});
     expect(parser.parse('A$1:$B2')).to.deep.equal({error: null, result: [[3, 6, 10]]});
+    expect(parser.parse('A1:$$B2')).to.deep.equal({error: '#ERROR!', result: null});
+    expect(parser.parse('A1:B2$')).to.deep.equal({error: '#ERROR!', result: null});
+    expect(parser.parse('A1$:B2')).to.deep.equal({error: '#ERROR!', result: null});
   });
 });
