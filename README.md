@@ -1,6 +1,6 @@
-Formula Parser [![Build Status](https://travis-ci.org/handsontable/formula-parser.png?branch=master)](https://travis-ci.org/handsontable/formula-parser) [![Test Coverage](https://codeclimate.com/repos/57739f5a0fbc62007d005f05/badges/35e70c68c984c6d7580b/coverage.svg)](https://codeclimate.com/repos/57739f5a0fbc62007d005f05/coverage) [![hot-formula-parser](https://img.shields.io/npm/v/hot-formula-parser.svg)](https://www.npmjs.com/package/hot-formula-parser)
+Formula Parser [![Build Status](https://travis-ci.org/handsontable/formula-parser.png?branch=master)](https://travis-ci.org/handsontable/formula-parser) [![Test Coverage](https://codeclimate.com/github/handsontable/formula-parser/badges/coverage.svg)](https://codeclimate.com/github/handsontable/formula-parser/coverage) [![hot-formula-parser](https://img.shields.io/npm/v/hot-formula-parser.svg)](https://www.npmjs.com/package/hot-formula-parser)
 ==========
-Library provides a `Parser` class that evaluates excel and mathematical formulas. 
+Library provides a `Parser` class that evaluates excel and mathematical formulas.
 
 - - -
 
@@ -45,7 +45,7 @@ It supports:
  * Custom variables;
  * [TODO] Custom functions/formulas;
  * Node and Browser environment.
- 
+
 ## API (methods)
 
 ```js
@@ -55,14 +55,14 @@ var parser = new formulaParser.Parser();
 ### .parse(expression)
 
 Parses and evaluates provided expression. It always returns an object with `result` and `error` properties. `result` property
-always keep evaluated value. If error occurs `error` property will be set as: 
+always keep evaluated value. If error occurs `error` property will be set as:
  * `#ERROR!` General error;
  * `#DIV/0!` Divide by zero error;
  * `#NAME?` Not recognised function name or variable name;
  * `#N/A` Indicates that a value is not available to a formula;
  * `#NUM!` Occurs when formula encounters an invalid number;
  * `#VALUE!` Occurs when one of formula arguments is of the wrong type.
- 
+
 ```js
 parser.parse('(1 + 5 + (5 * 10)) / 10'); // returns `Object {error: null, result: 5.6}`
 parser.parse('SUM(MY_VAR)'); // returns `Object {error: "#NAME?", result: null}`
@@ -120,7 +120,7 @@ Fired while retrieving cell value by its label (eq: `B3`, `B$3`, `B$3`, `$B$3`).
 
 ```js
 parser.on('callCellValue', function(cellCoord, done) {
-  // using label 
+  // using label
   if (cellCoord.label === 'B$6') {
     done('hello');
   }
@@ -128,7 +128,7 @@ parser.on('callCellValue', function(cellCoord, done) {
   if (cellCoord.row.index === 5 && cellCoord.row.isAbsolute && cellCoord.column.index === 1 && !cellCoord.column.isAbsolute) {
     done('hello');
   }
-  
+
   if (cellCoord.label === 'C6') {
     done(0.75);
   }
