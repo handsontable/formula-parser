@@ -120,7 +120,7 @@ case 7:
 break;
 case 8:
 
-        this.$ = yy.toNumber($$[$0-1]);
+        this.$ = $$[$0-1];
 
 break;
 case 9:
@@ -942,7 +942,6 @@ if (typeof require !== 'undefined' && typeof exports !== 'undefined') {
 exports.parser = parser;
 exports.Parser = parser.Parser;
 exports.parse = function () { return parser.parse.apply(parser, arguments); };
-
 if (typeof module !== 'undefined' && require.main === module) {
   exports.main(process.argv.slice(1));
 }
