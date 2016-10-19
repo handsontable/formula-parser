@@ -45,7 +45,11 @@ class Parser extends Emitter {
     let error = null;
 
     try {
-      result = this.parser.parse(expression);
+      if (expression === '') {
+        result = '';
+      } else {
+        result = this.parser.parse(expression);
+      }
     } catch (ex) {
       const message = errorParser(ex.message);
 
