@@ -7,10 +7,10 @@ const LABEL_EXTRACT_REGEXP = /^([$])?([A-Za-z]+)([$])?([0-9]+)$/;
  * @returns {Array} Returns an array of objects.
  */
 export function extractLabel(label) {
-  if (!LABEL_EXTRACT_REGEXP.test(label)) {
+  if (typeof label !== 'string' || !LABEL_EXTRACT_REGEXP.test(label)) {
     return [];
   }
-  const [, columnAbs, column, rowAbs, row] = label.match(LABEL_EXTRACT_REGEXP);
+  const [, columnAbs, column, rowAbs, row] = label.toUpperCase().match(LABEL_EXTRACT_REGEXP);
 
   return [
     {
@@ -52,7 +52,9 @@ const COLUMN_LABEL_BASE_LENGTH = COLUMN_LABEL_BASE.length;
 export function columnLabelToIndex(label) {
   let result = 0;
 
-  if (label) {
+  if (typeof label === 'string') {
+    label = label.toUpperCase();
+
     for (let i = 0, j = label.length - 1; i < label.length; i += 1, j -= 1) {
       result += Math.pow(COLUMN_LABEL_BASE_LENGTH, j) * (COLUMN_LABEL_BASE.indexOf(label[i]) + 1);
     }
