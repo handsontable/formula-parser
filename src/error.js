@@ -1,7 +1,6 @@
 export const ERROR = 'ERROR';
 export const ERROR_DIV_ZERO = 'DIV/0';
 export const ERROR_NAME = 'NAME';
-export const ERROR_NEED_UPDATE = 'NEED_UPDATE';
 export const ERROR_NOT_AVAILABLE = 'N/A';
 export const ERROR_NULL = 'NULL';
 export const ERROR_NUM = 'NUM';
@@ -12,7 +11,6 @@ const errors = {
   [ERROR]: '#ERROR!',
   [ERROR_DIV_ZERO]: '#DIV/0!',
   [ERROR_NAME]: '#NAME?',
-  [ERROR_NEED_UPDATE]: '#NEED_UPDATE!',
   [ERROR_NOT_AVAILABLE]: '#N/A',
   [ERROR_NULL]: '#NULL!',
   [ERROR_NUM]: '#NUM!',
@@ -36,4 +34,23 @@ export default function error(type) {
   }
 
   return error ? error : null;
+}
+
+/**
+ * Check if error type is strict valid with knows errors.
+ *
+ * @param {String} Error type.
+ * @return {Boolean}
+ */
+export function isValidStrict(type) {
+  let valid = false;
+
+  for (var i in errors) {
+    if (errors.hasOwnProperty(i) && errors[i] === type) {
+      valid = true;
+      break;
+    }
+  }
+
+  return valid;
 }

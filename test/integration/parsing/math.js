@@ -45,6 +45,14 @@ describe('.parse() math', () => {
     expect(parser.parse('"foo" ^ 4')).to.deep.equal({error: '#VALUE!', result: null});
   });
 
+  it('operator: &', () => {
+    expect(parser.parse('2 & 5')).to.deep.equal({error: null, result: '25'});
+    expect(parser.parse('(2 & 5)')).to.deep.equal({error: null, result: '25'});
+    expect(parser.parse('("" & "")')).to.deep.equal({error: null, result: ''});
+    expect(parser.parse('"" & ""')).to.deep.equal({error: null, result: ''});
+    expect(parser.parse('("Hello" & " world") & "!"')).to.deep.equal({error: null, result: 'Hello world!'});
+  });
+
   it('mixed operators', () => {
     expect(parser.parse('1 + 10 - 20 * 3/2')).to.deep.equal({error: null, result: -19});
     expect(parser.parse('((1 + 10 - 20 * 3 / 2) + 20) * 10')).to.deep.equal({error: null, result: 10});

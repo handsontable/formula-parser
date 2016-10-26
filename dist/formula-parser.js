@@ -59,7 +59,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
-	exports.rowLabelToIndex = exports.rowIndexToLabel = exports.columnLabelToIndex = exports.columnIndexToLabel = exports.toLabel = exports.extractLabel = exports.error = exports.Parser = exports.ERROR_VALUE = exports.ERROR_REF = exports.ERROR_NUM = exports.ERROR_NULL = exports.ERROR_NOT_AVAILABLE = exports.ERROR_NEED_UPDATE = exports.ERROR_NAME = exports.ERROR_DIV_ZERO = exports.ERROR = exports.SUPPORTED_FORMULAS = undefined;
+	exports.rowLabelToIndex = exports.rowIndexToLabel = exports.columnLabelToIndex = exports.columnIndexToLabel = exports.toLabel = exports.extractLabel = exports.error = exports.Parser = exports.ERROR_VALUE = exports.ERROR_REF = exports.ERROR_NUM = exports.ERROR_NULL = exports.ERROR_NOT_AVAILABLE = exports.ERROR_NAME = exports.ERROR_DIV_ZERO = exports.ERROR = exports.SUPPORTED_FORMULAS = undefined;
 	
 	var _parser = __webpack_require__(1);
 	
@@ -75,7 +75,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	exports.ERROR = _error.ERROR;
 	exports.ERROR_DIV_ZERO = _error.ERROR_DIV_ZERO;
 	exports.ERROR_NAME = _error.ERROR_NAME;
-	exports.ERROR_NEED_UPDATE = _error.ERROR_NEED_UPDATE;
 	exports.ERROR_NOT_AVAILABLE = _error.ERROR_NOT_AVAILABLE;
 	exports.ERROR_NULL = _error.ERROR_NULL;
 	exports.ERROR_NUM = _error.ERROR_NUM;
@@ -194,7 +193,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var error = null;
 	
 	      try {
-	        result = this.parser.parse(expression);
+	        if (expression === '') {
+	          result = '';
+	        } else {
+	          result = this.parser.parse(expression);
+	        }
 	      } catch (ex) {
 	        var message = (0, _error2.default)(ex.message);
 	
@@ -282,12 +285,12 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: '_callCellValue',
 	    value: function _callCellValue(label) {
-	      var _extractLabel = (0, _cell.extractLabel)(label);
+	      label = label.toUpperCase();
 	
-	      var _extractLabel2 = _slicedToArray(_extractLabel, 2);
-	
-	      var row = _extractLabel2[0];
-	      var column = _extractLabel2[1];
+	      var _extractLabel = (0, _cell.extractLabel)(label),
+	          _extractLabel2 = _slicedToArray(_extractLabel, 2),
+	          row = _extractLabel2[0],
+	          column = _extractLabel2[1];
 	
 	      var value = void 0;
 	
@@ -310,19 +313,18 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: '_callRangeValue',
 	    value: function _callRangeValue(startLabel, endLabel) {
-	      var _extractLabel3 = (0, _cell.extractLabel)(startLabel);
+	      startLabel = startLabel.toUpperCase();
+	      endLabel = endLabel.toUpperCase();
 	
-	      var _extractLabel4 = _slicedToArray(_extractLabel3, 2);
+	      var _extractLabel3 = (0, _cell.extractLabel)(startLabel),
+	          _extractLabel4 = _slicedToArray(_extractLabel3, 2),
+	          startRow = _extractLabel4[0],
+	          startColumn = _extractLabel4[1];
 	
-	      var startRow = _extractLabel4[0];
-	      var startColumn = _extractLabel4[1];
-	
-	      var _extractLabel5 = (0, _cell.extractLabel)(endLabel);
-	
-	      var _extractLabel6 = _slicedToArray(_extractLabel5, 2);
-	
-	      var endRow = _extractLabel6[0];
-	      var endColumn = _extractLabel6[1];
+	      var _extractLabel5 = (0, _cell.extractLabel)(endLabel),
+	          _extractLabel6 = _slicedToArray(_extractLabel5, 2),
+	          endRow = _extractLabel6[0],
+	          endColumn = _extractLabel6[1];
 	
 	      var startCell = {};
 	      var endCell = {};
@@ -349,7 +351,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	      var value = [];
 	
 	      this.emit('callRangeValue', startCell, endCell, function () {
-	        var _value = arguments.length <= 0 || arguments[0] === undefined ? [] : arguments[0];
+	        var _value = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : [];
 	
 	        value = _value;
 	      });
@@ -368,13 +370,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }, {
 	    key: '_throwError',
 	    value: function _throwError(errorName) {
-	      var parsedError = (0, _error2.default)(errorName);
-	
-	      if (parsedError) {
-	        throw Error(parsedError);
+	      if ((0, _error.isValidStrict)(errorName)) {
+	        throw Error(errorName);
 	      }
 	
-	      return errorName;
+	      throw Error(_error.ERROR);
 	    }
 	  }]);
 	
@@ -562,7 +562,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @returns {*}
 	 */
 	function evaluateByOperator(operator) {
-	  var params = arguments.length <= 1 || arguments[1] === undefined ? [] : arguments[1];
+	  var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
 	
 	  operator = operator.toUpperCase();
 	
@@ -680,20 +680,20 @@ return /******/ (function(modules) { // webpackBootstrap
 	var _errors;
 	
 	exports.default = error;
+	exports.isValidStrict = isValidStrict;
 	
 	function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 	
 	var ERROR = exports.ERROR = 'ERROR';
 	var ERROR_DIV_ZERO = exports.ERROR_DIV_ZERO = 'DIV/0';
 	var ERROR_NAME = exports.ERROR_NAME = 'NAME';
-	var ERROR_NEED_UPDATE = exports.ERROR_NEED_UPDATE = 'NEED_UPDATE';
 	var ERROR_NOT_AVAILABLE = exports.ERROR_NOT_AVAILABLE = 'N/A';
 	var ERROR_NULL = exports.ERROR_NULL = 'NULL';
 	var ERROR_NUM = exports.ERROR_NUM = 'NUM';
 	var ERROR_REF = exports.ERROR_REF = 'REF';
 	var ERROR_VALUE = exports.ERROR_VALUE = 'VALUE';
 	
-	var errors = (_errors = {}, _defineProperty(_errors, ERROR, '#ERROR!'), _defineProperty(_errors, ERROR_DIV_ZERO, '#DIV/0!'), _defineProperty(_errors, ERROR_NAME, '#NAME?'), _defineProperty(_errors, ERROR_NEED_UPDATE, '#NEED_UPDATE!'), _defineProperty(_errors, ERROR_NOT_AVAILABLE, '#N/A'), _defineProperty(_errors, ERROR_NULL, '#NULL!'), _defineProperty(_errors, ERROR_NUM, '#NUM!'), _defineProperty(_errors, ERROR_REF, '#REF!'), _defineProperty(_errors, ERROR_VALUE, '#VALUE!'), _errors);
+	var errors = (_errors = {}, _defineProperty(_errors, ERROR, '#ERROR!'), _defineProperty(_errors, ERROR_DIV_ZERO, '#DIV/0!'), _defineProperty(_errors, ERROR_NAME, '#NAME?'), _defineProperty(_errors, ERROR_NOT_AVAILABLE, '#N/A'), _defineProperty(_errors, ERROR_NULL, '#NULL!'), _defineProperty(_errors, ERROR_NUM, '#NUM!'), _defineProperty(_errors, ERROR_REF, '#REF!'), _defineProperty(_errors, ERROR_VALUE, '#VALUE!'), _errors);
 	
 	/**
 	 * Return error type based on provided error id.
@@ -711,6 +711,25 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	
 	  return error ? error : null;
+	}
+	
+	/**
+	 * Check if error type is strict valid with knows errors.
+	 *
+	 * @param {String} Error type.
+	 * @return {Boolean}
+	 */
+	function isValidStrict(type) {
+	  var valid = false;
+	
+	  for (var i in errors) {
+	    if (errors.hasOwnProperty(i) && errors[i] === type) {
+	      valid = true;
+	      break;
+	    }
+	  }
+	
+	  return valid;
 	}
 
 /***/ },
@@ -2400,7 +2419,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	exports.nil = new Error('#NULL!');
 	exports.div0 = new Error('#DIV/0!');
-	exports.value = new Error('#VALUE?');
+	exports.value = new Error('#VALUE!');
 	exports.ref = new Error('#REF!');
 	exports.name = new Error('#NAME?');
 	exports.num = new Error('#NUM!');
@@ -14729,18 +14748,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	        $Vk = [1, 28],
 	        $Vl = [5, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 29, 30],
 	        $Vm = [5, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 29, 30, 32],
-	        $Vn = [1, 37],
-	        $Vo = [5, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 29, 30, 34],
-	        $Vp = [5, 10, 11, 13, 14, 15, 16, 17, 29, 30],
-	        $Vq = [5, 10, 13, 14, 15, 16, 29, 30],
-	        $Vr = [5, 10, 11, 13, 14, 15, 16, 17, 18, 19, 29, 30],
-	        $Vs = [13, 29, 30],
-	        $Vt = [5, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 29, 30, 31, 35];
+	        $Vn = [5, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 29, 30, 34],
+	        $Vo = [5, 10, 11, 13, 14, 15, 16, 17, 29, 30],
+	        $Vp = [5, 10, 13, 14, 15, 16, 29, 30],
+	        $Vq = [5, 10, 11, 13, 14, 15, 16, 17, 18, 19, 29, 30],
+	        $Vr = [13, 29, 30];
 	    var parser = { trace: function trace() {},
 	        yy: {},
-	        symbols_: { "error": 2, "expressions": 3, "expression": 4, "EOF": 5, "variableSequence": 6, "number": 7, "STRING": 8, "&": 9, "=": 10, "+": 11, "(": 12, ")": 13, "<": 14, ">": 15, "NOT": 16, "-": 17, "*": 18, "/": 19, "^": 20, "FUNCTION": 21, "expseq": 22, "cell": 23, "ABSOLUTE_CELL": 24, "RELATIVE_CELL": 25, "MIXED_CELL": 26, ":": 27, "ARRAY": 28, ";": 29, ",": 30, "VARIABLE": 31, "DECIMAL": 32, "NUMBER": 33, "%": 34, "#": 35, "!": 36, "$accept": 0, "$end": 1 },
-	        terminals_: { 5: "EOF", 8: "STRING", 9: "&", 10: "=", 11: "+", 12: "(", 13: ")", 14: "<", 15: ">", 16: "NOT", 17: "-", 18: "*", 19: "/", 20: "^", 21: "FUNCTION", 24: "ABSOLUTE_CELL", 25: "RELATIVE_CELL", 26: "MIXED_CELL", 27: ":", 28: "ARRAY", 29: ";", 30: ",", 31: "VARIABLE", 32: "DECIMAL", 33: "NUMBER", 34: "%", 35: "#", 36: "!" },
-	        productions_: [0, [3, 2], [4, 1], [4, 1], [4, 1], [4, 3], [4, 3], [4, 3], [4, 3], [4, 4], [4, 4], [4, 4], [4, 3], [4, 3], [4, 3], [4, 3], [4, 3], [4, 3], [4, 3], [4, 2], [4, 2], [4, 3], [4, 4], [4, 1], [4, 1], [4, 2], [23, 1], [23, 1], [23, 1], [23, 3], [23, 3], [23, 3], [23, 3], [23, 3], [23, 3], [23, 3], [23, 3], [23, 3], [22, 1], [22, 1], [22, 3], [22, 3], [6, 1], [6, 3], [7, 1], [7, 3], [7, 2], [2, 3], [2, 4]],
+	        symbols_: { "error": 2, "expressions": 3, "expression": 4, "EOF": 5, "variableSequence": 6, "number": 7, "STRING": 8, "&": 9, "=": 10, "+": 11, "(": 12, ")": 13, "<": 14, ">": 15, "NOT": 16, "-": 17, "*": 18, "/": 19, "^": 20, "FUNCTION": 21, "expseq": 22, "cell": 23, "ABSOLUTE_CELL": 24, "RELATIVE_CELL": 25, "MIXED_CELL": 26, ":": 27, "ARRAY": 28, ";": 29, ",": 30, "VARIABLE": 31, "DECIMAL": 32, "NUMBER": 33, "%": 34, "ERROR": 35, "$accept": 0, "$end": 1 },
+	        terminals_: { 5: "EOF", 8: "STRING", 9: "&", 10: "=", 11: "+", 12: "(", 13: ")", 14: "<", 15: ">", 16: "NOT", 17: "-", 18: "*", 19: "/", 20: "^", 21: "FUNCTION", 24: "ABSOLUTE_CELL", 25: "RELATIVE_CELL", 26: "MIXED_CELL", 27: ":", 28: "ARRAY", 29: ";", 30: ",", 31: "VARIABLE", 32: "DECIMAL", 33: "NUMBER", 34: "%", 35: "ERROR" },
+	        productions_: [0, [3, 2], [4, 1], [4, 1], [4, 1], [4, 3], [4, 3], [4, 3], [4, 3], [4, 4], [4, 4], [4, 4], [4, 3], [4, 3], [4, 3], [4, 3], [4, 3], [4, 3], [4, 3], [4, 2], [4, 2], [4, 3], [4, 4], [4, 1], [4, 1], [4, 2], [23, 1], [23, 1], [23, 1], [23, 3], [23, 3], [23, 3], [23, 3], [23, 3], [23, 3], [23, 3], [23, 3], [23, 3], [22, 1], [22, 1], [22, 3], [22, 3], [6, 1], [6, 3], [7, 1], [7, 3], [7, 2], [2, 1]],
 	        performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* action[1] */, $$ /* vstack */, _$ /* lstack */) {
 	            /* this == yyval */
 	
@@ -14783,7 +14800,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    break;
 	                case 8:
 	
-	                    this.$ = yy.toNumber($$[$0 - 1]);
+	                    this.$ = $$[$0 - 1];
 	
 	                    break;
 	                case 9:
@@ -14922,14 +14939,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    this.$ = $$[$0 - 1] * 0.01;
 	
 	                    break;
-	                case 47:case 48:
+	                case 47:
 	
-	                    this.$ = yy.throwError($$[$0 - 2] + $$[$0 - 1] + $$[$0]);
+	                    this.$ = yy.throwError($$[$0]);
 	
 	                    break;
 	            }
 	        },
-	        table: [{ 2: 11, 3: 1, 4: 2, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 1: [3] }, { 5: [1, 18], 9: $Vb, 10: $Vc, 11: $Vd, 14: $Ve, 15: $Vf, 16: $Vg, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }, o($Vl, [2, 2], { 32: [1, 29] }), o($Vl, [2, 3], { 34: [1, 30] }), o($Vl, [2, 4]), { 2: 11, 4: 31, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 32, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 33, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 12: [1, 34] }, o($Vl, [2, 23]), o($Vl, [2, 24], { 2: 35, 31: [1, 36], 35: $Va }), o($Vm, [2, 42], { 35: $Vn }), o($Vo, [2, 44], { 32: [1, 38] }), o($Vl, [2, 26], { 27: [1, 39] }), o($Vl, [2, 27], { 27: [1, 40] }), o($Vl, [2, 28], { 27: [1, 41] }), { 31: [1, 42] }, { 1: [2, 1] }, { 2: 11, 4: 43, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 44, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 45, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 48, 6: 3, 7: 4, 8: $V0, 10: [1, 46], 11: $V1, 12: $V2, 15: [1, 47], 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 50, 6: 3, 7: 4, 8: $V0, 10: [1, 49], 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 51, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 52, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 53, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 54, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 55, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 31: [1, 56] }, o($Vo, [2, 46]), { 9: $Vb, 10: $Vc, 11: $Vd, 13: [1, 57], 14: $Ve, 15: $Vf, 16: $Vg, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }, o($Vp, [2, 19], { 9: $Vb, 18: $Vi, 19: $Vj, 20: $Vk }), o($Vp, [2, 20], { 9: $Vb, 18: $Vi, 19: $Vj, 20: $Vk }), { 2: 11, 4: 60, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 13: [1, 58], 17: $V3, 21: $V4, 22: 59, 23: 10, 24: $V5, 25: $V6, 26: $V7, 28: [1, 61], 31: $V8, 33: $V9, 35: $Va }, o($Vl, [2, 25]), { 35: $Vn }, { 31: [1, 62] }, { 33: [1, 63] }, { 24: [1, 64], 25: [1, 65], 26: [1, 66] }, { 24: [1, 67], 25: [1, 68], 26: [1, 69] }, { 24: [1, 70], 25: [1, 71], 26: [1, 72] }, { 36: [1, 73] }, o($Vl, [2, 5]), o([5, 10, 13, 29, 30], [2, 6], { 9: $Vb, 11: $Vd, 14: $Ve, 15: $Vf, 16: $Vg, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }), o($Vp, [2, 7], { 9: $Vb, 18: $Vi, 19: $Vj, 20: $Vk }), { 2: 11, 4: 74, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 75, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, o($Vq, [2, 14], { 9: $Vb, 11: $Vd, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }), { 2: 11, 4: 76, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, o($Vq, [2, 13], { 9: $Vb, 11: $Vd, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }), o([5, 10, 13, 16, 29, 30], [2, 12], { 9: $Vb, 11: $Vd, 14: $Ve, 15: $Vf, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }), o($Vp, [2, 15], { 9: $Vb, 18: $Vi, 19: $Vj, 20: $Vk }), o($Vr, [2, 16], { 9: $Vb, 20: $Vk }), o($Vr, [2, 17], { 9: $Vb, 20: $Vk }), o([5, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 29, 30], [2, 18], { 9: $Vb }), o($Vm, [2, 43]), o($Vl, [2, 8]), o($Vl, [2, 21]), { 13: [1, 77], 29: [1, 78], 30: [1, 79] }, o($Vs, [2, 38], { 9: $Vb, 10: $Vc, 11: $Vd, 14: $Ve, 15: $Vf, 16: $Vg, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }), o($Vs, [2, 39]), { 36: [1, 80] }, o($Vo, [2, 45]), o($Vl, [2, 29]), o($Vl, [2, 30]), o($Vl, [2, 31]), o($Vl, [2, 32]), o($Vl, [2, 33]), o($Vl, [2, 34]), o($Vl, [2, 35]), o($Vl, [2, 36]), o($Vl, [2, 37]), o($Vt, [2, 47]), o($Vq, [2, 9], { 9: $Vb, 11: $Vd, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }), o($Vq, [2, 11], { 9: $Vb, 11: $Vd, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }), o($Vq, [2, 10], { 9: $Vb, 11: $Vd, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }), o($Vl, [2, 22]), { 2: 11, 4: 81, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 82, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, o($Vt, [2, 48]), o($Vs, [2, 40], { 9: $Vb, 10: $Vc, 11: $Vd, 14: $Ve, 15: $Vf, 16: $Vg, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }), o($Vs, [2, 41], { 9: $Vb, 10: $Vc, 11: $Vd, 14: $Ve, 15: $Vf, 16: $Vg, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk })],
+	        table: [{ 2: 11, 3: 1, 4: 2, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 1: [3] }, { 5: [1, 18], 9: $Vb, 10: $Vc, 11: $Vd, 14: $Ve, 15: $Vf, 16: $Vg, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }, o($Vl, [2, 2], { 32: [1, 29] }), o($Vl, [2, 3], { 34: [1, 30] }), o($Vl, [2, 4]), { 2: 11, 4: 31, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 32, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 33, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 12: [1, 34] }, o($Vl, [2, 23]), o($Vl, [2, 24], { 2: 35, 35: $Va }), o($Vm, [2, 42]), o($Vn, [2, 44], { 32: [1, 36] }), o($Vl, [2, 26], { 27: [1, 37] }), o($Vl, [2, 27], { 27: [1, 38] }), o($Vl, [2, 28], { 27: [1, 39] }), o([5, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 29, 30, 35], [2, 47]), { 1: [2, 1] }, { 2: 11, 4: 40, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 41, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 42, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 45, 6: 3, 7: 4, 8: $V0, 10: [1, 43], 11: $V1, 12: $V2, 15: [1, 44], 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 47, 6: 3, 7: 4, 8: $V0, 10: [1, 46], 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 48, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 49, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 50, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 51, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 52, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 31: [1, 53] }, o($Vn, [2, 46]), { 9: $Vb, 10: $Vc, 11: $Vd, 13: [1, 54], 14: $Ve, 15: $Vf, 16: $Vg, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }, o($Vo, [2, 19], { 9: $Vb, 18: $Vi, 19: $Vj, 20: $Vk }), o($Vo, [2, 20], { 9: $Vb, 18: $Vi, 19: $Vj, 20: $Vk }), { 2: 11, 4: 57, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 13: [1, 55], 17: $V3, 21: $V4, 22: 56, 23: 10, 24: $V5, 25: $V6, 26: $V7, 28: [1, 58], 31: $V8, 33: $V9, 35: $Va }, o($Vl, [2, 25]), { 33: [1, 59] }, { 24: [1, 60], 25: [1, 61], 26: [1, 62] }, { 24: [1, 63], 25: [1, 64], 26: [1, 65] }, { 24: [1, 66], 25: [1, 67], 26: [1, 68] }, o($Vl, [2, 5]), o([5, 10, 13, 29, 30], [2, 6], { 9: $Vb, 11: $Vd, 14: $Ve, 15: $Vf, 16: $Vg, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }), o($Vo, [2, 7], { 9: $Vb, 18: $Vi, 19: $Vj, 20: $Vk }), { 2: 11, 4: 69, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 70, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, o($Vp, [2, 14], { 9: $Vb, 11: $Vd, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }), { 2: 11, 4: 71, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, o($Vp, [2, 13], { 9: $Vb, 11: $Vd, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }), o([5, 10, 13, 16, 29, 30], [2, 12], { 9: $Vb, 11: $Vd, 14: $Ve, 15: $Vf, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }), o($Vo, [2, 15], { 9: $Vb, 18: $Vi, 19: $Vj, 20: $Vk }), o($Vq, [2, 16], { 9: $Vb, 20: $Vk }), o($Vq, [2, 17], { 9: $Vb, 20: $Vk }), o([5, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 29, 30], [2, 18], { 9: $Vb }), o($Vm, [2, 43]), o($Vl, [2, 8]), o($Vl, [2, 21]), { 13: [1, 72], 29: [1, 73], 30: [1, 74] }, o($Vr, [2, 38], { 9: $Vb, 10: $Vc, 11: $Vd, 14: $Ve, 15: $Vf, 16: $Vg, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }), o($Vr, [2, 39]), o($Vn, [2, 45]), o($Vl, [2, 29]), o($Vl, [2, 30]), o($Vl, [2, 31]), o($Vl, [2, 32]), o($Vl, [2, 33]), o($Vl, [2, 34]), o($Vl, [2, 35]), o($Vl, [2, 36]), o($Vl, [2, 37]), o($Vp, [2, 9], { 9: $Vb, 11: $Vd, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }), o($Vp, [2, 11], { 9: $Vb, 11: $Vd, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }), o($Vp, [2, 10], { 9: $Vb, 11: $Vd, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }), o($Vl, [2, 22]), { 2: 11, 4: 75, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 76, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, o($Vr, [2, 40], { 9: $Vb, 10: $Vc, 11: $Vd, 14: $Ve, 15: $Vf, 16: $Vg, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }), o($Vr, [2, 41], { 9: $Vb, 10: $Vc, 11: $Vd, 14: $Ve, 15: $Vf, 16: $Vg, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk })],
 	        defaultActions: { 18: [2, 1] },
 	        parseError: function parseError(str, hash) {
 	            if (hash.recoverable) {
@@ -15526,34 +15543,34 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        return 21;
 	                        break;
 	                    case 4:
-	                        return 24;
+	                        return 35;
 	                        break;
 	                    case 5:
-	                        return 26;
+	                        return 24;
 	                        break;
 	                    case 6:
 	                        return 26;
 	                        break;
 	                    case 7:
-	                        return 25;
+	                        return 26;
 	                        break;
 	                    case 8:
-	                        return 21;
+	                        return 25;
 	                        break;
 	                    case 9:
-	                        return 31;
+	                        return 21;
 	                        break;
 	                    case 10:
 	                        return 31;
 	                        break;
 	                    case 11:
-	                        return 33;
+	                        return 31;
 	                        break;
 	                    case 12:
-	                        return 28;
+	                        return 33;
 	                        break;
 	                    case 13:
-	                        /* skip whitespace */
+	                        return 28;
 	                        break;
 	                    case 14:
 	                        return 9;
@@ -15619,14 +15636,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        return 34;
 	                        break;
 	                    case 35:
-	                        return 35;
+	                        return '#';
 	                        break;
 	                    case 36:
 	                        return 5;
 	                        break;
 	                }
 	            },
-	            rules: [/^(?:\s+)/, /^(?:"(\\["]|[^"])*")/, /^(?:'(\\[']|[^'])*')/, /^(?:[A-Za-z]{1,}[A-Za-z_0-9\.]+(?=[(]))/, /^(?:\$[A-Za-z]+\$[0-9]+)/, /^(?:\$[A-Za-z]+[0-9]+)/, /^(?:[A-Za-z]+\$[0-9]+)/, /^(?:[A-Za-z]+[0-9]+)/, /^(?:[A-Za-z\.]+(?=[(]))/, /^(?:[A-Za-z]{1,}[A-Za-z_0-9]+)/, /^(?:[A-Za-z_]+)/, /^(?:[0-9]+)/, /^(?:\[(.*)?\])/, /^(?:\$)/, /^(?:&)/, /^(?: )/, /^(?:[.])/, /^(?::)/, /^(?:;)/, /^(?:,)/, /^(?:\*)/, /^(?:\/)/, /^(?:-)/, /^(?:\+)/, /^(?:\^)/, /^(?:\()/, /^(?:\))/, /^(?:>)/, /^(?:<)/, /^(?:NOT\b)/, /^(?:")/, /^(?:')/, /^(?:!)/, /^(?:=)/, /^(?:%)/, /^(?:[#])/, /^(?:$)/],
+	            rules: [/^(?:\s+)/, /^(?:"(\\["]|[^"])*")/, /^(?:'(\\[']|[^'])*')/, /^(?:[A-Za-z]{1,}[A-Za-z_0-9\.]+(?=[(]))/, /^(?:#[A-Z0-9\/]+(!|\?)?)/, /^(?:\$[A-Za-z]+\$[0-9]+)/, /^(?:\$[A-Za-z]+[0-9]+)/, /^(?:[A-Za-z]+\$[0-9]+)/, /^(?:[A-Za-z]+[0-9]+)/, /^(?:[A-Za-z\.]+(?=[(]))/, /^(?:[A-Za-z]{1,}[A-Za-z_0-9]+)/, /^(?:[A-Za-z_]+)/, /^(?:[0-9]+)/, /^(?:\[(.*)?\])/, /^(?:&)/, /^(?: )/, /^(?:[.])/, /^(?::)/, /^(?:;)/, /^(?:,)/, /^(?:\*)/, /^(?:\/)/, /^(?:-)/, /^(?:\+)/, /^(?:\^)/, /^(?:\()/, /^(?:\))/, /^(?:>)/, /^(?:<)/, /^(?:NOT\b)/, /^(?:")/, /^(?:')/, /^(?:!)/, /^(?:=)/, /^(?:%)/, /^(?:[#])/, /^(?:$)/],
 	            conditions: { "INITIAL": { "rules": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36], "inclusive": true } }
 	        };
 	        return lexer;
@@ -15645,7 +15662,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	    exports.parse = function () {
 	        return parser.parse.apply(parser, arguments);
 	    };
-	
 	    if (typeof module !== 'undefined' && __webpack_require__.c[0] === module) {
 	        exports.main(process.argv.slice(1));
 	    }
@@ -15686,7 +15702,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @returns {String}
 	 */
 	function trimEdges(string) {
-	  var margin = arguments.length <= 1 || arguments[1] === undefined ? 1 : arguments[1];
+	  var margin = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
 	
 	  string = string.substring(margin, string.length - margin);
 	
@@ -15720,19 +15736,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	 * @returns {Array} Returns an array of objects.
 	 */
 	function extractLabel(label) {
-	  if (!LABEL_EXTRACT_REGEXP.test(label)) {
+	  if (typeof label !== 'string' || !LABEL_EXTRACT_REGEXP.test(label)) {
 	    return [];
 	  }
 	
-	  var _label$match = label.match(LABEL_EXTRACT_REGEXP);
-	
-	  var _label$match2 = _slicedToArray(_label$match, 5);
-	
-	  var columnAbs = _label$match2[1];
-	  var column = _label$match2[2];
-	  var rowAbs = _label$match2[3];
-	  var row = _label$match2[4];
-	
+	  var _label$toUpperCase$ma = label.toUpperCase().match(LABEL_EXTRACT_REGEXP),
+	      _label$toUpperCase$ma2 = _slicedToArray(_label$toUpperCase$ma, 5),
+	      columnAbs = _label$toUpperCase$ma2[1],
+	      column = _label$toUpperCase$ma2[2],
+	      rowAbs = _label$toUpperCase$ma2[3],
+	      row = _label$toUpperCase$ma2[4];
 	
 	  return [{
 	    index: rowLabelToIndex(row),
@@ -15771,7 +15784,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	function columnLabelToIndex(label) {
 	  var result = 0;
 	
-	  if (label) {
+	  if (typeof label === 'string') {
+	    label = label.toUpperCase();
+	
 	    for (var i = 0, j = label.length - 1; i < label.length; i += 1, j -= 1) {
 	      result += Math.pow(COLUMN_LABEL_BASE_LENGTH, j) * (COLUMN_LABEL_BASE.indexOf(label[i]) + 1);
 	    }

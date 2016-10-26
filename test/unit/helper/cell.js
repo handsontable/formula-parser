@@ -14,7 +14,31 @@ describe('.extractLabel()', () => {
         isAbsolute: false,
       }
     ]);
+    expect(extractLabel('a1')).to.deep.equal([
+      {
+        index: 0,
+        label: '1',
+        isAbsolute: false,
+      },
+      {
+        index: 0,
+        label: 'A',
+        isAbsolute: false,
+      }
+    ]);
     expect(extractLabel('A$1')).to.deep.equal([
+      {
+        index: 0,
+        label: '1',
+        isAbsolute: true,
+      },
+      {
+        index: 0,
+        label: 'A',
+        isAbsolute: false,
+      }
+    ]);
+    expect(extractLabel('a$1')).to.deep.equal([
       {
         index: 0,
         label: '1',
@@ -51,6 +75,18 @@ describe('.extractLabel()', () => {
       }
     ]);
     expect(extractLabel('$AG199')).to.deep.equal([
+      {
+        index: 198,
+        label: '199',
+        isAbsolute: false,
+      },
+      {
+        index: 32,
+        label: 'AG',
+        isAbsolute: true,
+      }
+    ]);
+    expect(extractLabel('$Ag199')).to.deep.equal([
       {
         index: 198,
         label: '199',
@@ -100,8 +136,10 @@ describe('.columnLabelToIndex()', () => {
     expect(columnLabelToIndex('A')).to.eq(0);
     expect(columnLabelToIndex('B')).to.eq(1);
     expect(columnLabelToIndex('K')).to.eq(10);
+    expect(columnLabelToIndex('k')).to.eq(10);
     expect(columnLabelToIndex('CW')).to.eq(100);
     expect(columnLabelToIndex('ALM')).to.eq(1000);
+    expect(columnLabelToIndex('aLM')).to.eq(1000);
     expect(columnLabelToIndex('NTQ')).to.eq(10000);
   });
 });

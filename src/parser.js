@@ -3,7 +3,7 @@ import evaluateByOperator from './evaluate-by-operator/evaluate-by-operator';
 import {Parser as GrammarParser} from './grammar-parser/grammar-parser';
 import {trimEdges} from './helper/string';
 import {toNumber, invertNumber} from './helper/number';
-import {default as errorParser, ERROR, ERROR_NAME} from './error';
+import {default as errorParser, isValidStrict as isErrorValid, ERROR, ERROR_NAME} from './error';
 import {extractLabel, toLabel} from './helper/cell';
 
 export {default as SUPPORTED_FORMULAS} from './supported-formulas';
@@ -45,7 +45,11 @@ class Parser extends Emitter {
     let error = null;
 
     try {
-      result = this.parser.parse(expression);
+      if (expression === '') {
+        result = '';
+      } else {
+        result = this.parser.parse(expression);
+      }
     } catch (ex) {
       const message = errorParser(ex.message);
 
@@ -121,6 +125,8 @@ class Parser extends Emitter {
    * @private
    */
   _callCellValue(label) {
+    label = label.toUpperCase();
+
     const [row, column] = extractLabel(label);
     let value = void 0;
 
@@ -140,6 +146,9 @@ class Parser extends Emitter {
    * @private
    */
   _callRangeValue(startLabel, endLabel) {
+    startLabel = startLabel.toUpperCase();
+    endLabel = endLabel.toUpperCase();
+
     const [startRow, startColumn] = extractLabel(startLabel);
     const [endRow, endColumn] = extractLabel(endLabel);
     let startCell = {};
@@ -181,13 +190,11 @@ class Parser extends Emitter {
    * @private
    */
   _throwError(errorName) {
-    const parsedError = errorParser(errorName);
-
-    if (parsedError) {
-      throw Error(parsedError);
+    if (isErrorValid(errorName)) {
+      throw Error(errorName);
     }
 
-    return errorName;
+    throw Error(ERROR);
   }
 }
 
