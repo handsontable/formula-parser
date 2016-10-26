@@ -120,7 +120,7 @@ case 7:
 break;
 case 8:
 
-        this.$ = yy.toNumber($$[$0-1]);
+        this.$ = $$[$0-1];
 
 break;
 case 9:
