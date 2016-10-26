@@ -82,7 +82,7 @@ expression
       $$ = yy.evaluateByOperator('+', [$1, $3]);
     }
   | '(' expression ')' {
-      $$ = yy.toNumber($2);
+      $$ = $2;
     }
   | expression '<' '=' expression {
       $$ = yy.evaluateByOperator('<=', [$1, $4]);
