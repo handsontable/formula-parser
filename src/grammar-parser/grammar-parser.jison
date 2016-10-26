@@ -6,8 +6,7 @@
 '"'("\\"["]|[^"])*'"'                                                                           {return 'STRING';}
 "'"('\\'[']|[^'])*"'"                                                                           {return 'STRING';}
 [A-Za-z]{1,}[A-Za-z_0-9\.]+(?=[(])                                                              {return 'FUNCTION';}
-/*([0]?[1-9]|1[0-2])[:][0-5][0-9]([:][0-5][0-9])?[ ]?(AM|am|aM|Am|PM|pm|pM|Pm)                    {return 'TIME_12';}*/
-/*([0]?[0-9]|1[0-9]|2[0-3])[:][0-5][0-9]([:][0-5][0-9])?                                          {return 'TIME_24';}*/
+'#'[A-Z0-9\/]+('!'|'?')?                                                                        {return 'ERROR';}
 '$'[A-Za-z]+'$'[0-9]+                                                                           {return 'ABSOLUTE_CELL';}
 '$'[A-Za-z]+[0-9]+                                                                              {return 'MIXED_CELL';}
 [A-Za-z]+'$'[0-9]+                                                                              {return 'MIXED_CELL';}
@@ -58,96 +57,90 @@
 %% /* language grammar */
 
 expressions
-    : expression EOF {
-        return $1;
+  : expression EOF {
+      return $1;
     }
 ;
 
 expression
-    : variableSequence {
-        $$ = yy.callVariable($1[0]);
-      }
-/*    | TIME_12 {
-        $$ = yy.toTime($1, true);
-      }
-    | TIME_24 {
-        $$ = yy.toTime($1);
-      }*/
-    | number {
-        $$ = yy.toNumber($1);
-      }
-    | STRING {
-        $$ = yy.trimEdges($1);
-      }
-    | expression '&' expression {
-        $$ = yy.evaluateByOperator('&', [$1, $3]);
-      }
-    | expression '=' expression {
-        $$ = yy.evaluateByOperator('=', [$1, $3]);
-      }
-    | expression '+' expression {
-        $$ = yy.evaluateByOperator('+', [$1, $3]);
-      }
-    | '(' expression ')' {
-        $$ = $2;
-      }
-    | expression '<' '=' expression {
-        $$ = yy.evaluateByOperator('<=', [$1, $4]);
-      }
-    | expression '>' '=' expression {
-        $$ = yy.evaluateByOperator('>=', [$1, $4]);
-      }
-    | expression '<' '>' expression {
-        $$ = yy.evaluateByOperator('<>', [$1, $4]);
-      }
-    | expression NOT expression {
-        $$ = yy.evaluateByOperator('NOT', [$1, $3]);
-      }
-    | expression '>' expression {
-        $$ = yy.evaluateByOperator('>', [$1, $3]);
-      }
-    | expression '<' expression {
-        $$ = yy.evaluateByOperator('<', [$1, $3]);
-      }
-    | expression '-' expression {
-        $$ = yy.evaluateByOperator('-', [$1, $3]);
-      }
-    | expression '*' expression {
-        $$ = yy.evaluateByOperator('*', [$1, $3]);
-      }
-    | expression '/' expression {
-        $$ = yy.evaluateByOperator('/', [$1, $3]);
-      }
-    | expression '^' expression {
-        $$ = yy.evaluateByOperator('^', [$1, $3]);
-      }
-    | '-' expression {
-        var n1 = yy.invertNumber($2);
+  : variableSequence {
+      $$ = yy.callVariable($1[0]);
+    }
+  | number {
+      $$ = yy.toNumber($1);
+    }
+  | STRING {
+      $$ = yy.trimEdges($1);
+    }
+  | expression '&' expression {
+      $$ = yy.evaluateByOperator('&', [$1, $3]);
+    }
+  | expression '=' expression {
+      $$ = yy.evaluateByOperator('=', [$1, $3]);
+    }
+  | expression '+' expression {
+      $$ = yy.evaluateByOperator('+', [$1, $3]);
+    }
+  | '(' expression ')' {
+      $$ = yy.toNumber($2);
+    }
+  | expression '<' '=' expression {
+      $$ = yy.evaluateByOperator('<=', [$1, $4]);
+    }
+  | expression '>' '=' expression {
+      $$ = yy.evaluateByOperator('>=', [$1, $4]);
+    }
+  | expression '<' '>' expression {
+      $$ = yy.evaluateByOperator('<>', [$1, $4]);
+    }
+  | expression NOT expression {
+      $$ = yy.evaluateByOperator('NOT', [$1, $3]);
+    }
+  | expression '>' expression {
+      $$ = yy.evaluateByOperator('>', [$1, $3]);
+    }
+  | expression '<' expression {
+      $$ = yy.evaluateByOperator('<', [$1, $3]);
+    }
+  | expression '-' expression {
+      $$ = yy.evaluateByOperator('-', [$1, $3]);
+    }
+  | expression '*' expression {
+      $$ = yy.evaluateByOperator('*', [$1, $3]);
+    }
+  | expression '/' expression {
+      $$ = yy.evaluateByOperator('/', [$1, $3]);
+    }
+  | expression '^' expression {
+      $$ = yy.evaluateByOperator('^', [$1, $3]);
+    }
+  | '-' expression {
+      var n1 = yy.invertNumber($2);
 
-        $$ = n1;
+      $$ = n1;
 
-        if (isNaN($$)) {
-            $$ = 0;
-        }
+      if (isNaN($$)) {
+          $$ = 0;
       }
-    | '+' expression {
-        var n1 = yy.toNumber($2);
+    }
+  | '+' expression {
+      var n1 = yy.toNumber($2);
 
-        $$ = n1;
+      $$ = n1;
 
-        if (isNaN($$)) {
-            $$ = 0;
-        }
+      if (isNaN($$)) {
+          $$ = 0;
       }
-    | FUNCTION '(' ')' {
-        $$ = yy.callFunction($1);
-      }
-    | FUNCTION '(' expseq ')' {
-        $$ = yy.callFunction($1, $3);
-      }
-    | cell
-    | error
-    | error error
+    }
+  | FUNCTION '(' ')' {
+      $$ = yy.callFunction($1);
+    }
+  | FUNCTION '(' expseq ')' {
+      $$ = yy.callFunction($1, $3);
+    }
+  | cell
+  | error
+  | error error
 ;
 
 cell
@@ -203,21 +196,21 @@ expseq
 
       $$ = result;
     }
-    | expseq ';' expression {
+  | expseq ';' expression {
       $1.push($3);
       $$ = $1;
     }
-    | expseq ',' expression {
+  | expseq ',' expression {
       $1.push($3);
       $$ = $1;
     }
 ;
 
 variableSequence
-    : VARIABLE {
+  : VARIABLE {
       $$ = [$1];
     }
-    | variableSequence DECIMAL VARIABLE {
+  | variableSequence DECIMAL VARIABLE {
       $$ = (Array.isArray($1) ? $1 : [$1]);
       $$.push($3);
     }
@@ -227,20 +220,17 @@ number
   : NUMBER {
       $$ = $1;
     }
-    | NUMBER DECIMAL NUMBER {
+  | NUMBER DECIMAL NUMBER {
       $$ = ($1 + '.' + $3) * 1;
     }
-    | number '%' {
+  | number '%' {
       $$ = $1 * 0.01;
     }
 ;
 
 error
-  : '#' VARIABLE '!' {
-      $$ = yy.throwError($1 + $2 + $3);
-    }
-  | VARIABLE '#' VARIABLE '!' {
-      $$ = yy.throwError($2 + $3 + $4);
+  : ERROR {
+      $$ = yy.throwError($1);
     }
 ;
 

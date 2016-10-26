@@ -3,7 +3,7 @@ import evaluateByOperator from './evaluate-by-operator/evaluate-by-operator';
 import {Parser as GrammarParser} from './grammar-parser/grammar-parser';
 import {trimEdges} from './helper/string';
 import {toNumber, invertNumber} from './helper/number';
-import {default as errorParser, ERROR, ERROR_NAME} from './error';
+import {default as errorParser, isValidStrict as isErrorValid, ERROR, ERROR_NAME} from './error';
 import {extractLabel, toLabel} from './helper/cell';
 
 export {default as SUPPORTED_FORMULAS} from './supported-formulas';
@@ -185,13 +185,11 @@ class Parser extends Emitter {
    * @private
    */
   _throwError(errorName) {
-    const parsedError = errorParser(errorName);
-
-    if (parsedError) {
-      throw Error(parsedError);
+    if (isErrorValid(errorName)) {
+      throw Error(errorName);
     }
 
-    return errorName;
+    throw Error(ERROR);
   }
 }
 

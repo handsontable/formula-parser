@@ -21,10 +21,6 @@ describe('Public API', () => {
     expect(lib.ERROR_NAME).to.be.a('string');
   });
 
-  it('ERROR_NEED_UPDATE should be defined', () => {
-    expect(lib.ERROR_NEED_UPDATE).to.be.a('string');
-  });
-
   it('ERROR_NOT_AVAILABLE should be defined', () => {
     expect(lib.ERROR_NOT_AVAILABLE).to.be.a('string');
   });

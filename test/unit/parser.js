@@ -59,13 +59,6 @@ describe('Parser', () => {
       expect(parser.parse('foo')).to.deep.equal({error: '#NAME?', result: null});
     });
 
-    it('should return `#NEED_UPDATE!` when parser throws `#NEED_UPDATE!` exception', () => {
-      stub(parser.parser, 'parse').throws(new Error('#NEED_UPDATE!'));
-      spy(parser, 'parse');
-
-      expect(parser.parse('foo')).to.deep.equal({error: '#NEED_UPDATE!', result: null});
-    });
-
     it('should return `#N/A` when parser throws `#N/A` exception', () => {
       stub(parser.parser, 'parse').throws(new Error('#N/A'));
       spy(parser, 'parse');
@@ -127,13 +120,6 @@ describe('Parser', () => {
       spy(parser, 'parse');
 
       expect(parser.parse('foo')).to.deep.equal({error: '#NAME?', result: null});
-    });
-
-    it('should return `#NEED_UPDATE!` when parser returns error object (`#NEED_UPDATE!`)', () => {
-      stub(parser.parser, 'parse').returns(new Error('#NEED_UPDATE!'));
-      spy(parser, 'parse');
-
-      expect(parser.parse('foo')).to.deep.equal({error: '#NEED_UPDATE!', result: null});
     });
 
     it('should return `#N/A` when parser returns error object (`#N/A`)', () => {
@@ -373,8 +359,8 @@ describe('Parser', () => {
       expect(() => parser._throwError('#VALUE!')).to.throw('VALUE');
     });
 
-    it('should return value if not matched to any of defined error', () => {
-      expect(parser._throwError('VALUE foo')).to.be.eq('VALUE foo');
+    it('should return general error if value not matches to any of known errors', () => {
+      expect(() => parser._throwError('VALUE foo')).to.throw('ERROR');
     });
   });
 });
