@@ -125,6 +125,8 @@ class Parser extends Emitter {
    * @private
    */
   _callCellValue(label) {
+    label = label.toUpperCase();
+
     const [row, column] = extractLabel(label);
     let value = void 0;
 
@@ -144,6 +146,9 @@ class Parser extends Emitter {
    * @private
    */
   _callRangeValue(startLabel, endLabel) {
+    startLabel = startLabel.toUpperCase();
+    endLabel = endLabel.toUpperCase();
+
     const [startRow, startColumn] = extractLabel(startLabel);
     const [endRow, endColumn] = extractLabel(endLabel);
     let startCell = {};
