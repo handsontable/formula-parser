@@ -11,6 +11,11 @@ describe('.parse() coordinates', () => {
 
     parser.on('callCellValue', function(_cellCoord, done) {
       cellCoord = _cellCoord;
+
+      if (_cellCoord.sheet === 'MASTER') {
+        done(66);
+      }
+
       done(55);
     });
     parser.on('callRangeValue', function(_startCellCoord, _endCellCoord, done) {
@@ -24,6 +29,17 @@ describe('.parse() coordinates', () => {
     cellCoord = null;
     startCellCoord = null;
     endCellCoord = null;
+  });
+
+  it('should parse sheet reference cell', () => {
+    expect(parser.parse('MASTER!A1')).to.deep.equal({error: null, result: 66});
+
+    expect(cellCoord).to.deep.equal({
+      label: 'A1',
+      row: {index: 0, isAbsolute: false, label: '1'},
+      column: {index: 0, isAbsolute: false, label: 'A'},
+      sheet: 'MASTER'
+    });
   });
 
   it('should parse relative cell', () => {

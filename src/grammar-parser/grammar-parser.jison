@@ -11,6 +11,7 @@
 '$'[A-Za-z]+[0-9]+                                                                              {return 'MIXED_CELL';}
 [A-Za-z]+'$'[0-9]+                                                                              {return 'MIXED_CELL';}
 [A-Za-z]+[0-9]+                                                                                 {return 'RELATIVE_CELL';}
+[A-Za-z_\.]+(?=[!])                                                                              {return 'SHEET';}
 [A-Za-z\.]+(?=[(])                                                                              {return 'FUNCTION';}
 [A-Za-z]{1,}[A-Za-z_0-9]+                                                                       {return 'VARIABLE';}
 [A-Za-z_]+                                                                                      {return 'VARIABLE';}
@@ -179,6 +180,9 @@ cell
     }
   | MIXED_CELL ':' MIXED_CELL {
       $$ = yy.rangeValue($1, $3);
+    }
+  | SHEET RELATIVE_CELL {
+      $$ = yy.sheetCellValue($1, $2);
     }
 ;
 
