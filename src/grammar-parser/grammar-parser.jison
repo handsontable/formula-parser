@@ -14,7 +14,7 @@
 '$'[A-Za-z]+[0-9]+                                                                              {return 'MIXED_CELL';}
 [A-Za-z]+'$'[0-9]+                                                                              {return 'MIXED_CELL';}
 [A-Za-z]+[0-9]+                                                                                 {return 'RELATIVE_CELL';}
-[A-Za-z_\.]+(?=[!])                                                                              {return 'SHEET';}
+[A-Za-z_\.]+(?=[!])                                                                             {return 'REFSHEET';}
 [A-Za-z\.]+(?=[(])                                                                              {return 'FUNCTION';}
 [A-Za-z]{1,}[A-Za-z_0-9]+                                                                       {return 'VARIABLE';}
 [A-Za-z_]+                                                                                      {return 'VARIABLE';}
@@ -144,13 +144,14 @@ expression
       $$ = yy.callFunction($1, $3);
     }
   | cell
+  | refCell
   | range
   | error
   | error error
 ;
 
 cell
-   : ABSOLUTE_CELL {
+  : ABSOLUTE_CELL {
       $$ = yy.cellValue($1);
     }
   | RELATIVE_CELL {
@@ -159,10 +160,19 @@ cell
   | MIXED_CELL {
       $$ = yy.cellValue($1);
     }
-  | SHEET '!' cell {
+  ;
+
+refCell
+  : REFSHEET '!' ABSOLUTE_CELL {
       $$ = yy.cellValue($3, $1);
     }
-  ;
+  | REFSHEET '!' RELATIVE_CELL {
+      $$ = yy.cellValue($3, $1);
+    } 
+  | REFSHEET '!' MIXED_CELL {
+    $$ = yy.cellValue($3, $1);
+  }
+;
 
 range
   : ABSOLUTE_CELL ':' ABSOLUTE_CELL {

@@ -126,7 +126,6 @@ class Parser extends Emitter {
    */
   _callCellValue(label, sheet) {
     label = label.toUpperCase();
-
     const [row, column] = extractLabel(label);
     let value = void 0;
 
