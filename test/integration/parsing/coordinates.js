@@ -14,6 +14,7 @@ describe('.parse() coordinates', () => {
 
       if (_cellCoord.sheet === 'MASTER') {
         done(66);
+        return;
       }
 
       done(55);

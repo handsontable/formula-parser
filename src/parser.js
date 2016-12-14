@@ -23,8 +23,7 @@ class Parser extends Emitter {
       callVariable: (variable) => this._callVariable(variable),
       evaluateByOperator,
       callFunction: evaluateByOperator,
-      cellValue: (value) => this._callCellValue(value),
-      sheetCellValue: (sheet, value) => this._callSheetCellValue(sheet, value),
+      cellValue: (value, sheet) => this._callCellValue(value, sheet),
       rangeValue: (start, end) => this._callRangeValue(start, end),
     };
     this.variables = Object.create(null);
@@ -125,34 +124,15 @@ class Parser extends Emitter {
    * @returns {*}
    * @private
    */
-  _callCellValue(label) {
+  _callCellValue(label, sheet) {
     label = label.toUpperCase();
 
     const [row, column] = extractLabel(label);
     let value = void 0;
 
-    this.emit('callCellValue', {label, row, column}, (_value) => {
-      value = _value;
-    });
+    let cellCoordinate = sheet ? {label, row, column, sheet} : {label, row, column};
 
-    return value;
-  }
-
-  /**
-   * Retrieve value by its label (`B3`, `B$3`, `B$3`, `$B$3`).
-   *
-   * @param {String} label Coordinates.
-   * @returns {*}
-   * @private
-   */
-  _callSheetCellValue(sheet, label) {
-
-    label = label.toUpperCase();
-
-    const [row, column] = extractLabel(label);
-    let value = void 0;
-
-    this.emit('callCellValue', {label, row, column, sheet}, (_value) => {
+    this.emit('callCellValue', cellCoordinate, (_value) => {
       value = _value;
     });
 

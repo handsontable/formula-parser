@@ -1,8 +1,11 @@
 /* description: Parses end evaluates mathematical expressions. */
+
 /* lexical grammar */
 %lex
 %%
-\s+                                                                                             {/* skip whitespace */}
+
+\s+
+{/* skip whitespace */}
 '"'("\\"["]|[^"])*'"'                                                                           {return 'STRING';}
 "'"('\\'[']|[^'])*"'"                                                                           {return 'STRING';}
 [A-Za-z]{1,}[A-Za-z_0-9\.]+(?=[(])                                                              {return 'FUNCTION';}
@@ -51,6 +54,7 @@
 %left '^'
 %left '&'
 %left '%'
+%left '!'
 %left UMINUS
 
 %start expressions
@@ -140,6 +144,7 @@ expression
       $$ = yy.callFunction($1, $3);
     }
   | cell
+  | range
   | error
   | error error
 ;
@@ -154,7 +159,13 @@ cell
   | MIXED_CELL {
       $$ = yy.cellValue($1);
     }
-  | ABSOLUTE_CELL ':' ABSOLUTE_CELL {
+  | SHEET '!' cell {
+      $$ = yy.cellValue($3, $1);
+    }
+  ;
+
+range
+  : ABSOLUTE_CELL ':' ABSOLUTE_CELL {
       $$ = yy.rangeValue($1, $3);
     }
   | ABSOLUTE_CELL ':' RELATIVE_CELL {
@@ -181,9 +192,7 @@ cell
   | MIXED_CELL ':' MIXED_CELL {
       $$ = yy.rangeValue($1, $3);
     }
-  | SHEET RELATIVE_CELL {
-      $$ = yy.sheetCellValue($1, $2);
-    }
+  
 ;
 
 expseq
