@@ -146,6 +146,7 @@ expression
   | cell
   | refCell
   | range
+  | refRange
   | error
   | error error
 ;
@@ -202,7 +203,36 @@ range
   | MIXED_CELL ':' MIXED_CELL {
       $$ = yy.rangeValue($1, $3);
     }
-  
+;
+
+refRange
+  : REFSHEET '!' ABSOLUTE_CELL ':' ABSOLUTE_CELL {
+      $$ = yy.rangeValue($3, $5, $1);
+    }
+  | REFSHEET '!' ABSOLUTE_CELL ':' RELATIVE_CELL {
+      $$ = yy.rangeValue($3, $5, $1);
+    }
+  | REFSHEET '!' ABSOLUTE_CELL ':' MIXED_CELL {
+      $$ = yy.rangeValue($3, $5, $1);
+    }
+  | REFSHEET '!' RELATIVE_CELL ':' ABSOLUTE_CELL {
+      $$ = yy.rangeValue($3, $5, $1);
+    }
+  | REFSHEET '!' RELATIVE_CELL ':' RELATIVE_CELL {
+      $$ = yy.rangeValue($3, $5, $1);
+    }
+  | REFSHEET '!' RELATIVE_CELL ':' MIXED_CELL {
+      $$ = yy.rangeValue($3, $5, $1);
+    }
+  | REFSHEET '!' MIXED_CELL ':' ABSOLUTE_CELL {
+      $$ = yy.rangeValue($3, $5, $1);
+    }
+  | REFSHEET '!' MIXED_CELL ':' RELATIVE_CELL {
+      $$ = yy.rangeValue($3, $5, $1);
+    }
+  | REFSHEET '!' MIXED_CELL ':' MIXED_CELL {
+      $$ = yy.rangeValue($3, $5, $1);
+    }
 ;
 
 expseq

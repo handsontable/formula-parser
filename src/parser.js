@@ -24,7 +24,7 @@ class Parser extends Emitter {
       evaluateByOperator,
       callFunction: evaluateByOperator,
       cellValue: (value, sheet) => this._callCellValue(value, sheet),
-      rangeValue: (start, end) => this._callRangeValue(start, end),
+      rangeValue: (start, end, sheet) => this._callRangeValue(start, end, sheet),
     };
     this.variables = Object.create(null);
 
@@ -146,7 +146,7 @@ class Parser extends Emitter {
    * @returns {Array} Returns an array of mixed values.
    * @private
    */
-  _callRangeValue(startLabel, endLabel) {
+  _callRangeValue(startLabel, endLabel, sheet) {
     startLabel = startLabel.toUpperCase();
     endLabel = endLabel.toUpperCase();
 
@@ -173,6 +173,11 @@ class Parser extends Emitter {
 
     startCell.label = toLabel(startCell.row, startCell.column);
     endCell.label = toLabel(endCell.row, endCell.column);
+
+    if (sheet) {
+      startCell.sheet = sheet;
+      endCell.sheet = sheet;
+    }
 
     let value = [];
 

@@ -218,6 +218,64 @@ describe('.parse() coordinates', () => {
     });
   });
 
+  it('should parse sheet reference relative cells range', () => {
+    expect(parser.parse('MASTER!A1:B2')).to.deep.equal({error: null, result: [[3, 6, 10]]});
+    expect(startCellCoord).to.deep.equal({
+      label: 'A1',
+      row: {index: 0, isAbsolute: false, label: '1'},
+      column: {index: 0, isAbsolute: false, label: 'A'},
+      sheet: 'MASTER',
+    });
+    expect(endCellCoord).to.deep.equal({
+      label: 'B2',
+      row: {index: 1, isAbsolute: false, label: '2'},
+      column: {index: 1, isAbsolute: false, label: 'B'},
+      sheet: 'MASTER',
+    });
+
+    expect(parser.parse('MASTER!a1:B2')).to.deep.equal({error: null, result: [[3, 6, 10]]});
+    expect(startCellCoord).to.deep.equal({
+      label: 'A1',
+      row: {index: 0, isAbsolute: false, label: '1'},
+      column: {index: 0, isAbsolute: false, label: 'A'},
+      sheet: 'MASTER',
+    });
+    expect(endCellCoord).to.deep.equal({
+      label: 'B2',
+      row: {index: 1, isAbsolute: false, label: '2'},
+      column: {index: 1, isAbsolute: false, label: 'B'},
+      sheet: 'MASTER',
+    });
+
+    expect(parser.parse('MASTER!A1:b2')).to.deep.equal({error: null, result: [[3, 6, 10]]});
+    expect(startCellCoord).to.deep.equal({
+      label: 'A1',
+      row: {index: 0, isAbsolute: false, label: '1'},
+      column: {index: 0, isAbsolute: false, label: 'A'},
+      sheet: 'MASTER',
+    });
+    expect(endCellCoord).to.deep.equal({
+      label: 'B2',
+      row: {index: 1, isAbsolute: false, label: '2'},
+      column: {index: 1, isAbsolute: false, label: 'B'},
+      sheet: 'MASTER',
+    });
+
+    expect(parser.parse('MASTER!a1:b2')).to.deep.equal({error: null, result: [[3, 6, 10]]});
+    expect(startCellCoord).to.deep.equal({
+      label: 'A1',
+      row: {index: 0, isAbsolute: false, label: '1'},
+      column: {index: 0, isAbsolute: false, label: 'A'},
+      sheet: 'MASTER',
+    });
+    expect(endCellCoord).to.deep.equal({
+      label: 'B2',
+      row: {index: 1, isAbsolute: false, label: '2'},
+      column: {index: 1, isAbsolute: false, label: 'B'},
+      sheet: 'MASTER',
+    });
+  });
+
   it('should parse absolute cells range', () => {
     expect(parser.parse('$A$1:$B$2')).to.deep.equal({error: null, result: [[3, 6, 10]]});
     expect(startCellCoord).to.deep.equal({
@@ -259,6 +317,55 @@ describe('.parse() coordinates', () => {
     expect(parser.parse('$A$1:$B$$2')).to.deep.equal({error: '#ERROR!', result: null});
     expect(parser.parse('$A$1:$$B$2')).to.deep.equal({error: '#ERROR!', result: null});
     expect(parser.parse('$$A$1:$B$2')).to.deep.equal({error: '#ERROR!', result: null});
+  });
+
+  it('should parse sheet reference absolute cells range', () => {
+    expect(parser.parse('MASTER!$A$1:$B$2')).to.deep.equal({error: null, result: [[3, 6, 10]]});
+    expect(startCellCoord).to.deep.equal({
+      label: '$A$1',
+      row: {index: 0, isAbsolute: true, label: '1'},
+      column: {index: 0, isAbsolute: true, label: 'A'},
+      sheet: 'MASTER',
+    });
+    expect(endCellCoord).to.deep.equal({
+      label: '$B$2',
+      row: {index: 1, isAbsolute: true, label: '2'},
+      column: {index: 1, isAbsolute: true, label: 'B'},
+      sheet: 'MASTER',
+    });
+
+    expect(parser.parse('MASTER!$a$1:$B$2')).to.deep.equal({error: null, result: [[3, 6, 10]]});
+    expect(startCellCoord).to.deep.equal({
+      label: '$A$1',
+      row: {index: 0, isAbsolute: true, label: '1'},
+      column: {index: 0, isAbsolute: true, label: 'A'},
+      sheet: 'MASTER',
+    });
+    expect(endCellCoord).to.deep.equal({
+      label: '$B$2',
+      row: {index: 1, isAbsolute: true, label: '2'},
+      column: {index: 1, isAbsolute: true, label: 'B'},
+      sheet: 'MASTER',
+    });
+
+    expect(parser.parse('MASTER!$a$1:$b$2')).to.deep.equal({error: null, result: [[3, 6, 10]]});
+    expect(startCellCoord).to.deep.equal({
+      label: '$A$1',
+      row: {index: 0, isAbsolute: true, label: '1'},
+      column: {index: 0, isAbsolute: true, label: 'A'},
+      sheet: 'MASTER',
+    });
+    expect(endCellCoord).to.deep.equal({
+      label: '$B$2',
+      row: {index: 1, isAbsolute: true, label: '2'},
+      column: {index: 1, isAbsolute: true, label: 'B'},
+      sheet: 'MASTER',
+    });
+
+    expect(parser.parse('MASTER!$A$$1:$B$2')).to.deep.equal({error: '#ERROR!', result: null});
+    expect(parser.parse('MASTER!$A$1:$B$$2')).to.deep.equal({error: '#ERROR!', result: null});
+    expect(parser.parse('MASTER!$A$1:$$B$2')).to.deep.equal({error: '#ERROR!', result: null});
+    expect(parser.parse('MASTER!$$A$1:$B$2')).to.deep.equal({error: '#ERROR!', result: null});
   });
 
   it('should parse mixed cells range', () => {
@@ -374,5 +481,138 @@ describe('.parse() coordinates', () => {
     expect(parser.parse('A1:B2$')).to.deep.equal({error: '#ERROR!', result: null});
     expect(parser.parse('a1:b2$')).to.deep.equal({error: '#ERROR!', result: null});
     expect(parser.parse('A1$:B2')).to.deep.equal({error: '#ERROR!', result: null});
+  });
+
+  it('should parse sheet reference mixed cells range', () => {
+    expect(parser.parse('MASTER!$A$1:B2')).to.deep.equal({error: null, result: [[3, 6, 10]]});
+    expect(startCellCoord).to.deep.equal({
+      label: '$A$1',
+      row: {index: 0, isAbsolute: true, label: '1'},
+      column: {index: 0, isAbsolute: true, label: 'A'},
+      sheet: 'MASTER',
+    });
+    expect(endCellCoord).to.deep.equal({
+      label: 'B2',
+      row: {index: 1, isAbsolute: false, label: '2'},
+      column: {index: 1, isAbsolute: false, label: 'B'},
+      sheet: 'MASTER',
+    });
+
+    expect(parser.parse('MASTER!$A$1:b2')).to.deep.equal({error: null, result: [[3, 6, 10]]});
+    expect(startCellCoord).to.deep.equal({
+      label: '$A$1',
+      row: {index: 0, isAbsolute: true, label: '1'},
+      column: {index: 0, isAbsolute: true, label: 'A'},
+      sheet: 'MASTER',
+    });
+    expect(endCellCoord).to.deep.equal({
+      label: 'B2',
+      row: {index: 1, isAbsolute: false, label: '2'},
+      column: {index: 1, isAbsolute: false, label: 'B'},
+      sheet: 'MASTER',
+    });
+
+    expect(parser.parse('MASTER!A1:$B$2')).to.deep.equal({error: null, result: [[3, 6, 10]]});
+    expect(startCellCoord).to.deep.equal({
+      label: 'A1',
+      row: {index: 0, isAbsolute: false, label: '1'},
+      column: {index: 0, isAbsolute: false, label: 'A'},
+      sheet: 'MASTER',
+    });
+    expect(endCellCoord).to.deep.equal({
+      label: '$B$2',
+      row: {index: 1, isAbsolute: true, label: '2'},
+      column: {index: 1, isAbsolute: true, label: 'B'},
+      sheet: 'MASTER',
+    });
+
+    expect(parser.parse('MASTER!$A$1:B$2')).to.deep.equal({error: null, result: [[3, 6, 10]]});
+    expect(startCellCoord).to.deep.equal({
+      label: '$A$1',
+      row: {index: 0, isAbsolute: true, label: '1'},
+      column: {index: 0, isAbsolute: true, label: 'A'},
+      sheet: 'MASTER',
+    });
+    expect(endCellCoord).to.deep.equal({
+      label: 'B$2',
+      row: {index: 1, isAbsolute: true, label: '2'},
+      column: {index: 1, isAbsolute: false, label: 'B'},
+      sheet: 'MASTER',
+    });
+
+    expect(parser.parse('MASTER!A1:$B2')).to.deep.equal({error: null, result: [[3, 6, 10]]});
+    expect(startCellCoord).to.deep.equal({
+      label: 'A1',
+      row: {index: 0, isAbsolute: false, label: '1'},
+      column: {index: 0, isAbsolute: false, label: 'A'},
+      sheet: 'MASTER',
+    });
+    expect(endCellCoord).to.deep.equal({
+      label: '$B2',
+      row: {index: 1, isAbsolute: false, label: '2'},
+      column: {index: 1, isAbsolute: true, label: 'B'},
+      sheet: 'MASTER',
+    });
+
+    expect(parser.parse('MASTER!A$1:B2')).to.deep.equal({error: null, result: [[3, 6, 10]]});
+    expect(startCellCoord).to.deep.equal({
+      label: 'A$1',
+      row: {index: 0, isAbsolute: true, label: '1'},
+      column: {index: 0, isAbsolute: false, label: 'A'},
+      sheet: 'MASTER',
+    });
+    expect(endCellCoord).to.deep.equal({
+      label: 'B2',
+      row: {index: 1, isAbsolute: false, label: '2'},
+      column: {index: 1, isAbsolute: false, label: 'B'},
+      sheet: 'MASTER',
+    });
+
+    expect(parser.parse('MASTER!A$1:$B$2')).to.deep.equal({error: null, result: [[3, 6, 10]]});
+    expect(startCellCoord).to.deep.equal({
+      label: 'A$1',
+      row: {index: 0, isAbsolute: true, label: '1'},
+      column: {index: 0, isAbsolute: false, label: 'A'},
+      sheet: 'MASTER',
+    });
+    expect(endCellCoord).to.deep.equal({
+      label: '$B$2',
+      row: {index: 1, isAbsolute: true, label: '2'},
+      column: {index: 1, isAbsolute: true, label: 'B'},
+      sheet: 'MASTER',
+    });
+
+    expect(parser.parse('MASTER!A$1:$B2')).to.deep.equal({error: null, result: [[3, 6, 10]]});
+    expect(startCellCoord).to.deep.equal({
+      label: 'A$1',
+      row: {index: 0, isAbsolute: true, label: '1'},
+      column: {index: 0, isAbsolute: false, label: 'A'},
+      sheet: 'MASTER',
+    });
+    expect(endCellCoord).to.deep.equal({
+      label: '$B2',
+      row: {index: 1, isAbsolute: false, label: '2'},
+      column: {index: 1, isAbsolute: true, label: 'B'},
+      sheet: 'MASTER',
+    });
+
+    expect(parser.parse('MASTER!a$1:$b2')).to.deep.equal({error: null, result: [[3, 6, 10]]});
+    expect(startCellCoord).to.deep.equal({
+      label: 'A$1',
+      row: {index: 0, isAbsolute: true, label: '1'},
+      column: {index: 0, isAbsolute: false, label: 'A'},
+      sheet: 'MASTER',
+    });
+    expect(endCellCoord).to.deep.equal({
+      label: '$B2',
+      row: {index: 1, isAbsolute: false, label: '2'},
+      column: {index: 1, isAbsolute: true, label: 'B'},
+      sheet: 'MASTER',
+    });
+
+    expect(parser.parse('MASTER!A1:$$B2')).to.deep.equal({error: '#ERROR!', result: null});
+    expect(parser.parse('MASTER!A1:B2$')).to.deep.equal({error: '#ERROR!', result: null});
+    expect(parser.parse('MASTER!a1:b2$')).to.deep.equal({error: '#ERROR!', result: null});
+    expect(parser.parse('MASTER!A1$:B2')).to.deep.equal({error: '#ERROR!', result: null});
   });
 });
