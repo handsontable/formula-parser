@@ -121,6 +121,7 @@ class Parser extends Emitter {
    * Retrieve value by its label (`B3`, `B$3`, `B$3`, `$B$3`).
    *
    * @param {String} label Coordinates.
+   * @param {String} sheet Reference sheet name
    * @returns {*}
    * @private
    */
@@ -143,6 +144,7 @@ class Parser extends Emitter {
    *
    * @param {String} startLabel Coordinates of the first cell.
    * @param {String} endLabel Coordinates of the last cell.
+   * @param {String} sheet Reference sheet name
    * @returns {Array} Returns an array of mixed values.
    * @private
    */
