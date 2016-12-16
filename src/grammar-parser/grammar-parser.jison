@@ -20,6 +20,7 @@
 [A-Za-z_]+                                                                                      {return 'VARIABLE';}
 [0-9]+                                                                                          {return 'NUMBER';}
 '['(.*)?']'                                                                                     {return 'ARRAY';}
+'{'(.*)?'}'                                                                                     {return 'ARRAYCONSTANT';}
 "&"                                                                                             {return '&';}
 " "                                                                                             {return ' ';}
 [.]                                                                                             {return 'DECIMAL';}
@@ -41,6 +42,8 @@
 "!"                                                                                             {return "!";}
 "="                                                                                             {return '=';}
 "%"                                                                                             {return '%';}
+"{"                                                                                             {return '{';}
+"}"                                                                                             {return '}';}
 [#]                                                                                             {return '#';}
 <<EOF>>                                                                                         {return 'EOF';}
 /lex
@@ -239,8 +242,23 @@ expseq
   : expression {
       $$ = [$1];
     }
+  | ARRAYCONSTANT {
+      var result = [];
+      
+      var textInArray = yytext.replace('{','').replace('}','');
+      
+      var arr = textInArray.split(';');
+      
+      for(var i = 0; i < arr.length; i++) {
+        result.push(eval("[" + arr + "]"));
+      }
+
+      $$ = result;
+    }
   | ARRAY {
       var result = [];
+      
+      console
       var arr = eval("[" + yytext + "]");
 
       arr.forEach(function(item) {
@@ -249,6 +267,7 @@ expseq
 
       $$ = result;
     }
+  }
   | expseq ';' expression {
       $1.push($3);
       $$ = $1;
