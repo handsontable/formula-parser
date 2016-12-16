@@ -92,7 +92,8 @@ function build() {
           }
         ],
       },
-      devtool: 'source-map'
+      devtool: 'source-map',
+      target: 'node',
     }))
     .pipe(gulp.dest(destinationFolder))
     .pipe($.filter(['*', '!**/*.js.map']))
