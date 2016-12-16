@@ -1,13 +1,13 @@
 (function webpackUniversalModuleDefinition(root, factory) {
 	if(typeof exports === 'object' && typeof module === 'object')
-		module.exports = factory();
+		module.exports = factory(require("fs"), require("path"));
 	else if(typeof define === 'function' && define.amd)
-		define([], factory);
+		define(["fs", "path"], factory);
 	else if(typeof exports === 'object')
-		exports["formulaParser"] = factory();
+		exports["formulaParser"] = factory(require("fs"), require("path"));
 	else
-		root["formulaParser"] = factory();
-})(this, function() {
+		root["formulaParser"] = factory(root["fs"], root["path"]);
+})(this, function(__WEBPACK_EXTERNAL_MODULE_41__, __WEBPACK_EXTERNAL_MODULE_42__) {
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
@@ -67,7 +67,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _error2 = _interopRequireDefault(_error);
 	
-	var _cell = __webpack_require__(43);
+	var _cell = __webpack_require__(44);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -121,9 +121,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _evaluateByOperator2 = _interopRequireDefault(_evaluateByOperator);
 	
-	var _grammarParser = __webpack_require__(40);
+	var _grammarParser = __webpack_require__(39);
 	
-	var _string = __webpack_require__(42);
+	var _string = __webpack_require__(43);
 	
 	var _number = __webpack_require__(6);
 	
@@ -131,7 +131,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _error2 = _interopRequireDefault(_error);
 	
-	var _cell = __webpack_require__(43);
+	var _cell = __webpack_require__(44);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 	
@@ -165,11 +165,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	      },
 	      evaluateByOperator: _evaluateByOperator2.default,
 	      callFunction: _evaluateByOperator2.default,
-	      cellValue: function cellValue(value) {
-	        return _this._callCellValue(value);
+	      cellValue: function cellValue(value, sheet) {
+	        return _this._callCellValue(value, sheet);
 	      },
-	      rangeValue: function rangeValue(start, end) {
-	        return _this._callRangeValue(start, end);
+	      rangeValue: function rangeValue(start, end, sheet) {
+	        return _this._callRangeValue(start, end, sheet);
 	      }
 	    };
 	    _this.variables = Object.create(null);
@@ -278,13 +278,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	     * Retrieve value by its label (`B3`, `B$3`, `B$3`, `$B$3`).
 	     *
 	     * @param {String} label Coordinates.
+	     * @param {String} sheet Reference sheet name
 	     * @returns {*}
 	     * @private
 	     */
 	
 	  }, {
 	    key: '_callCellValue',
-	    value: function _callCellValue(label) {
+	    value: function _callCellValue(label, sheet) {
 	      label = label.toUpperCase();
 	
 	      var _extractLabel = (0, _cell.extractLabel)(label),
@@ -294,7 +295,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	      var value = void 0;
 	
-	      this.emit('callCellValue', { label: label, row: row, column: column }, function (_value) {
+	      var cellCoordinate = sheet ? { label: label, row: row, column: column, sheet: sheet } : { label: label, row: row, column: column };
+	
+	      this.emit('callCellValue', cellCoordinate, function (_value) {
 	        value = _value;
 	      });
 	
@@ -306,13 +309,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	     *
 	     * @param {String} startLabel Coordinates of the first cell.
 	     * @param {String} endLabel Coordinates of the last cell.
+	     * @param {String} sheet Reference sheet name
 	     * @returns {Array} Returns an array of mixed values.
 	     * @private
 	     */
 	
 	  }, {
 	    key: '_callRangeValue',
-	    value: function _callRangeValue(startLabel, endLabel) {
+	    value: function _callRangeValue(startLabel, endLabel, sheet) {
 	      startLabel = startLabel.toUpperCase();
 	      endLabel = endLabel.toUpperCase();
 	
@@ -347,6 +351,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	      startCell.label = (0, _cell.toLabel)(startCell.row, startCell.column);
 	      endCell.label = (0, _cell.toLabel)(endCell.row, endCell.column);
+	
+	      if (sheet) {
+	        startCell.sheet = sheet;
+	        endCell.sheet = sheet;
+	      }
 	
 	      var value = [];
 	
@@ -500,35 +509,35 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _formulaFunction2 = _interopRequireDefault(_formulaFunction);
 	
-	var _greaterThan = __webpack_require__(32);
+	var _greaterThan = __webpack_require__(31);
 	
 	var _greaterThan2 = _interopRequireDefault(_greaterThan);
 	
-	var _greaterThanOrEqual = __webpack_require__(33);
+	var _greaterThanOrEqual = __webpack_require__(32);
 	
 	var _greaterThanOrEqual2 = _interopRequireDefault(_greaterThanOrEqual);
 	
-	var _lessThan = __webpack_require__(34);
+	var _lessThan = __webpack_require__(33);
 	
 	var _lessThan2 = _interopRequireDefault(_lessThan);
 	
-	var _lessThanOrEqual = __webpack_require__(35);
+	var _lessThanOrEqual = __webpack_require__(34);
 	
 	var _lessThanOrEqual2 = _interopRequireDefault(_lessThanOrEqual);
 	
-	var _minus = __webpack_require__(36);
+	var _minus = __webpack_require__(35);
 	
 	var _minus2 = _interopRequireDefault(_minus);
 	
-	var _multiply = __webpack_require__(37);
+	var _multiply = __webpack_require__(36);
 	
 	var _multiply2 = _interopRequireDefault(_multiply);
 	
-	var _notEqual = __webpack_require__(38);
+	var _notEqual = __webpack_require__(37);
 	
 	var _notEqual2 = _interopRequireDefault(_notEqual);
 	
-	var _power = __webpack_require__(39);
+	var _power = __webpack_require__(38);
 	
 	var _power2 = _interopRequireDefault(_power);
 	
@@ -891,17 +900,17 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var categories = [
 	  __webpack_require__(13),
+	  __webpack_require__(27),
+	  __webpack_require__(24),
 	  __webpack_require__(28),
-	  __webpack_require__(25),
-	  __webpack_require__(29),
 	  __webpack_require__(14),
 	  __webpack_require__(18),
-	  __webpack_require__(27),
+	  __webpack_require__(26),
+	  __webpack_require__(29),
+	  __webpack_require__(23),
 	  __webpack_require__(30),
-	  __webpack_require__(24),
-	  __webpack_require__(31),
 	  __webpack_require__(17),
-	  __webpack_require__(23)
+	  __webpack_require__(22)
 	];
 	
 	for (var c in categories) {
@@ -918,8 +927,8 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var mathTrig = __webpack_require__(14);
 	var statistical = __webpack_require__(17);
-	var engineering = __webpack_require__(25);
-	var dateTime = __webpack_require__(27);
+	var engineering = __webpack_require__(24);
+	var dateTime = __webpack_require__(26);
 	
 	function set(fn, root) {
 	  if (root) {
@@ -1012,7 +1021,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	var utils = __webpack_require__(15);
 	var error = __webpack_require__(16);
 	var statistical = __webpack_require__(17);
-	var information = __webpack_require__(24);
+	var information = __webpack_require__(23);
 	
 	exports.ABS = function(number) {
 	  number = utils.parseNumber(number);
@@ -2434,10 +2443,10 @@ return /******/ (function(modules) { // webpackBootstrap
 
 	var mathTrig = __webpack_require__(14);
 	var text = __webpack_require__(18);
-	var jStat = __webpack_require__(22).jStat;
+	var jStat = __webpack_require__(21).jStat;
 	var utils = __webpack_require__(15);
 	var error = __webpack_require__(16);
-	var misc = __webpack_require__(23);
+	var misc = __webpack_require__(22);
 	
 	var SQRT2PI = 2.5066282746310002;
 	
@@ -4580,7 +4589,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/* WEBPACK VAR INJECTION */(function(process) {/*!
+	var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
 	 * numbro.js
 	 * version : 1.9.3
 	 * author : Företagsplatsen AB
@@ -5598,7 +5607,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	    numbro.loadCulturesInNode = function() {
 	        // TODO: Rename the folder in 2.0.0
-	        var cultures = __webpack_require__(21);
+	        var cultures = __webpack_require__(20);
 	
 	        for(var langLocaleCode in cultures) {
 	            if(langLocaleCode) {
@@ -5871,203 +5880,16 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	
 	}.call(typeof window === 'undefined' ? this : window));
-	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(20)))
+
 
 /***/ },
 /* 20 */
 /***/ function(module, exports) {
 
-	// shim for using process in browser
-	var process = module.exports = {};
-	
-	// cached from whatever global is present so that test runners that stub it
-	// don't break things.  But we need to wrap it in a try catch in case it is
-	// wrapped in strict mode code which doesn't define any globals.  It's inside a
-	// function because try/catches deoptimize in certain engines.
-	
-	var cachedSetTimeout;
-	var cachedClearTimeout;
-	
-	function defaultSetTimout() {
-	    throw new Error('setTimeout has not been defined');
-	}
-	function defaultClearTimeout () {
-	    throw new Error('clearTimeout has not been defined');
-	}
-	(function () {
-	    try {
-	        if (typeof setTimeout === 'function') {
-	            cachedSetTimeout = setTimeout;
-	        } else {
-	            cachedSetTimeout = defaultSetTimout;
-	        }
-	    } catch (e) {
-	        cachedSetTimeout = defaultSetTimout;
-	    }
-	    try {
-	        if (typeof clearTimeout === 'function') {
-	            cachedClearTimeout = clearTimeout;
-	        } else {
-	            cachedClearTimeout = defaultClearTimeout;
-	        }
-	    } catch (e) {
-	        cachedClearTimeout = defaultClearTimeout;
-	    }
-	} ())
-	function runTimeout(fun) {
-	    if (cachedSetTimeout === setTimeout) {
-	        //normal enviroments in sane situations
-	        return setTimeout(fun, 0);
-	    }
-	    // if setTimeout wasn't available but was latter defined
-	    if ((cachedSetTimeout === defaultSetTimout || !cachedSetTimeout) && setTimeout) {
-	        cachedSetTimeout = setTimeout;
-	        return setTimeout(fun, 0);
-	    }
-	    try {
-	        // when when somebody has screwed with setTimeout but no I.E. maddness
-	        return cachedSetTimeout(fun, 0);
-	    } catch(e){
-	        try {
-	            // When we are in I.E. but the script has been evaled so I.E. doesn't trust the global object when called normally
-	            return cachedSetTimeout.call(null, fun, 0);
-	        } catch(e){
-	            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error
-	            return cachedSetTimeout.call(this, fun, 0);
-	        }
-	    }
-	
-	
-	}
-	function runClearTimeout(marker) {
-	    if (cachedClearTimeout === clearTimeout) {
-	        //normal enviroments in sane situations
-	        return clearTimeout(marker);
-	    }
-	    // if clearTimeout wasn't available but was latter defined
-	    if ((cachedClearTimeout === defaultClearTimeout || !cachedClearTimeout) && clearTimeout) {
-	        cachedClearTimeout = clearTimeout;
-	        return clearTimeout(marker);
-	    }
-	    try {
-	        // when when somebody has screwed with setTimeout but no I.E. maddness
-	        return cachedClearTimeout(marker);
-	    } catch (e){
-	        try {
-	            // When we are in I.E. but the script has been evaled so I.E. doesn't  trust the global object when called normally
-	            return cachedClearTimeout.call(null, marker);
-	        } catch (e){
-	            // same as above but when it's a version of I.E. that must have the global object for 'this', hopfully our context correct otherwise it will throw a global error.
-	            // Some versions of I.E. have different rules for clearTimeout vs setTimeout
-	            return cachedClearTimeout.call(this, marker);
-	        }
-	    }
-	
-	
-	
-	}
-	var queue = [];
-	var draining = false;
-	var currentQueue;
-	var queueIndex = -1;
-	
-	function cleanUpNextTick() {
-	    if (!draining || !currentQueue) {
-	        return;
-	    }
-	    draining = false;
-	    if (currentQueue.length) {
-	        queue = currentQueue.concat(queue);
-	    } else {
-	        queueIndex = -1;
-	    }
-	    if (queue.length) {
-	        drainQueue();
-	    }
-	}
-	
-	function drainQueue() {
-	    if (draining) {
-	        return;
-	    }
-	    var timeout = runTimeout(cleanUpNextTick);
-	    draining = true;
-	
-	    var len = queue.length;
-	    while(len) {
-	        currentQueue = queue;
-	        queue = [];
-	        while (++queueIndex < len) {
-	            if (currentQueue) {
-	                currentQueue[queueIndex].run();
-	            }
-	        }
-	        queueIndex = -1;
-	        len = queue.length;
-	    }
-	    currentQueue = null;
-	    draining = false;
-	    runClearTimeout(timeout);
-	}
-	
-	process.nextTick = function (fun) {
-	    var args = new Array(arguments.length - 1);
-	    if (arguments.length > 1) {
-	        for (var i = 1; i < arguments.length; i++) {
-	            args[i - 1] = arguments[i];
-	        }
-	    }
-	    queue.push(new Item(fun, args));
-	    if (queue.length === 1 && !draining) {
-	        runTimeout(drainQueue);
-	    }
-	};
-	
-	// v8 likes predictible objects
-	function Item(fun, array) {
-	    this.fun = fun;
-	    this.array = array;
-	}
-	Item.prototype.run = function () {
-	    this.fun.apply(null, this.array);
-	};
-	process.title = 'browser';
-	process.browser = true;
-	process.env = {};
-	process.argv = [];
-	process.version = ''; // empty string to avoid regexp issues
-	process.versions = {};
-	
-	function noop() {}
-	
-	process.on = noop;
-	process.addListener = noop;
-	process.once = noop;
-	process.off = noop;
-	process.removeListener = noop;
-	process.removeAllListeners = noop;
-	process.emit = noop;
-	
-	process.binding = function (name) {
-	    throw new Error('process.binding is not supported');
-	};
-	
-	process.cwd = function () { return '/' };
-	process.chdir = function (dir) {
-	    throw new Error('process.chdir is not supported');
-	};
-	process.umask = function() { return 0; };
-
-
-/***/ },
-/* 21 */
-/***/ function(module, exports) {
-
 	// empty (null-loader)
 
 /***/ },
-/* 22 */
+/* 21 */
 /***/ function(module, exports) {
 
 	this.j$ = this.jStat = (function(Math, undefined) {
@@ -10228,7 +10050,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 23 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var utils = __webpack_require__(15);
@@ -10299,7 +10121,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 24 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var error = __webpack_require__(16);
@@ -10438,14 +10260,14 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 25 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var error = __webpack_require__(16);
-	var jStat = __webpack_require__(22).jStat;
+	var jStat = __webpack_require__(21).jStat;
 	var text = __webpack_require__(18);
 	var utils = __webpack_require__(15);
-	var bessel = __webpack_require__(26);
+	var bessel = __webpack_require__(25);
 	
 	function isValidBinaryNumber(number) {
 	  return (/^[01]{1,10}$/).test(number);
@@ -12006,7 +11828,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 26 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var M = Math;
@@ -12221,7 +12043,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 27 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var error = __webpack_require__(16);
@@ -12780,7 +12602,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 28 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var error = __webpack_require__(16);
@@ -13173,12 +12995,12 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 29 */
+/* 28 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var error = __webpack_require__(16);
 	var utils = __webpack_require__(15);
-	var information = __webpack_require__(24);
+	var information = __webpack_require__(23);
 	
 	exports.AND = function() {
 	  var args = utils.flatten(arguments);
@@ -13290,11 +13112,11 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 30 */
+/* 29 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var error = __webpack_require__(16);
-	var dateTime = __webpack_require__(27);
+	var dateTime = __webpack_require__(26);
 	var utils = __webpack_require__(15);
 	
 	function validDate(d) {
@@ -14386,7 +14208,7 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
-/* 31 */
+/* 30 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var error = __webpack_require__(16);
@@ -14451,7 +14273,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 
 /***/ },
-/* 32 */
+/* 31 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -14469,7 +14291,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	func.SYMBOL = SYMBOL;
 
 /***/ },
-/* 33 */
+/* 32 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -14487,7 +14309,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	func.SYMBOL = SYMBOL;
 
 /***/ },
-/* 34 */
+/* 33 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -14505,7 +14327,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	func.SYMBOL = SYMBOL;
 
 /***/ },
-/* 35 */
+/* 34 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -14523,7 +14345,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	func.SYMBOL = SYMBOL;
 
 /***/ },
-/* 36 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -14559,7 +14381,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	func.SYMBOL = SYMBOL;
 
 /***/ },
-/* 37 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -14595,7 +14417,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	func.SYMBOL = SYMBOL;
 
 /***/ },
-/* 38 */
+/* 37 */
 /***/ function(module, exports) {
 
 	'use strict';
@@ -14613,7 +14435,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	func.SYMBOL = SYMBOL;
 
 /***/ },
-/* 39 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -14643,10 +14465,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	func.SYMBOL = SYMBOL;
 
 /***/ },
-/* 40 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(module, process) {"use strict";
+	/* WEBPACK VAR INJECTION */(function(module) {"use strict";
 	
 	/* parser generated by jison 0.4.17 */
 	/*
@@ -14730,34 +14552,35 @@ return /******/ (function(modules) { // webpackBootstrap
 	        $V2 = [1, 6],
 	        $V3 = [1, 7],
 	        $V4 = [1, 9],
-	        $V5 = [1, 14],
-	        $V6 = [1, 15],
-	        $V7 = [1, 16],
-	        $V8 = [1, 12],
-	        $V9 = [1, 13],
-	        $Va = [1, 17],
-	        $Vb = [1, 19],
-	        $Vc = [1, 20],
-	        $Vd = [1, 21],
-	        $Ve = [1, 22],
-	        $Vf = [1, 23],
-	        $Vg = [1, 24],
-	        $Vh = [1, 25],
-	        $Vi = [1, 26],
-	        $Vj = [1, 27],
-	        $Vk = [1, 28],
-	        $Vl = [5, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 29, 30],
-	        $Vm = [5, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 29, 30, 32],
-	        $Vn = [5, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 29, 30, 34],
-	        $Vo = [5, 10, 11, 13, 14, 15, 16, 17, 29, 30],
-	        $Vp = [5, 10, 13, 14, 15, 16, 29, 30],
-	        $Vq = [5, 10, 11, 13, 14, 15, 16, 17, 18, 19, 29, 30],
-	        $Vr = [13, 29, 30];
+	        $V5 = [1, 17],
+	        $V6 = [1, 18],
+	        $V7 = [1, 19],
+	        $V8 = [1, 20],
+	        $V9 = [1, 15],
+	        $Va = [1, 16],
+	        $Vb = [1, 21],
+	        $Vc = [1, 23],
+	        $Vd = [1, 24],
+	        $Ve = [1, 25],
+	        $Vf = [1, 26],
+	        $Vg = [1, 27],
+	        $Vh = [1, 28],
+	        $Vi = [1, 29],
+	        $Vj = [1, 30],
+	        $Vk = [1, 31],
+	        $Vl = [1, 32],
+	        $Vm = [5, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 34, 35],
+	        $Vn = [5, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 34, 35, 37],
+	        $Vo = [5, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 34, 35, 39],
+	        $Vp = [5, 10, 11, 13, 14, 15, 16, 17, 34, 35],
+	        $Vq = [5, 10, 13, 14, 15, 16, 34, 35],
+	        $Vr = [5, 10, 11, 13, 14, 15, 16, 17, 18, 19, 34, 35],
+	        $Vs = [13, 34, 35];
 	    var parser = { trace: function trace() {},
 	        yy: {},
-	        symbols_: { "error": 2, "expressions": 3, "expression": 4, "EOF": 5, "variableSequence": 6, "number": 7, "STRING": 8, "&": 9, "=": 10, "+": 11, "(": 12, ")": 13, "<": 14, ">": 15, "NOT": 16, "-": 17, "*": 18, "/": 19, "^": 20, "FUNCTION": 21, "expseq": 22, "cell": 23, "ABSOLUTE_CELL": 24, "RELATIVE_CELL": 25, "MIXED_CELL": 26, ":": 27, "ARRAY": 28, ";": 29, ",": 30, "VARIABLE": 31, "DECIMAL": 32, "NUMBER": 33, "%": 34, "ERROR": 35, "$accept": 0, "$end": 1 },
-	        terminals_: { 5: "EOF", 8: "STRING", 9: "&", 10: "=", 11: "+", 12: "(", 13: ")", 14: "<", 15: ">", 16: "NOT", 17: "-", 18: "*", 19: "/", 20: "^", 21: "FUNCTION", 24: "ABSOLUTE_CELL", 25: "RELATIVE_CELL", 26: "MIXED_CELL", 27: ":", 28: "ARRAY", 29: ";", 30: ",", 31: "VARIABLE", 32: "DECIMAL", 33: "NUMBER", 34: "%", 35: "ERROR" },
-	        productions_: [0, [3, 2], [4, 1], [4, 1], [4, 1], [4, 3], [4, 3], [4, 3], [4, 3], [4, 4], [4, 4], [4, 4], [4, 3], [4, 3], [4, 3], [4, 3], [4, 3], [4, 3], [4, 3], [4, 2], [4, 2], [4, 3], [4, 4], [4, 1], [4, 1], [4, 2], [23, 1], [23, 1], [23, 1], [23, 3], [23, 3], [23, 3], [23, 3], [23, 3], [23, 3], [23, 3], [23, 3], [23, 3], [22, 1], [22, 1], [22, 3], [22, 3], [6, 1], [6, 3], [7, 1], [7, 3], [7, 2], [2, 1]],
+	        symbols_: { "error": 2, "expressions": 3, "expression": 4, "EOF": 5, "variableSequence": 6, "number": 7, "STRING": 8, "&": 9, "=": 10, "+": 11, "(": 12, ")": 13, "<": 14, ">": 15, "NOT": 16, "-": 17, "*": 18, "/": 19, "^": 20, "FUNCTION": 21, "expseq": 22, "cell": 23, "refCell": 24, "range": 25, "refRange": 26, "ABSOLUTE_CELL": 27, "RELATIVE_CELL": 28, "MIXED_CELL": 29, "REFSHEET": 30, "!": 31, ":": 32, "ARRAY": 33, ";": 34, ",": 35, "VARIABLE": 36, "DECIMAL": 37, "NUMBER": 38, "%": 39, "ERROR": 40, "$accept": 0, "$end": 1 },
+	        terminals_: { 5: "EOF", 8: "STRING", 9: "&", 10: "=", 11: "+", 12: "(", 13: ")", 14: "<", 15: ">", 16: "NOT", 17: "-", 18: "*", 19: "/", 20: "^", 21: "FUNCTION", 27: "ABSOLUTE_CELL", 28: "RELATIVE_CELL", 29: "MIXED_CELL", 30: "REFSHEET", 31: "!", 32: ":", 33: "ARRAY", 34: ";", 35: ",", 36: "VARIABLE", 37: "DECIMAL", 38: "NUMBER", 39: "%", 40: "ERROR" },
+	        productions_: [0, [3, 2], [4, 1], [4, 1], [4, 1], [4, 3], [4, 3], [4, 3], [4, 3], [4, 4], [4, 4], [4, 4], [4, 3], [4, 3], [4, 3], [4, 3], [4, 3], [4, 3], [4, 3], [4, 2], [4, 2], [4, 3], [4, 4], [4, 1], [4, 1], [4, 1], [4, 1], [4, 1], [4, 2], [23, 1], [23, 1], [23, 1], [24, 3], [24, 3], [24, 3], [25, 3], [25, 3], [25, 3], [25, 3], [25, 3], [25, 3], [25, 3], [25, 3], [25, 3], [26, 5], [26, 5], [26, 5], [26, 5], [26, 5], [26, 5], [26, 5], [26, 5], [26, 5], [22, 1], [22, 1], [22, 3], [22, 3], [6, 1], [6, 3], [7, 1], [7, 3], [7, 2], [2, 1]],
 	        performAction: function anonymous(yytext, yyleng, yylineno, yy, yystate /* action[1] */, $$ /* vstack */, _$ /* lstack */) {
 	            /* this == yyval */
 	
@@ -14885,22 +14708,37 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    this.$ = yy.callFunction($$[$0 - 3], $$[$0 - 1]);
 	
 	                    break;
-	                case 26:case 27:case 28:
+	                case 29:case 30:case 31:
 	
 	                    this.$ = yy.cellValue($$[$0]);
 	
 	                    break;
-	                case 29:case 30:case 31:case 32:case 33:case 34:case 35:case 36:case 37:
+	                case 32:case 33:
+	
+	                    this.$ = yy.cellValue($$[$0], $$[$0 - 2]);
+	
+	                    break;
+	                case 34:
+	
+	                    this.$ = yy.cellValue($$[$0], $$[$0 - 2]);
+	
+	                    break;
+	                case 35:case 36:case 37:case 38:case 39:case 40:case 41:case 42:case 43:
 	
 	                    this.$ = yy.rangeValue($$[$0 - 2], $$[$0]);
 	
 	                    break;
-	                case 38:case 42:
+	                case 44:case 45:case 46:case 47:case 48:case 49:case 50:case 51:case 52:
+	
+	                    this.$ = yy.rangeValue($$[$0 - 2], $$[$0], $$[$0 - 4]);
+	
+	                    break;
+	                case 53:case 57:
 	
 	                    this.$ = [$$[$0]];
 	
 	                    break;
-	                case 39:
+	                case 54:
 	
 	                    var result = [];
 	                    var arr = eval("[" + yytext + "]");
@@ -14912,42 +14750,42 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    this.$ = result;
 	
 	                    break;
-	                case 40:case 41:
+	                case 55:case 56:
 	
 	                    $$[$0 - 2].push($$[$0]);
 	                    this.$ = $$[$0 - 2];
 	
 	                    break;
-	                case 43:
+	                case 58:
 	
 	                    this.$ = Array.isArray($$[$0 - 2]) ? $$[$0 - 2] : [$$[$0 - 2]];
 	                    this.$.push($$[$0]);
 	
 	                    break;
-	                case 44:
+	                case 59:
 	
 	                    this.$ = $$[$0];
 	
 	                    break;
-	                case 45:
+	                case 60:
 	
 	                    this.$ = ($$[$0 - 2] + '.' + $$[$0]) * 1;
 	
 	                    break;
-	                case 46:
+	                case 61:
 	
 	                    this.$ = $$[$0 - 1] * 0.01;
 	
 	                    break;
-	                case 47:
+	                case 62:
 	
 	                    this.$ = yy.throwError($$[$0]);
 	
 	                    break;
 	            }
 	        },
-	        table: [{ 2: 11, 3: 1, 4: 2, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 1: [3] }, { 5: [1, 18], 9: $Vb, 10: $Vc, 11: $Vd, 14: $Ve, 15: $Vf, 16: $Vg, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }, o($Vl, [2, 2], { 32: [1, 29] }), o($Vl, [2, 3], { 34: [1, 30] }), o($Vl, [2, 4]), { 2: 11, 4: 31, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 32, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 33, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 12: [1, 34] }, o($Vl, [2, 23]), o($Vl, [2, 24], { 2: 35, 35: $Va }), o($Vm, [2, 42]), o($Vn, [2, 44], { 32: [1, 36] }), o($Vl, [2, 26], { 27: [1, 37] }), o($Vl, [2, 27], { 27: [1, 38] }), o($Vl, [2, 28], { 27: [1, 39] }), o([5, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 29, 30, 35], [2, 47]), { 1: [2, 1] }, { 2: 11, 4: 40, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 41, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 42, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 45, 6: 3, 7: 4, 8: $V0, 10: [1, 43], 11: $V1, 12: $V2, 15: [1, 44], 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 47, 6: 3, 7: 4, 8: $V0, 10: [1, 46], 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 48, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 49, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 50, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 51, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 52, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 31: [1, 53] }, o($Vn, [2, 46]), { 9: $Vb, 10: $Vc, 11: $Vd, 13: [1, 54], 14: $Ve, 15: $Vf, 16: $Vg, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }, o($Vo, [2, 19], { 9: $Vb, 18: $Vi, 19: $Vj, 20: $Vk }), o($Vo, [2, 20], { 9: $Vb, 18: $Vi, 19: $Vj, 20: $Vk }), { 2: 11, 4: 57, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 13: [1, 55], 17: $V3, 21: $V4, 22: 56, 23: 10, 24: $V5, 25: $V6, 26: $V7, 28: [1, 58], 31: $V8, 33: $V9, 35: $Va }, o($Vl, [2, 25]), { 33: [1, 59] }, { 24: [1, 60], 25: [1, 61], 26: [1, 62] }, { 24: [1, 63], 25: [1, 64], 26: [1, 65] }, { 24: [1, 66], 25: [1, 67], 26: [1, 68] }, o($Vl, [2, 5]), o([5, 10, 13, 29, 30], [2, 6], { 9: $Vb, 11: $Vd, 14: $Ve, 15: $Vf, 16: $Vg, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }), o($Vo, [2, 7], { 9: $Vb, 18: $Vi, 19: $Vj, 20: $Vk }), { 2: 11, 4: 69, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 70, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, o($Vp, [2, 14], { 9: $Vb, 11: $Vd, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }), { 2: 11, 4: 71, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, o($Vp, [2, 13], { 9: $Vb, 11: $Vd, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }), o([5, 10, 13, 16, 29, 30], [2, 12], { 9: $Vb, 11: $Vd, 14: $Ve, 15: $Vf, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }), o($Vo, [2, 15], { 9: $Vb, 18: $Vi, 19: $Vj, 20: $Vk }), o($Vq, [2, 16], { 9: $Vb, 20: $Vk }), o($Vq, [2, 17], { 9: $Vb, 20: $Vk }), o([5, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 29, 30], [2, 18], { 9: $Vb }), o($Vm, [2, 43]), o($Vl, [2, 8]), o($Vl, [2, 21]), { 13: [1, 72], 29: [1, 73], 30: [1, 74] }, o($Vr, [2, 38], { 9: $Vb, 10: $Vc, 11: $Vd, 14: $Ve, 15: $Vf, 16: $Vg, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }), o($Vr, [2, 39]), o($Vn, [2, 45]), o($Vl, [2, 29]), o($Vl, [2, 30]), o($Vl, [2, 31]), o($Vl, [2, 32]), o($Vl, [2, 33]), o($Vl, [2, 34]), o($Vl, [2, 35]), o($Vl, [2, 36]), o($Vl, [2, 37]), o($Vp, [2, 9], { 9: $Vb, 11: $Vd, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }), o($Vp, [2, 11], { 9: $Vb, 11: $Vd, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }), o($Vp, [2, 10], { 9: $Vb, 11: $Vd, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }), o($Vl, [2, 22]), { 2: 11, 4: 75, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, { 2: 11, 4: 76, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: $V5, 25: $V6, 26: $V7, 31: $V8, 33: $V9, 35: $Va }, o($Vr, [2, 40], { 9: $Vb, 10: $Vc, 11: $Vd, 14: $Ve, 15: $Vf, 16: $Vg, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk }), o($Vr, [2, 41], { 9: $Vb, 10: $Vc, 11: $Vd, 14: $Ve, 15: $Vf, 16: $Vg, 17: $Vh, 18: $Vi, 19: $Vj, 20: $Vk })],
-	        defaultActions: { 18: [2, 1] },
+	        table: [{ 2: 14, 3: 1, 4: 2, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: 11, 25: 12, 26: 13, 27: $V5, 28: $V6, 29: $V7, 30: $V8, 36: $V9, 38: $Va, 40: $Vb }, { 1: [3] }, { 5: [1, 22], 9: $Vc, 10: $Vd, 11: $Ve, 14: $Vf, 15: $Vg, 16: $Vh, 17: $Vi, 18: $Vj, 19: $Vk, 20: $Vl }, o($Vm, [2, 2], { 37: [1, 33] }), o($Vm, [2, 3], { 39: [1, 34] }), o($Vm, [2, 4]), { 2: 14, 4: 35, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: 11, 25: 12, 26: 13, 27: $V5, 28: $V6, 29: $V7, 30: $V8, 36: $V9, 38: $Va, 40: $Vb }, { 2: 14, 4: 36, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: 11, 25: 12, 26: 13, 27: $V5, 28: $V6, 29: $V7, 30: $V8, 36: $V9, 38: $Va, 40: $Vb }, { 2: 14, 4: 37, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: 11, 25: 12, 26: 13, 27: $V5, 28: $V6, 29: $V7, 30: $V8, 36: $V9, 38: $Va, 40: $Vb }, { 12: [1, 38] }, o($Vm, [2, 23]), o($Vm, [2, 24]), o($Vm, [2, 25]), o($Vm, [2, 26]), o($Vm, [2, 27], { 2: 39, 40: $Vb }), o($Vn, [2, 57]), o($Vo, [2, 59], { 37: [1, 40] }), o($Vm, [2, 29], { 32: [1, 41] }), o($Vm, [2, 30], { 32: [1, 42] }), o($Vm, [2, 31], { 32: [1, 43] }), { 31: [1, 44] }, o([5, 9, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 34, 35, 40], [2, 62]), { 1: [2, 1] }, { 2: 14, 4: 45, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: 11, 25: 12, 26: 13, 27: $V5, 28: $V6, 29: $V7, 30: $V8, 36: $V9, 38: $Va, 40: $Vb }, { 2: 14, 4: 46, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: 11, 25: 12, 26: 13, 27: $V5, 28: $V6, 29: $V7, 30: $V8, 36: $V9, 38: $Va, 40: $Vb }, { 2: 14, 4: 47, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: 11, 25: 12, 26: 13, 27: $V5, 28: $V6, 29: $V7, 30: $V8, 36: $V9, 38: $Va, 40: $Vb }, { 2: 14, 4: 50, 6: 3, 7: 4, 8: $V0, 10: [1, 48], 11: $V1, 12: $V2, 15: [1, 49], 17: $V3, 21: $V4, 23: 10, 24: 11, 25: 12, 26: 13, 27: $V5, 28: $V6, 29: $V7, 30: $V8, 36: $V9, 38: $Va, 40: $Vb }, { 2: 14, 4: 52, 6: 3, 7: 4, 8: $V0, 10: [1, 51], 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: 11, 25: 12, 26: 13, 27: $V5, 28: $V6, 29: $V7, 30: $V8, 36: $V9, 38: $Va, 40: $Vb }, { 2: 14, 4: 53, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: 11, 25: 12, 26: 13, 27: $V5, 28: $V6, 29: $V7, 30: $V8, 36: $V9, 38: $Va, 40: $Vb }, { 2: 14, 4: 54, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: 11, 25: 12, 26: 13, 27: $V5, 28: $V6, 29: $V7, 30: $V8, 36: $V9, 38: $Va, 40: $Vb }, { 2: 14, 4: 55, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: 11, 25: 12, 26: 13, 27: $V5, 28: $V6, 29: $V7, 30: $V8, 36: $V9, 38: $Va, 40: $Vb }, { 2: 14, 4: 56, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: 11, 25: 12, 26: 13, 27: $V5, 28: $V6, 29: $V7, 30: $V8, 36: $V9, 38: $Va, 40: $Vb }, { 2: 14, 4: 57, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: 11, 25: 12, 26: 13, 27: $V5, 28: $V6, 29: $V7, 30: $V8, 36: $V9, 38: $Va, 40: $Vb }, { 36: [1, 58] }, o($Vo, [2, 61]), { 9: $Vc, 10: $Vd, 11: $Ve, 13: [1, 59], 14: $Vf, 15: $Vg, 16: $Vh, 17: $Vi, 18: $Vj, 19: $Vk, 20: $Vl }, o($Vp, [2, 19], { 9: $Vc, 18: $Vj, 19: $Vk, 20: $Vl }), o($Vp, [2, 20], { 9: $Vc, 18: $Vj, 19: $Vk, 20: $Vl }), { 2: 14, 4: 62, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 13: [1, 60], 17: $V3, 21: $V4, 22: 61, 23: 10, 24: 11, 25: 12, 26: 13, 27: $V5, 28: $V6, 29: $V7, 30: $V8, 33: [1, 63], 36: $V9, 38: $Va, 40: $Vb }, o($Vm, [2, 28]), { 38: [1, 64] }, { 27: [1, 65], 28: [1, 66], 29: [1, 67] }, { 27: [1, 68], 28: [1, 69], 29: [1, 70] }, { 27: [1, 71], 28: [1, 72], 29: [1, 73] }, { 27: [1, 74], 28: [1, 75], 29: [1, 76] }, o($Vm, [2, 5]), o([5, 10, 13, 34, 35], [2, 6], { 9: $Vc, 11: $Ve, 14: $Vf, 15: $Vg, 16: $Vh, 17: $Vi, 18: $Vj, 19: $Vk, 20: $Vl }), o($Vp, [2, 7], { 9: $Vc, 18: $Vj, 19: $Vk, 20: $Vl }), { 2: 14, 4: 77, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: 11, 25: 12, 26: 13, 27: $V5, 28: $V6, 29: $V7, 30: $V8, 36: $V9, 38: $Va, 40: $Vb }, { 2: 14, 4: 78, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: 11, 25: 12, 26: 13, 27: $V5, 28: $V6, 29: $V7, 30: $V8, 36: $V9, 38: $Va, 40: $Vb }, o($Vq, [2, 14], { 9: $Vc, 11: $Ve, 17: $Vi, 18: $Vj, 19: $Vk, 20: $Vl }), { 2: 14, 4: 79, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: 11, 25: 12, 26: 13, 27: $V5, 28: $V6, 29: $V7, 30: $V8, 36: $V9, 38: $Va, 40: $Vb }, o($Vq, [2, 13], { 9: $Vc, 11: $Ve, 17: $Vi, 18: $Vj, 19: $Vk, 20: $Vl }), o([5, 10, 13, 16, 34, 35], [2, 12], { 9: $Vc, 11: $Ve, 14: $Vf, 15: $Vg, 17: $Vi, 18: $Vj, 19: $Vk, 20: $Vl }), o($Vp, [2, 15], { 9: $Vc, 18: $Vj, 19: $Vk, 20: $Vl }), o($Vr, [2, 16], { 9: $Vc, 20: $Vl }), o($Vr, [2, 17], { 9: $Vc, 20: $Vl }), o([5, 10, 11, 13, 14, 15, 16, 17, 18, 19, 20, 34, 35], [2, 18], { 9: $Vc }), o($Vn, [2, 58]), o($Vm, [2, 8]), o($Vm, [2, 21]), { 13: [1, 80], 34: [1, 81], 35: [1, 82] }, o($Vs, [2, 53], { 9: $Vc, 10: $Vd, 11: $Ve, 14: $Vf, 15: $Vg, 16: $Vh, 17: $Vi, 18: $Vj, 19: $Vk, 20: $Vl }), o($Vs, [2, 54]), o($Vo, [2, 60]), o($Vm, [2, 35]), o($Vm, [2, 36]), o($Vm, [2, 37]), o($Vm, [2, 38]), o($Vm, [2, 39]), o($Vm, [2, 40]), o($Vm, [2, 41]), o($Vm, [2, 42]), o($Vm, [2, 43]), o($Vm, [2, 32], { 32: [1, 83] }), o($Vm, [2, 33], { 32: [1, 84] }), o($Vm, [2, 34], { 32: [1, 85] }), o($Vq, [2, 9], { 9: $Vc, 11: $Ve, 17: $Vi, 18: $Vj, 19: $Vk, 20: $Vl }), o($Vq, [2, 11], { 9: $Vc, 11: $Ve, 17: $Vi, 18: $Vj, 19: $Vk, 20: $Vl }), o($Vq, [2, 10], { 9: $Vc, 11: $Ve, 17: $Vi, 18: $Vj, 19: $Vk, 20: $Vl }), o($Vm, [2, 22]), { 2: 14, 4: 86, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: 11, 25: 12, 26: 13, 27: $V5, 28: $V6, 29: $V7, 30: $V8, 36: $V9, 38: $Va, 40: $Vb }, { 2: 14, 4: 87, 6: 3, 7: 4, 8: $V0, 11: $V1, 12: $V2, 17: $V3, 21: $V4, 23: 10, 24: 11, 25: 12, 26: 13, 27: $V5, 28: $V6, 29: $V7, 30: $V8, 36: $V9, 38: $Va, 40: $Vb }, { 27: [1, 88], 28: [1, 89], 29: [1, 90] }, { 27: [1, 91], 28: [1, 92], 29: [1, 93] }, { 27: [1, 94], 28: [1, 95], 29: [1, 96] }, o($Vs, [2, 55], { 9: $Vc, 10: $Vd, 11: $Ve, 14: $Vf, 15: $Vg, 16: $Vh, 17: $Vi, 18: $Vj, 19: $Vk, 20: $Vl }), o($Vs, [2, 56], { 9: $Vc, 10: $Vd, 11: $Ve, 14: $Vf, 15: $Vg, 16: $Vh, 17: $Vi, 18: $Vj, 19: $Vk, 20: $Vl }), o($Vm, [2, 44]), o($Vm, [2, 45]), o($Vm, [2, 46]), o($Vm, [2, 47]), o($Vm, [2, 48]), o($Vm, [2, 49]), o($Vm, [2, 50]), o($Vm, [2, 51]), o($Vm, [2, 52])],
+	        defaultActions: { 22: [2, 1] },
 	        parseError: function parseError(str, hash) {
 	            if (hash.recoverable) {
 	                this.trace(str);
@@ -15531,7 +15369,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	                var YYSTATE = YY_START;
 	                switch ($avoiding_name_collisions) {
 	                    case 0:
-	                        /* skip whitespace */
 	                        break;
 	                    case 1:
 	                        return 8;
@@ -15543,108 +15380,111 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        return 21;
 	                        break;
 	                    case 4:
-	                        return 35;
+	                        return 40;
 	                        break;
 	                    case 5:
-	                        return 24;
-	                        break;
-	                    case 6:
-	                        return 26;
-	                        break;
-	                    case 7:
-	                        return 26;
-	                        break;
-	                    case 8:
-	                        return 25;
-	                        break;
-	                    case 9:
-	                        return 21;
-	                        break;
-	                    case 10:
-	                        return 31;
-	                        break;
-	                    case 11:
-	                        return 31;
-	                        break;
-	                    case 12:
-	                        return 33;
-	                        break;
-	                    case 13:
-	                        return 28;
-	                        break;
-	                    case 14:
-	                        return 9;
-	                        break;
-	                    case 15:
-	                        return ' ';
-	                        break;
-	                    case 16:
-	                        return 32;
-	                        break;
-	                    case 17:
 	                        return 27;
 	                        break;
-	                    case 18:
+	                    case 6:
 	                        return 29;
 	                        break;
-	                    case 19:
+	                    case 7:
+	                        return 29;
+	                        break;
+	                    case 8:
+	                        return 28;
+	                        break;
+	                    case 9:
 	                        return 30;
 	                        break;
-	                    case 20:
-	                        return 18;
+	                    case 10:
+	                        return 21;
 	                        break;
-	                    case 21:
-	                        return 19;
+	                    case 11:
+	                        return 36;
 	                        break;
-	                    case 22:
-	                        return 17;
+	                    case 12:
+	                        return 36;
 	                        break;
-	                    case 23:
-	                        return 11;
+	                    case 13:
+	                        return 38;
 	                        break;
-	                    case 24:
-	                        return 20;
+	                    case 14:
+	                        return 33;
 	                        break;
-	                    case 25:
-	                        return 12;
+	                    case 15:
+	                        return 9;
 	                        break;
-	                    case 26:
-	                        return 13;
+	                    case 16:
+	                        return ' ';
 	                        break;
-	                    case 27:
-	                        return 15;
+	                    case 17:
+	                        return 37;
 	                        break;
-	                    case 28:
-	                        return 14;
+	                    case 18:
+	                        return 32;
 	                        break;
-	                    case 29:
-	                        return 16;
-	                        break;
-	                    case 30:
-	                        return '"';
-	                        break;
-	                    case 31:
-	                        return "'";
-	                        break;
-	                    case 32:
-	                        return "!";
-	                        break;
-	                    case 33:
-	                        return 10;
-	                        break;
-	                    case 34:
+	                    case 19:
 	                        return 34;
 	                        break;
+	                    case 20:
+	                        return 35;
+	                        break;
+	                    case 21:
+	                        return 18;
+	                        break;
+	                    case 22:
+	                        return 19;
+	                        break;
+	                    case 23:
+	                        return 17;
+	                        break;
+	                    case 24:
+	                        return 11;
+	                        break;
+	                    case 25:
+	                        return 20;
+	                        break;
+	                    case 26:
+	                        return 12;
+	                        break;
+	                    case 27:
+	                        return 13;
+	                        break;
+	                    case 28:
+	                        return 15;
+	                        break;
+	                    case 29:
+	                        return 14;
+	                        break;
+	                    case 30:
+	                        return 16;
+	                        break;
+	                    case 31:
+	                        return '"';
+	                        break;
+	                    case 32:
+	                        return "'";
+	                        break;
+	                    case 33:
+	                        return "!";
+	                        break;
+	                    case 34:
+	                        return 10;
+	                        break;
 	                    case 35:
-	                        return '#';
+	                        return 39;
 	                        break;
 	                    case 36:
+	                        return '#';
+	                        break;
+	                    case 37:
 	                        return 5;
 	                        break;
 	                }
 	            },
-	            rules: [/^(?:\s+)/, /^(?:"(\\["]|[^"])*")/, /^(?:'(\\[']|[^'])*')/, /^(?:[A-Za-z]{1,}[A-Za-z_0-9\.]+(?=[(]))/, /^(?:#[A-Z0-9\/]+(!|\?)?)/, /^(?:\$[A-Za-z]+\$[0-9]+)/, /^(?:\$[A-Za-z]+[0-9]+)/, /^(?:[A-Za-z]+\$[0-9]+)/, /^(?:[A-Za-z]+[0-9]+)/, /^(?:[A-Za-z\.]+(?=[(]))/, /^(?:[A-Za-z]{1,}[A-Za-z_0-9]+)/, /^(?:[A-Za-z_]+)/, /^(?:[0-9]+)/, /^(?:\[(.*)?\])/, /^(?:&)/, /^(?: )/, /^(?:[.])/, /^(?::)/, /^(?:;)/, /^(?:,)/, /^(?:\*)/, /^(?:\/)/, /^(?:-)/, /^(?:\+)/, /^(?:\^)/, /^(?:\()/, /^(?:\))/, /^(?:>)/, /^(?:<)/, /^(?:NOT\b)/, /^(?:")/, /^(?:')/, /^(?:!)/, /^(?:=)/, /^(?:%)/, /^(?:[#])/, /^(?:$)/],
-	            conditions: { "INITIAL": { "rules": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36], "inclusive": true } }
+	            rules: [/^(?:\s+)/, /^(?:"(\\["]|[^"])*")/, /^(?:'(\\[']|[^'])*')/, /^(?:[A-Za-z]{1,}[A-Za-z_0-9\.]+(?=[(]))/, /^(?:#[A-Z0-9\/]+(!|\?)?)/, /^(?:\$[A-Za-z]+\$[0-9]+)/, /^(?:\$[A-Za-z]+[0-9]+)/, /^(?:[A-Za-z]+\$[0-9]+)/, /^(?:[A-Za-z]+[0-9]+)/, /^(?:[A-Za-z_\.\d]+(?=[!]))/, /^(?:[A-Za-z\.]+(?=[(]))/, /^(?:[A-Za-z]{1,}[A-Za-z_0-9]+)/, /^(?:[A-Za-z_]+)/, /^(?:[0-9]+)/, /^(?:\[(.*)?\])/, /^(?:&)/, /^(?: )/, /^(?:[.])/, /^(?::)/, /^(?:;)/, /^(?:,)/, /^(?:\*)/, /^(?:\/)/, /^(?:-)/, /^(?:\+)/, /^(?:\^)/, /^(?:\()/, /^(?:\))/, /^(?:>)/, /^(?:<)/, /^(?:NOT\b)/, /^(?:")/, /^(?:')/, /^(?:!)/, /^(?:=)/, /^(?:%)/, /^(?:[#])/, /^(?:$)/],
+	            conditions: { "INITIAL": { "rules": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37], "inclusive": true } }
 	        };
 	        return lexer;
 	    }();
@@ -15662,14 +15502,22 @@ return /******/ (function(modules) { // webpackBootstrap
 	    exports.parse = function () {
 	        return parser.parse.apply(parser, arguments);
 	    };
+	    exports.main = function commonjsMain(args) {
+	        if (!args[1]) {
+	            console.log('Usage: ' + args[0] + ' FILE');
+	            process.exit(1);
+	        }
+	        var source = __webpack_require__(41).readFileSync(__webpack_require__(42).normalize(args[1]), "utf8");
+	        return exports.parser.parse(source);
+	    };
 	    if (typeof module !== 'undefined' && __webpack_require__.c[0] === module) {
 	        exports.main(process.argv.slice(1));
 	    }
 	}
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(41)(module), __webpack_require__(20)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(40)(module)))
 
 /***/ },
-/* 41 */
+/* 40 */
 /***/ function(module, exports) {
 
 	module.exports = function(module) {
@@ -15685,7 +15533,19 @@ return /******/ (function(modules) { // webpackBootstrap
 
 
 /***/ },
+/* 41 */
+/***/ function(module, exports) {
+
+	module.exports = require("fs");
+
+/***/ },
 /* 42 */
+/***/ function(module, exports) {
+
+	module.exports = require("path");
+
+/***/ },
+/* 43 */
 /***/ function(module, exports) {
 
 	"use strict";
@@ -15710,7 +15570,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	}
 
 /***/ },
-/* 43 */
+/* 44 */
 /***/ function(module, exports) {
 
 	'use strict';
