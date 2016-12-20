@@ -76,7 +76,7 @@
     "mainVarName": "formulaParser"
   },
   "dependencies": {
-    "formulajs": "github:handsontable/formula.js#1.0.6",
+    "formulajs": "github:vudknguyen/formula.js#1.0.8",
     "tiny-emitter": "^1.0.2"
   }
 }
