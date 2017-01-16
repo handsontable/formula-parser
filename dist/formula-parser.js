@@ -1978,6 +1978,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	exports.SUM = function() {
 	  var result = 0;
+	
 	  utils.arrayEach(utils.argsToArray(arguments), function(value) {
 	    if (typeof value === 'number') {
 	      result += value;
@@ -14226,7 +14227,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	var utils = __webpack_require__(15);
 	
 	exports.MATCH = function(lookupValue, lookupArray, matchType) {
-	  console.log('calling MATCH with params', lookupValue, lookupArray, matchType)
 	  if (!lookupValue && !lookupArray) {
 	    return error.na;
 	  }
@@ -14718,6 +14718,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    break;
 	                case 16:
 	
+	                    console.log($$[$0 - 2], $$[$0]);
 	                    this.$ = yy.evaluateByOperator('*', [$$[$0 - 2], $$[$0]]);
 	
 	                    break;
@@ -14770,9 +14771,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    var textInArray = yytext.replace('{', '').replace('}', '');
 	
 	                    var arr = textInArray.split(';');
-	
+	                    console.log('text in array:', textInArray, 'array', arr);
 	                    if (arr.length <= 1) {
-	                        var arr = eval("[" + arr + "]");
+	                        var arr = eval("[[" + arr + "]]");
 	                        arr.forEach(function (item) {
 	                            result.push(item);
 	                        });
@@ -14781,6 +14782,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                            result.push(eval("[" + arr[i] + "]"));
 	                        }
 	                    }
+	                    console.log(result);
 	
 	                    this.$ = result;
 	
@@ -14788,13 +14790,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	                case 24:
 	
 	                    var result = [];
-	
+	                    console.log('text in array:', yytext);
 	                    var arr = eval("[" + yytext + "]");
 	
 	                    arr.forEach(function (item) {
 	                        result.push(item);
 	                    });
-	
+	                    console.log(result);
 	                    this.$ = result;
 	
 	                    break;
@@ -15570,7 +15572,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	                        break;
 	                }
 	            },
-	            rules: [/^(?:\s+)/, /^(?:"(\\["]|[^"])*")/, /^(?:'(\\[']|[^'])*')/, /^(?:[A-Za-z]{1,}[A-Za-z_0-9\.]+(?=[(]))/, /^(?:#[A-Z0-9\/]+(!|\?)?)/, /^(?:\$[A-Za-z]+\$[0-9]+)/, /^(?:\$[A-Za-z]+[0-9]+)/, /^(?:[A-Za-z]+\$[0-9]+)/, /^(?:[A-Za-z]+[0-9]+)/, /^(?:[A-Za-z_\.\d]+(?=[!]))/, /^(?:[A-Za-z\.]+(?=[(]))/, /^(?:[A-Za-z]{1,}[A-Za-z_0-9]+)/, /^(?:[A-Za-z_]+)/, /^(?:[0-9]+)/, /^(?:\[(.*)?\])/, /^(?:\{(.*)?\})/, /^(?:&)/, /^(?: )/, /^(?:[.])/, /^(?::)/, /^(?:;)/, /^(?:,)/, /^(?:\*)/, /^(?:\/)/, /^(?:-)/, /^(?:\+)/, /^(?:\^)/, /^(?:\()/, /^(?:\))/, /^(?:>)/, /^(?:<)/, /^(?:NOT\b)/, /^(?:")/, /^(?:')/, /^(?:!)/, /^(?:=)/, /^(?:%)/, /^(?:\{)/, /^(?:\})/, /^(?:[#])/, /^(?:$)/],
+	            rules: [/^(?:\s+)/, /^(?:"(\\["]|[^"])*")/, /^(?:'(\\[']|[^'])*')/, /^(?:[A-Za-z]{1,}[A-Za-z_0-9\.]+(?=[(]))/, /^(?:#[A-Z0-9\/]+(!|\?)?)/, /^(?:\$[A-Za-z]+\$[0-9]+)/, /^(?:\$[A-Za-z]+[0-9]+)/, /^(?:[A-Za-z]+\$[0-9]+)/, /^(?:[A-Za-z]+[0-9]+)/, /^(?:[A-Za-z_\.\d]+(?=[!]))/, /^(?:[A-Za-z\.]+(?=[(]))/, /^(?:[A-Za-z]{1,}[A-Za-z_0-9]+)/, /^(?:[A-Za-z_]+)/, /^(?:[0-9]+)/, /^(?:\[([\w\,\;]*)?\])/, /^(?:\{([\w\,\;\"\.]*)?\})/, /^(?:&)/, /^(?: )/, /^(?:[.])/, /^(?::)/, /^(?:;)/, /^(?:,)/, /^(?:\*)/, /^(?:\/)/, /^(?:-)/, /^(?:\+)/, /^(?:\^)/, /^(?:\()/, /^(?:\))/, /^(?:>)/, /^(?:<)/, /^(?:NOT\b)/, /^(?:")/, /^(?:')/, /^(?:!)/, /^(?:=)/, /^(?:%)/, /^(?:\{)/, /^(?:\})/, /^(?:[#])/, /^(?:$)/],
 	            conditions: { "INITIAL": { "rules": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40], "inclusive": true } }
 	        };
 	        return lexer;
