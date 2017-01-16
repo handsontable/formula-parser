@@ -14718,7 +14718,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    break;
 	                case 16:
 	
-	                    console.log($$[$0 - 2], $$[$0]);
 	                    this.$ = yy.evaluateByOperator('*', [$$[$0 - 2], $$[$0]]);
 	
 	                    break;
@@ -14771,7 +14770,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	                    var textInArray = yytext.replace('{', '').replace('}', '');
 	
 	                    var arr = textInArray.split(';');
-	                    console.log('text in array:', textInArray, 'array', arr);
 	                    if (arr.length <= 1) {
 	                        var arr = eval("[[" + arr + "]]");
 	                        arr.forEach(function (item) {
@@ -14782,7 +14780,6 @@ return /******/ (function(modules) { // webpackBootstrap
 	                            result.push(eval("[" + arr[i] + "]"));
 	                        }
 	                    }
-	                    console.log(result);
 	
 	                    this.$ = result;
 	
@@ -14790,13 +14787,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	                case 24:
 	
 	                    var result = [];
-	                    console.log('text in array:', yytext);
 	                    var arr = eval("[" + yytext + "]");
 	
 	                    arr.forEach(function (item) {
 	                        result.push(item);
 	                    });
-	                    console.log(result);
 	                    this.$ = result;
 	
 	                    break;
