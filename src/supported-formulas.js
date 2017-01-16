@@ -389,7 +389,8 @@ const SUPPORTED_FORMULAS = [
   'YEAR',
   'YEARFRAC',
   'VLOOKUP',
-  'HLOOKUP'
+  'HLOOKUP',
+  'IFERROR'
 ];
 
 export {SUPPORTED_FORMULAS as default};
