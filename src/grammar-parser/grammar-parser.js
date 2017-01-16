@@ -160,7 +160,6 @@ case 15:
 break;
 case 16:
 
-      console.log($$[$0-2], $$[$0]);
       this.$ = yy.evaluateByOperator('*', [$$[$0-2], $$[$0]]);
     
 break;
@@ -213,7 +212,6 @@ case 23:
       var textInArray = yytext.replace('{','').replace('}','');
       
       var arr = textInArray.split(';');
-      console.log('text in array:',textInArray,'array', arr);
       if(arr.length <= 1) {
         var arr = eval("[[" + arr + "]]");
         arr.forEach(function(item) {
@@ -224,7 +222,6 @@ case 23:
           result.push(eval("[" + arr[i] + "]"));
         }
       }
-      console.log(result);
 
       this.$ = result;
   
@@ -232,13 +229,11 @@ break;
 case 24:
 
       var result = [];
-      console.log('text in array:', yytext);
       var arr = eval("[" + yytext + "]");
 
       arr.forEach(function(item) {
         result.push(item);
       });
-      console.log(result);
       this.$ = result;
   
 break;
