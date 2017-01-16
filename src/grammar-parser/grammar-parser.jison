@@ -19,8 +19,8 @@
 [A-Za-z]{1,}[A-Za-z_0-9]+                                                                       {return 'VARIABLE';}
 [A-Za-z_]+                                                                                      {return 'VARIABLE';}
 [0-9]+                                                                                          {return 'NUMBER';}
-'['(.*)?']'                                                                                     {return 'ARRAY';}
-'{'(.*)?'}'                                                                                     {return 'ARRAYCONSTANT';}
+'['([\w\,\;]*)?']'                                                                              {return 'ARRAY';}
+'{'([\w\,\;\"\.]*)?'}'                                                                              {return 'ARRAYCONSTANT';}
 "&"                                                                                             {return '&';}
 " "                                                                                             {return ' ';}
 [.]                                                                                             {return 'DECIMAL';}
@@ -152,9 +152,8 @@ expression
       var textInArray = yytext.replace('{','').replace('}','');
       
       var arr = textInArray.split(';');
-      
       if(arr.length <= 1) {
-        var arr = eval("[" + arr + "]");
+        var arr = eval("[[" + arr + "]]");
         arr.forEach(function(item) {
           result.push(item);
         });
@@ -165,18 +164,15 @@ expression
       }
 
       $$ = result;
-    }
+  }
   | ARRAY {
       var result = [];
-
       var arr = eval("[" + yytext + "]");
 
       arr.forEach(function(item) {
         result.push(item);
       });
-
       $$ = result;
-    }
   }
   | cell
   | refCell
