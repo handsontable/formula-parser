@@ -146,6 +146,38 @@ expression
   | FUNCTION '(' expseq ')' {
       $$ = yy.callFunction($1, $3);
     }
+  | ARRAYCONSTANT {
+      var result = [];
+      
+      var textInArray = yytext.replace('{','').replace('}','');
+      
+      var arr = textInArray.split(';');
+      
+      if(arr.length <= 1) {
+        var arr = eval("[" + arr + "]");
+        arr.forEach(function(item) {
+          result.push(item);
+        });
+      } else {
+        for(var i = 0; i < arr.length; i++) {
+          result.push(eval("[" + arr[i] + "]"));
+        }
+      }
+
+      $$ = result;
+    }
+  | ARRAY {
+      var result = [];
+
+      var arr = eval("[" + yytext + "]");
+
+      arr.forEach(function(item) {
+        result.push(item);
+      });
+
+      $$ = result;
+    }
+  }
   | cell
   | refCell
   | range
@@ -242,32 +274,6 @@ expseq
   : expression {
       $$ = [$1];
     }
-  | ARRAYCONSTANT {
-      var result = [];
-      
-      var textInArray = yytext.replace('{','').replace('}','');
-      
-      var arr = textInArray.split(';');
-      
-      for(var i = 0; i < arr.length; i++) {
-        result.push(eval("[" + arr + "]"));
-      }
-
-      $$ = result;
-    }
-  | ARRAY {
-      var result = [];
-      
-      console
-      var arr = eval("[" + yytext + "]");
-
-      arr.forEach(function(item) {
-        result.push(item);
-      });
-
-      $$ = result;
-    }
-  }
   | expseq ';' expression {
       $1.push($3);
       $$ = $1;
