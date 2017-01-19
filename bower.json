@@ -23,9 +23,5 @@
     "node_modules",
     "src",
     "test"
-  ],
-  "dependencies": {
-    "formulajs": "github:handsontable/formula.js#1.0.6",
-    "tiny-emitter": "^1.0.2"
-  }
+  ]
 }
