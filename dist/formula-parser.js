@@ -14286,6 +14286,10 @@ return /******/ (function(modules) { // webpackBootstrap
 	};
 	
 	exports.VLOOKUP = function (needle, table, index, rangeLookup) {
+	  if (process && process.env && process.env.NODE_ENV === 'compile') {
+	    return 0;
+	  }
+	
 	  if (!needle || !table || !index) {
 	    return error.na;
 	  }
@@ -14293,17 +14297,38 @@ return /******/ (function(modules) { // webpackBootstrap
 	  rangeLookup = rangeLookup || false;
 	  for (var i = 0; i < table.length; i++) {
 	    var row = table[i];
-	    if ((!rangeLookup && row[0] === needle) ||
-	      ((row[0] === needle) ||
-	        (rangeLookup && typeof row[0] === "string" && row[0].toLowerCase().indexOf(needle.toLowerCase()) !== -1))) {
-	      return (index < (row.length + 1) ? row[index - 1] : error.ref);
+	    if (!rangeLookup) {
+	      if (row[0] === needle) {
+	        return (index < (row.length + 1) ? row[index - 1] : error.ref);
+	      }
+	    } else {
+	      if (!isNaN(needle)) {
+	        needle = utils.parseNumber(needle);
+	        var startRange = utils.parseNumber(row[0]);
+	        var isLastIndex = i === (table.length - 1) ? true : false;
+	        if (isLastIndex) {
+	          return (index < (row.length + 1) ? row[index - 1] : error.ref);
+	        } else {
+	          var endRange = utils.parseNumber(table[i + 1][0]) - 1;
+	          if (needle >= startRange && needle <= endRange) {
+	            return (index < (row.length + 1) ? row[index - 1] : error.ref);
+	          }
+	        }
+	      } else {
+	        if (row[0].toLowerCase().indexOf(needle.toLowerCase()) !== -1) {
+	          return (index < (row.length + 1) ? row[index - 1] : error.ref);
+	        }
+	      }
 	    }
 	  }
-	
 	  return error.na;
-	};      
+	};
 	
 	exports.HLOOKUP = function (needle, table, index, rangeLookup) {
+	  if (process && process.env && process.env.NODE_ENV === 'compile') {
+	    return 0;
+	  }
+	  
 	  if (!needle || !table || !index) {
 	    return error.na;
 	  }
