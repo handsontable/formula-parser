@@ -19,8 +19,8 @@
 [A-Za-z]{1,}[A-Za-z_0-9]+                                                                       {return 'VARIABLE';}
 [A-Za-z_]+                                                                                      {return 'VARIABLE';}
 [0-9]+                                                                                          {return 'NUMBER';}
-'['([\w\,\;]*)?']'                                                                              {return 'ARRAY';}
-'{'([\w\,\;\"\.]*)?'}'                                                                              {return 'ARRAYCONSTANT';}
+'['([\w\,\;\s]*)?']'                                                                            {return 'ARRAY';}
+'{'([\w\,\;\"\.\s]*)?'}'                                                                        {return 'ARRAYCONSTANT';}
 "&"                                                                                             {return '&';}
 " "                                                                                             {return ' ';}
 [.]                                                                                             {return 'DECIMAL';}
