@@ -2,19 +2,19 @@ import func from '../../../../src/evaluate-by-operator/operator/greater-than-or-
 
 describe('greater than or equal operator', () => {
   it('should set SYMBOL const', () => {
-    expect(func.SYMBOL).to.eq('>=');
+    expect(func.SYMBOL).toBe('>=');
   });
 
   it('should correctly process values', () => {
-    expect(func(2, 8.8)).to.eq(false);
-    expect(func('2', 8.8)).to.eq(false);
-    expect(func(void 0, null)).to.eq(false);
-    expect(func(0, void 0)).to.eq(false);
+    expect(func(2, 8.8)).toBe(false);
+    expect(func('2', 8.8)).toBe(false);
+    expect(func(void 0, null)).toBe(false);
+    expect(func(0, void 0)).toBe(false);
 
-    expect(func(0, null)).to.eq(true); // JS natively
-    expect(func(1, '1')).to.eq(true);
-    expect(func(1, 1)).to.eq(true);
-    expect(func(2, 1)).to.eq(true);
-    expect(func(2.2, 2.1)).to.eq(true);
+    expect(func(0, null)).toBe(true); // JS natively
+    expect(func(1, '1')).toBe(true);
+    expect(func(1, 1)).toBe(true);
+    expect(func(2, 1)).toBe(true);
+    expect(func(2.2, 2.1)).toBe(true);
   });
 });

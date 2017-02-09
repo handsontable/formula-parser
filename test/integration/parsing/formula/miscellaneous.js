@@ -1,4 +1,4 @@
-import {Parser} from '../../../../src/parser';
+import Parser from '../../../../src/parser';
 
 describe('.parse() miscellaneous formulas', () => {
   let parser;
@@ -11,21 +11,21 @@ describe('.parse() miscellaneous formulas', () => {
   });
 
   it('NUMERAL', () => {
-    expect(parser.parse('NUMERAL()')).to.deep.equal({error: null, result: '0'});
-    expect(parser.parse('NUMERAL(100, "0,0.000")')).to.deep.equal({error: null, result: '100.000'});
-    expect(parser.parse('NUMERAL(100, "$0,0.0")')).to.deep.equal({error: null, result: '$100.0'});
+    expect(parser.parse('NUMERAL()')).toMatchObject({error: null, result: '0'});
+    expect(parser.parse('NUMERAL(100, "0,0.000")')).toMatchObject({error: null, result: '100.000'});
+    expect(parser.parse('NUMERAL(100, "$0,0.0")')).toMatchObject({error: null, result: '$100.0'});
   });
 
   it('UNIQUE', () => {
-    expect(parser.parse('UNIQUE()')).to.deep.equal({error: null, result: []});
-    expect(parser.parse('UNIQUE(1, 2, 3, 4, 4, 4, 4, 3)')).to.deep.equal({error: null, result: [1, 2, 3, 4]});
-    expect(parser.parse('UNIQUE("foo", "bar", "foo")')).to.deep.equal({error: null, result: ['foo', 'bar']});
+    expect(parser.parse('UNIQUE()')).toMatchObject({error: null, result: []});
+    expect(parser.parse('UNIQUE(1, 2, 3, 4, 4, 4, 4, 3)')).toMatchObject({error: null, result: [1, 2, 3, 4]});
+    expect(parser.parse('UNIQUE("foo", "bar", "foo")')).toMatchObject({error: null, result: ['foo', 'bar']});
   });
 
   it('ARGS2ARRAY', () => {
-    expect(parser.parse('ARGS2ARRAY()')).to.deep.equal({error: null, result: []});
-    expect(parser.parse('ARGS2ARRAY(1, 4, 4, 3)')).to.deep.equal({error: null, result: [1, 4, 4, 3]});
-    expect(parser.parse('ARGS2ARRAY("foo", "bar", "foo")')).to.deep.equal({error: null, result: ['foo', 'bar', 'foo']});
+    expect(parser.parse('ARGS2ARRAY()')).toMatchObject({error: null, result: []});
+    expect(parser.parse('ARGS2ARRAY(1, 4, 4, 3)')).toMatchObject({error: null, result: [1, 4, 4, 3]});
+    expect(parser.parse('ARGS2ARRAY("foo", "bar", "foo")')).toMatchObject({error: null, result: ['foo', 'bar', 'foo']});
   });
 
   it('FLATTEN', () => {
@@ -35,7 +35,7 @@ describe('.parse() miscellaneous formulas', () => {
       }
     });
 
-    expect(parser.parse('FLATTEN(A1:B3)')).to.deep.equal({error: null, result: [1, 2, 3, 4, 5]});
+    expect(parser.parse('FLATTEN(A1:B3)')).toMatchObject({error: null, result: [1, 2, 3, 4, 5]});
   });
 
   it('JOIN', () => {
@@ -45,13 +45,13 @@ describe('.parse() miscellaneous formulas', () => {
       }
     });
 
-    expect(parser.parse('JOIN(A1:B3)')).to.deep.equal({error: null, result: '1,2,3,4,5'});
+    expect(parser.parse('JOIN(A1:B3)')).toMatchObject({error: null, result: '1,2,3,4,5'});
   });
 
   it('NUMBERS', () => {
-    expect(parser.parse('NUMBERS()')).to.deep.equal({error: null, result: []});
-    expect(parser.parse('NUMBERS(1, "4", "4", 3)')).to.deep.equal({error: null, result: [1, 3]});
-    expect(parser.parse('NUMBERS("foo", 2, "bar", "foo")')).to.deep.equal({error: null, result: [2]});
+    expect(parser.parse('NUMBERS()')).toMatchObject({error: null, result: []});
+    expect(parser.parse('NUMBERS(1, "4", "4", 3)')).toMatchObject({error: null, result: [1, 3]});
+    expect(parser.parse('NUMBERS("foo", 2, "bar", "foo")')).toMatchObject({error: null, result: [2]});
   });
 
   it('REFERENCE', () => {
@@ -61,6 +61,6 @@ describe('.parse() miscellaneous formulas', () => {
       }
     });
 
-    expect(parser.parse('REFERENCE(A1, "name.firstName")')).to.deep.equal({error: null, result: 'Jim'});
+    expect(parser.parse('REFERENCE(A1, "name.firstName")')).toMatchObject({error: null, result: 'Jim'});
   });
 });
