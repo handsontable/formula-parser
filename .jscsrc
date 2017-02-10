@@ -72,5 +72,6 @@
   "requireSemicolons": true,
   "validateQuoteMarks": "'",
   "validateIndentation": 2,
-  "disallowNotOperatorsInConditionals": true
+  "disallowNotOperatorsInConditionals": true,
+  "excludeFiles": ["src/grammar-parser/grammar-parser.js"]
 }

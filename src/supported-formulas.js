@@ -390,4 +390,4 @@ const SUPPORTED_FORMULAS = [
   'YEARFRAC',
 ];
 
-export {SUPPORTED_FORMULAS as default};
+export default SUPPORTED_FORMULAS;

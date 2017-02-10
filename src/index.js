@@ -1,4 +1,5 @@
-import {Parser, SUPPORTED_FORMULAS} from './src/parser';
+import Parser from './parser';
+import SUPPORTED_FORMULAS from './supported-formulas';
 import {
   default as error,
   ERROR,
@@ -9,7 +10,7 @@ import {
   ERROR_NUM,
   ERROR_REF,
   ERROR_VALUE
-} from './src/error';
+} from './error';
 import {
   extractLabel,
   toLabel,
@@ -17,7 +18,7 @@ import {
   columnLabelToIndex,
   rowIndexToLabel,
   rowLabelToIndex
-} from './src/helper/cell';
+} from './helper/cell';
 
 export {
   SUPPORTED_FORMULAS,

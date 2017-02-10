@@ -20,5 +20,4 @@ tmp
 .DS_Store
 */.DS_Store
 */*/.DS_Store
-lib-cov
 dev.html
