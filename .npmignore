@@ -1,6 +1,15 @@
-# Editor conf
+# Conf
 .idea
+.codeclimate.yml
+.editorconfig
+.eslintignore
+.eslintrc
+.gitignore
+.jscsrc
+.release.json
+.travis.yml
 dump.rdb
+webpack.config.js
 
 # Logs
 logs
@@ -14,6 +23,8 @@ pids
 coverage
 node_modules
 bower_components
+test
+src
 
 # Common
 tmp
