@@ -9,6 +9,7 @@
 .release.json
 .travis.yml
 dump.rdb
+webpack.config.js
 
 # Logs
 logs
