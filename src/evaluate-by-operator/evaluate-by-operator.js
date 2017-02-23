@@ -12,8 +12,13 @@ import {default as multiply} from './operator/multiply';
 import {default as notEqual} from './operator/not-equal';
 import {default as power} from './operator/power';
 import {ERROR_NAME} from './../error';
+import BigNumber from 'bignumber.js';
 
 const availableOperators = Object.create(null);
+
+// Configuration
+
+BigNumber.config({ ERRORS: false });
 
 registerOperation(add.SYMBOL, add);
 registerOperation(ampersand.SYMBOL, ampersand);

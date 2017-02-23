@@ -202,7 +202,7 @@ describe('.parse() engineering formulas', () => {
 
   it('IMCOS', () => {
     expect(parser.parse('IMCOS()')).to.deep.equal({error: '#VALUE!', result: null});
-    expect(parser.parse('IMCOS("3+4i")')).to.deep.equal({error: null, result: '-27.03494560307422-3.8511533348117766i'});
+    expect(parser.parse('IMCOS("3+4i")')).to.deep.equal({error: null, result: '-27.034945603074224-3.851153334811777i'});
   });
 
   it('IMCOSH', () => {
@@ -212,7 +212,7 @@ describe('.parse() engineering formulas', () => {
 
   it('IMCOT', () => {
     expect(parser.parse('IMCOT()')).to.deep.equal({error: '#VALUE!', result: null});
-    expect(parser.parse('IMCOT("3+4i")')).to.deep.equal({error: null, result: '-0.0001875877379836712-1.0006443924715591i'});
+    expect(parser.parse('IMCOT("3+4i")')).to.deep.equal({error: null, result: '-0.00018758773798367118-1.0006443924715591i'});
   });
 
   it('IMCSC', () => {
@@ -270,7 +270,7 @@ describe('.parse() engineering formulas', () => {
 
   it('IMSEC', () => {
     expect(parser.parse('IMSEC()')).to.deep.equal({error: '#VALUE!', result: null});
-    expect(parser.parse('IMSEC("3+4i")')).to.deep.equal({error: null, result: '-0.03625349691586888+0.005164344607753179i'});
+    expect(parser.parse('IMSEC("3+4i")')).to.deep.equal({error: null, result: '-0.03625349691586887+0.005164344607753179i'});
   });
 
   it('IMSECH', () => {
@@ -280,7 +280,7 @@ describe('.parse() engineering formulas', () => {
 
   it('IMSIN', () => {
     expect(parser.parse('IMSIN()')).to.deep.equal({error: '#VALUE!', result: null});
-    expect(parser.parse('IMSIN("3+4i")')).to.deep.equal({error: null, result: '3.8537380379193764-27.01681325800393i'});
+    expect(parser.parse('IMSIN("3+4i")')).to.deep.equal({error: null, result: '3.853738037919377-27.016813258003932i'});
   });
 
   it('IMSINH', () => {
@@ -307,7 +307,7 @@ describe('.parse() engineering formulas', () => {
 
   it('IMTAN', () => {
     expect(parser.parse('IMTAN()')).to.deep.equal({error: '#VALUE!', result: null});
-    expect(parser.parse('IMTAN("3+4i")')).to.deep.equal({error: null, result: '-0.00018734620462949037+0.9993559873814729i'});
+    expect(parser.parse('IMTAN("3+4i")')).to.deep.equal({error: null, result: '-0.00018734620462949035+0.9993559873814731i'});
   });
 
   it('OCT2BIN', () => {

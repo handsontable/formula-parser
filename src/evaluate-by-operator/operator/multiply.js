@@ -1,16 +1,23 @@
-import {toNumber} from './../../helper/number';
-import {ERROR_VALUE} from './../../error';
+import { toNumber } from './../../helper/number';
+import { ERROR_VALUE, } from './../../error';
+import BigNumber from 'bignumber.js';
 
 export const SYMBOL = '*';
 
 export default function func(first, ...rest) {
-  const result = rest.reduce((acc, value) => acc * toNumber(value), toNumber(first));
+  try {
+    const result = rest.reduce((acc, value) => {
+      return (new BigNumber(acc)).mul(new BigNumber(value)).toNumber();
+    }, first);
 
-  if (isNaN(result)) {
+    if (isNaN(result)) {
+      throw Error(ERROR_VALUE);
+    }
+
+    return result;
+  } catch (error) {
     throw Error(ERROR_VALUE);
   }
-
-  return result;
 };
 
 func.SYMBOL = SYMBOL;

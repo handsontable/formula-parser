@@ -76,6 +76,7 @@
     "mainVarName": "formulaParser"
   },
   "dependencies": {
+    "bignumber.js": "4.0.0",
     "formulajs": "github:vudknguyen/formula.js#1.1.3",
     "tiny-emitter": "^1.0.2"
   }
