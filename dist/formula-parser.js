@@ -493,11 +493,11 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _add2 = _interopRequireDefault(_add);
 	
-	var _ampersand = __webpack_require__(8);
+	var _ampersand = __webpack_require__(9);
 	
 	var _ampersand2 = _interopRequireDefault(_ampersand);
 	
-	var _divide = __webpack_require__(9);
+	var _divide = __webpack_require__(10);
 	
 	var _divide2 = _interopRequireDefault(_divide);
 	
@@ -543,7 +543,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _error = __webpack_require__(7);
 	
-	var _bignumber = __webpack_require__(10);
+	var _bignumber = __webpack_require__(8);
 	
 	var _bignumber2 = _interopRequireDefault(_bignumber);
 	
@@ -625,22 +625,32 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _error = __webpack_require__(7);
 	
+	var _bignumber = __webpack_require__(8);
+	
+	var _bignumber2 = _interopRequireDefault(_bignumber);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
 	var SYMBOL = exports.SYMBOL = '+';
 	
 	function func(first) {
-	  for (var _len = arguments.length, rest = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-	    rest[_key - 1] = arguments[_key];
-	  }
+	  try {
+	    for (var _len = arguments.length, rest = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+	      rest[_key - 1] = arguments[_key];
+	    }
 	
-	  var result = rest.reduce(function (acc, value) {
-	    return acc + (0, _number.toNumber)(value);
-	  }, (0, _number.toNumber)(first));
+	    var result = rest.reduce(function (acc, value) {
+	      return new _bignumber2.default(acc).plus(new _bignumber2.default(value)).toNumber();
+	    }, first);
 	
-	  if (isNaN(result)) {
+	    if (isNaN(result)) {
+	      throw Error(_error.ERROR_VALUE);
+	    }
+	
+	    return result;
+	  } catch (error) {
 	    throw Error(_error.ERROR_VALUE);
 	  }
-	
-	  return result;
 	};
 	
 	func.SYMBOL = SYMBOL;
@@ -751,85 +761,6 @@ return /******/ (function(modules) { // webpackBootstrap
 
 /***/ },
 /* 8 */
-/***/ function(module, exports) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.default = func;
-	var SYMBOL = exports.SYMBOL = '&';
-	
-	function func() {
-	  for (var _len = arguments.length, params = Array(_len), _key = 0; _key < _len; _key++) {
-	    params[_key] = arguments[_key];
-	  }
-	
-	  return params.reduce(function (acc, value) {
-	    return acc + value.toString();
-	  }, '');
-	};
-	
-	func.SYMBOL = SYMBOL;
-
-/***/ },
-/* 9 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	exports.SYMBOL = undefined;
-	exports.default = func;
-	
-	var _number = __webpack_require__(6);
-	
-	var _error = __webpack_require__(7);
-	
-	var _bignumber = __webpack_require__(10);
-	
-	var _bignumber2 = _interopRequireDefault(_bignumber);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-	
-	var SYMBOL = exports.SYMBOL = '/';
-	
-	function func(first) {
-	  try {
-	    for (var _len = arguments.length, rest = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-	      rest[_key - 1] = arguments[_key];
-	    }
-	
-	    var result = rest.reduce(function (acc, value) {
-	      var tempValue = new _bignumber2.default(acc).div(new _bignumber2.default((0, _number.toNumber)(value))).toNumber();
-	      if (tempValue === Infinity || tempValue === -Infinity) {
-	        throw Error(_error.ERROR_DIV_ZERO);
-	      }
-	
-	      return tempValue;
-	    }, (0, _number.toNumber)(first));
-	
-	    if (isNaN(result)) {
-	      throw Error(_error.ERROR_VALUE);
-	    }
-	
-	    return result;
-	  } catch (error) {
-	    if (error.message === _error.ERROR_DIV_ZERO) {
-	      throw Error(_error.ERROR_DIV_ZERO);
-	    }
-	
-	    throw Error(_error.ERROR_VALUE);
-	  }
-	};
-	
-	func.SYMBOL = SYMBOL;
-
-/***/ },
-/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var __WEBPACK_AMD_DEFINE_RESULT__;/*! bignumber.js v4.0.0 https://github.com/MikeMcl/bignumber.js/LICENCE */
@@ -3567,6 +3498,85 @@ return /******/ (function(modules) { // webpackBootstrap
 	    }
 	})(this);
 
+
+/***/ },
+/* 9 */
+/***/ function(module, exports) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.default = func;
+	var SYMBOL = exports.SYMBOL = '&';
+	
+	function func() {
+	  for (var _len = arguments.length, params = Array(_len), _key = 0; _key < _len; _key++) {
+	    params[_key] = arguments[_key];
+	  }
+	
+	  return params.reduce(function (acc, value) {
+	    return acc + value.toString();
+	  }, '');
+	};
+	
+	func.SYMBOL = SYMBOL;
+
+/***/ },
+/* 10 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	exports.SYMBOL = undefined;
+	exports.default = func;
+	
+	var _number = __webpack_require__(6);
+	
+	var _error = __webpack_require__(7);
+	
+	var _bignumber = __webpack_require__(8);
+	
+	var _bignumber2 = _interopRequireDefault(_bignumber);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
+	var SYMBOL = exports.SYMBOL = '/';
+	
+	function func(first) {
+	  try {
+	    for (var _len = arguments.length, rest = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+	      rest[_key - 1] = arguments[_key];
+	    }
+	
+	    var result = rest.reduce(function (acc, value) {
+	      var tempValue = new _bignumber2.default(acc).div(new _bignumber2.default((0, _number.toNumber)(value))).toNumber();
+	      if (tempValue === Infinity || tempValue === -Infinity) {
+	        throw Error(_error.ERROR_DIV_ZERO);
+	      }
+	
+	      return tempValue;
+	    }, (0, _number.toNumber)(first));
+	
+	    if (isNaN(result)) {
+	      throw Error(_error.ERROR_VALUE);
+	    }
+	
+	    return result;
+	  } catch (error) {
+	    if (error.message === _error.ERROR_DIV_ZERO) {
+	      throw Error(_error.ERROR_DIV_ZERO);
+	    }
+	
+	    throw Error(_error.ERROR_VALUE);
+	  }
+	};
+	
+	func.SYMBOL = SYMBOL;
 
 /***/ },
 /* 11 */
@@ -17206,22 +17216,32 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _error = __webpack_require__(7);
 	
+	var _bignumber = __webpack_require__(8);
+	
+	var _bignumber2 = _interopRequireDefault(_bignumber);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+	
 	var SYMBOL = exports.SYMBOL = '-';
 	
 	function func(first) {
-	  for (var _len = arguments.length, rest = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
-	    rest[_key - 1] = arguments[_key];
-	  }
+	  try {
+	    for (var _len = arguments.length, rest = Array(_len > 1 ? _len - 1 : 0), _key = 1; _key < _len; _key++) {
+	      rest[_key - 1] = arguments[_key];
+	    }
 	
-	  var result = rest.reduce(function (acc, value) {
-	    return acc - (0, _number.toNumber)(value);
-	  }, (0, _number.toNumber)(first));
+	    var result = rest.reduce(function (acc, value) {
+	      return new _bignumber2.default(acc).minus(new _bignumber2.default(value)).toNumber();
+	    }, first);
 	
-	  if (isNaN(result)) {
+	    if (isNaN(result)) {
+	      throw Error(_error.ERROR_VALUE);
+	    }
+	
+	    return result;
+	  } catch (error) {
 	    throw Error(_error.ERROR_VALUE);
 	  }
-	
-	  return result;
 	};
 	
 	func.SYMBOL = SYMBOL;
@@ -17242,7 +17262,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _error = __webpack_require__(7);
 	
-	var _bignumber = __webpack_require__(10);
+	var _bignumber = __webpack_require__(8);
 	
 	var _bignumber2 = _interopRequireDefault(_bignumber);
 	
@@ -17306,7 +17326,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	var _error = __webpack_require__(7);
 	
-	var _bignumber = __webpack_require__(10);
+	var _bignumber = __webpack_require__(8);
 	
 	var _bignumber2 = _interopRequireDefault(_bignumber);
 	
