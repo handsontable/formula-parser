@@ -3796,6 +3796,9 @@ return /******/ (function(modules) { // webpackBootstrap
 	var error = __webpack_require__(17);
 	var statistical = __webpack_require__(18);
 	var information = __webpack_require__(24);
+	var BigNumber = __webpack_require__(8);
+	
+	BigNumber.config({ ERRORS: false });
 	
 	exports.ABS = function(number) {
 	  number = utils.parseNumber(number);
@@ -4752,15 +4755,13 @@ return /******/ (function(modules) { // webpackBootstrap
 	
 	exports.SUM = function() {
 	  var result = 0;
-	
 	  utils.arrayEach(utils.argsToArray(arguments), function(value) {
 	    if (typeof value === 'number') {
-	      result += value;
-	
+	      result = (new BigNumber(result)).plus(new BigNumber(value)).toNumber();
 	    } else if (typeof value === 'string') {
 	      var parsed = parseFloat(value);
 	
-	      !isNaN(parsed) && (result += parsed);
+	      !isNaN(parsed) && (result = (new BigNumber(result)).plus(new BigNumber(value)).toNumber());
 	
 	    } else if (Array.isArray(value)) {
 	      result += exports.SUM.apply(null, value);
