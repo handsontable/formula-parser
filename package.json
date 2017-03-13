@@ -73,7 +73,7 @@
     "eslint": "^3.8.1",
     "generate-release": "^0.10.2",
     "glob": "^7.1.1",
-    "jest": "^18.1.0",
+    "jest": "^19.0.2",
     "jison": "^0.4.17",
     "jscs": "^3.0.7",
     "null-loader": "^0.1.1",
@@ -89,9 +89,10 @@
     "testPathIgnorePatterns": [
       "./test/index.js"
     ],
-    "testPathDirs": [
+    "roots": [
       "./test"
     ],
-    "testRegex": "(test\\/index\\.js|/test/.*.js)$"
+    "testRegex": "(test\\/index\\.js|/test/.*.js)$",
+    "collectCoverageFrom" : ["**/*.{js}", "!src/grammar-parser/**"]
   }
 }
