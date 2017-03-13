@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-as-default-member */
 import func from '../../../../src/evaluate-by-operator/operator/power';
 
 describe('power operator', () => {

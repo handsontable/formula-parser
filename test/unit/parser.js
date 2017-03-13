@@ -135,7 +135,7 @@ describe('Parser', () => {
     });
 
     it('should return variable when it was set', () => {
-      parser.getVariable = jest.fn((name) => name === 'bar' ? 'foo' : 'baz');
+      parser.getVariable = jest.fn((name) => (name === 'bar' ? 'foo' : 'baz'));
 
       expect(parser._callVariable('bar')).toBe('foo');
       expect(parser._callVariable('barrr')).toBe('baz');
@@ -172,7 +172,7 @@ describe('Parser', () => {
         } else if (row.index === 3 && column.index === 7 && column.isAbsolute) {
           value = true;
         } else if (row.index === 4 && row.isAbsolute && column.index === 7 && column.isAbsolute) {
-          value = .9;
+          value = 0.9;
         }
 
         done(value);
@@ -208,7 +208,7 @@ describe('Parser', () => {
           value = [[true, false], [true, true]];
 
         } else if (row1.index === 4 && row1.isAbsolute && column1.index === 7 && column1.isAbsolute) {
-          value = .9;
+          value = 0.9;
         }
 
         done(value);

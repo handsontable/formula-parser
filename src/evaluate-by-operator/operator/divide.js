@@ -14,6 +14,6 @@ export default function func(first, ...rest) {
   }
 
   return result;
-};
+}
 
 func.SYMBOL = SYMBOL;

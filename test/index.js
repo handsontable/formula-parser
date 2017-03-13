@@ -1,7 +1,7 @@
 // import jest from 'jest';
 
 function tolerance(precision) {
-  if (precision == null) {
+  if (precision === void 0 || precision === null) {
     precision = 7;
   }
 
@@ -9,7 +9,7 @@ function tolerance(precision) {
 }
 
 jest.addMatchers({
-  toBeMatchCloseTo(util, customEqualityTesters) {
+  toBeMatchCloseTo() {
     return {
       compare(actual, expected, precision) {
         let pass = false;

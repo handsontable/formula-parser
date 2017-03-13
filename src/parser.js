@@ -1,9 +1,9 @@
 import Emitter from 'tiny-emitter';
 import evaluateByOperator from './evaluate-by-operator/evaluate-by-operator';
-import {Parser as GrammarParser} from './grammar-parser/grammar-parser.js';
+import {Parser as GrammarParser} from './grammar-parser/grammar-parser';
 import {trimEdges} from './helper/string';
 import {toNumber, invertNumber} from './helper/number';
-import {default as errorParser, isValidStrict as isErrorValid, ERROR, ERROR_NAME} from './error';
+import errorParser, {isValidStrict as isErrorValid, ERROR, ERROR_NAME} from './error';
 import {extractLabel, toLabel} from './helper/cell';
 
 /**
@@ -64,8 +64,8 @@ class Parser extends Emitter {
     }
 
     return {
-      error: error,
-      result: result
+      error,
+      result,
     };
   }
 

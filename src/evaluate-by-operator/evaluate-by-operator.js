@@ -1,33 +1,20 @@
-import {default as add} from './operator/add';
-import {default as ampersand} from './operator/ampersand';
-import {default as divide} from './operator/divide';
-import {default as equal} from './operator/equal';
-import {default as formulaFunction} from './operator/formula-function';
-import {default as greaterThan} from './operator/greater-than';
-import {default as greaterThanOrEqual} from './operator/greater-than-or-equal';
-import {default as lessThan} from './operator/less-than';
-import {default as lessThanOrEqual} from './operator/less-than-or-equal';
-import {default as minus} from './operator/minus';
-import {default as multiply} from './operator/multiply';
-import {default as notEqual} from './operator/not-equal';
-import {default as power} from './operator/power';
+/* eslint-disable import/no-named-as-default-member */
+import add from './operator/add';
+import ampersand from './operator/ampersand';
+import divide from './operator/divide';
+import equal from './operator/equal';
+import formulaFunction from './operator/formula-function';
+import greaterThan from './operator/greater-than';
+import greaterThanOrEqual from './operator/greater-than-or-equal';
+import lessThan from './operator/less-than';
+import lessThanOrEqual from './operator/less-than-or-equal';
+import minus from './operator/minus';
+import multiply from './operator/multiply';
+import notEqual from './operator/not-equal';
+import power from './operator/power';
 import {ERROR_NAME} from './../error';
 
 const availableOperators = Object.create(null);
-
-registerOperation(add.SYMBOL, add);
-registerOperation(ampersand.SYMBOL, ampersand);
-registerOperation(divide.SYMBOL, divide);
-registerOperation(equal.SYMBOL, equal);
-registerOperation(power.SYMBOL, power);
-registerOperation(formulaFunction.SYMBOL, formulaFunction);
-registerOperation(greaterThan.SYMBOL, greaterThan);
-registerOperation(greaterThanOrEqual.SYMBOL, greaterThanOrEqual);
-registerOperation(lessThan.SYMBOL, lessThan);
-registerOperation(lessThanOrEqual.SYMBOL, lessThanOrEqual);
-registerOperation(multiply.SYMBOL, multiply);
-registerOperation(notEqual.SYMBOL, notEqual);
-registerOperation(minus.SYMBOL, minus);
 
 /**
  * Evaluate values by operator id.git
@@ -64,3 +51,17 @@ export function registerOperation(symbol, func) {
     }
   });
 }
+
+registerOperation(add.SYMBOL, add);
+registerOperation(ampersand.SYMBOL, ampersand);
+registerOperation(divide.SYMBOL, divide);
+registerOperation(equal.SYMBOL, equal);
+registerOperation(power.SYMBOL, power);
+registerOperation(formulaFunction.SYMBOL, formulaFunction);
+registerOperation(greaterThan.SYMBOL, greaterThan);
+registerOperation(greaterThanOrEqual.SYMBOL, greaterThanOrEqual);
+registerOperation(lessThan.SYMBOL, lessThan);
+registerOperation(lessThanOrEqual.SYMBOL, lessThanOrEqual);
+registerOperation(multiply.SYMBOL, multiply);
+registerOperation(notEqual.SYMBOL, notEqual);
+registerOperation(minus.SYMBOL, minus);

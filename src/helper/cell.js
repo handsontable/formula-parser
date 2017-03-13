@@ -1,43 +1,35 @@
-const LABEL_EXTRACT_REGEXP = /^([$])?([A-Za-z]+)([$])?([0-9]+)$/;
-
 /**
- * Extract cell coordinates.
+ * Convert row label to index.
  *
- * @param {String} label Cell coordinates (eq. 'A1', '$B6', '$N$98').
- * @returns {Array} Returns an array of objects.
+ * @param {String} label Row label (eq. '1', '5')
+ * @returns {Number} Returns -1 if label is not recognized otherwise proper row index.
  */
-export function extractLabel(label) {
-  if (typeof label !== 'string' || !LABEL_EXTRACT_REGEXP.test(label)) {
-    return [];
-  }
-  const [, columnAbs, column, rowAbs, row] = label.toUpperCase().match(LABEL_EXTRACT_REGEXP);
+export function rowLabelToIndex(label) {
+  let result = parseInt(label, 10);
 
-  return [
-    {
-      index: rowLabelToIndex(row),
-      label: row,
-      isAbsolute: rowAbs === '$',
-    },
-    {
-      index: columnLabelToIndex(column),
-      label: column,
-      isAbsolute: columnAbs === '$'
-    }
-  ];
+  if (isNaN(result)) {
+    result = -1;
+  } else {
+    result = Math.max(result - 1, -1);
+  }
+
+  return result;
 }
 
 /**
- * Convert row and column indexes into cell label.
+ * Convert row index to label.
  *
- * @param {Object} row Object with `index` and `isAbsolute` properties.
- * @param {Object} column Object with `index` and `isAbsolute` properties.
- * @returns {String} Returns cell label.
+ * @param {Number} row Row index.
+ * @returns {String} Returns row label (eq. '1', '7').
  */
-export function toLabel(row, column) {
-  const rowLabel = (row.isAbsolute ? '$' : '') + rowIndexToLabel(row.index);
-  const columnLabel = (column.isAbsolute ? '$' : '') + columnIndexToLabel(column.index);
+export function rowIndexToLabel(row) {
+  let result = '';
 
-  return columnLabel + rowLabel;
+  if (row >= 0) {
+    result = `${row + 1}`;
+  }
+
+  return result;
 }
 
 const COLUMN_LABEL_BASE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -74,43 +66,51 @@ export function columnIndexToLabel(column) {
   let result = '';
 
   while (column >= 0) {
-    result = String.fromCharCode(column % COLUMN_LABEL_BASE_LENGTH + 97) + result;
+    result = String.fromCharCode((column % COLUMN_LABEL_BASE_LENGTH) + 97) + result;
     column = Math.floor(column / COLUMN_LABEL_BASE_LENGTH) - 1;
   }
 
   return result.toUpperCase();
 }
 
+const LABEL_EXTRACT_REGEXP = /^([$])?([A-Za-z]+)([$])?([0-9]+)$/;
+
 /**
- * Convert row label to index.
+ * Extract cell coordinates.
  *
- * @param {String} label Row label (eq. '1', '5')
- * @returns {Number} Returns -1 if label is not recognized otherwise proper row index.
+ * @param {String} label Cell coordinates (eq. 'A1', '$B6', '$N$98').
+ * @returns {Array} Returns an array of objects.
  */
-export function rowLabelToIndex(label) {
-  let result = parseInt(label, 10);
-
-  if (isNaN(result)) {
-    result = -1;
-  } else {
-    result = Math.max(result - 1, -1);
+export function extractLabel(label) {
+  if (typeof label !== 'string' || !LABEL_EXTRACT_REGEXP.test(label)) {
+    return [];
   }
+  const [, columnAbs, column, rowAbs, row] = label.toUpperCase().match(LABEL_EXTRACT_REGEXP);
 
-  return result;
+  return [
+    {
+      index: rowLabelToIndex(row),
+      label: row,
+      isAbsolute: rowAbs === '$',
+    },
+    {
+      index: columnLabelToIndex(column),
+      label: column,
+      isAbsolute: columnAbs === '$',
+    },
+  ];
 }
 
 /**
- * Convert row index to label.
+ * Convert row and column indexes into cell label.
  *
- * @param {Number} row Row index.
- * @returns {String} Returns row label (eq. '1', '7').
+ * @param {Object} row Object with `index` and `isAbsolute` properties.
+ * @param {Object} column Object with `index` and `isAbsolute` properties.
+ * @returns {String} Returns cell label.
  */
-export function rowIndexToLabel(row) {
-  let result = '';
+export function toLabel(row, column) {
+  const rowLabel = (row.isAbsolute ? '$' : '') + rowIndexToLabel(row.index);
+  const columnLabel = (column.isAbsolute ? '$' : '') + columnIndexToLabel(column.index);
 
-  if (row >= 0) {
-    result = `${row + 1}`;
-  }
-
-  return result;
+  return columnLabel + rowLabel;
 }

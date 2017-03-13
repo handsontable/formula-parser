@@ -1,4 +1,11 @@
-import {extractLabel, toLabel, columnIndexToLabel, columnLabelToIndex, rowIndexToLabel, rowLabelToIndex} from '../../../src/helper/cell';
+import {
+  extractLabel,
+  toLabel,
+  columnIndexToLabel,
+  columnLabelToIndex,
+  rowIndexToLabel,
+  rowLabelToIndex,
+} from '../../../src/helper/cell';
 
 describe('.extractLabel()', () => {
   it('should correctly extract coordinates', () => {
@@ -12,7 +19,7 @@ describe('.extractLabel()', () => {
         index: 0,
         label: 'A',
         isAbsolute: false,
-      }
+      },
     ]);
     expect(extractLabel('a1')).toMatchObject([
       {
@@ -24,7 +31,7 @@ describe('.extractLabel()', () => {
         index: 0,
         label: 'A',
         isAbsolute: false,
-      }
+      },
     ]);
     expect(extractLabel('A$1')).toMatchObject([
       {
@@ -36,7 +43,7 @@ describe('.extractLabel()', () => {
         index: 0,
         label: 'A',
         isAbsolute: false,
-      }
+      },
     ]);
     expect(extractLabel('a$1')).toMatchObject([
       {
@@ -48,7 +55,7 @@ describe('.extractLabel()', () => {
         index: 0,
         label: 'A',
         isAbsolute: false,
-      }
+      },
     ]);
     expect(extractLabel('$A1')).toMatchObject([
       {
@@ -60,7 +67,7 @@ describe('.extractLabel()', () => {
         index: 0,
         label: 'A',
         isAbsolute: true,
-      }
+      },
     ]);
     expect(extractLabel('$A$1')).toMatchObject([
       {
@@ -72,7 +79,7 @@ describe('.extractLabel()', () => {
         index: 0,
         label: 'A',
         isAbsolute: true,
-      }
+      },
     ]);
     expect(extractLabel('$AG199')).toMatchObject([
       {
@@ -84,7 +91,7 @@ describe('.extractLabel()', () => {
         index: 32,
         label: 'AG',
         isAbsolute: true,
-      }
+      },
     ]);
     expect(extractLabel('$Ag199')).toMatchObject([
       {
@@ -96,7 +103,7 @@ describe('.extractLabel()', () => {
         index: 32,
         label: 'AG',
         isAbsolute: true,
-      }
+      },
     ]);
     expect(extractLabel('$$AG199')).toMatchObject([]);
     expect(extractLabel('AG$$199')).toMatchObject([]);
