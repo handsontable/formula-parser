@@ -1,11 +1,11 @@
+import * as formulajs from 'formulajs';
 import SUPPORTED_FORMULAS from './../../supported-formulas';
 import {ERROR_NAME} from './../../error';
-import * as formulajs from 'formulajs';
 
 export const SYMBOL = SUPPORTED_FORMULAS;
 
 export default function func(symbol) {
-  return function(...params) {
+  return function __formulaFunction(...params) {
     symbol = symbol.toUpperCase();
 
     const symbolParts = symbol.split('.');
@@ -43,7 +43,7 @@ export default function func(symbol) {
 
     return result;
   };
-};
+}
 
 func.isFactory = true;
 func.SYMBOL = SYMBOL;

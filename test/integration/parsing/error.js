@@ -33,6 +33,7 @@ describe('.parse() error', () => {
     expect(parser.parse('#N/A')).toMatchObject({error: '#N/A', result: null});
     expect(parser.parse('#N/A!')).toMatchObject({error: '#ERROR!', result: null});
     expect(parser.parse('#N/A?')).toMatchObject({error: '#ERROR!', result: null});
+    /* eslint-disable no-useless-escape */
     expect(parser.parse('#N\A')).toMatchObject({error: '#ERROR!', result: null});
   });
 

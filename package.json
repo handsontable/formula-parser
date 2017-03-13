@@ -1,6 +1,6 @@
 {
   "name": "hot-formula-parser",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Formula parser",
   "browser": "dist/formula-parser.js",
   "main": "lib/index.js",
@@ -8,7 +8,7 @@
   "jsnext:main": "es/index.js",
   "scripts": {
     "clean": "rimraf lib dist es coverage",
-    "lint": "eslint src test && jscs src test",
+    "lint": "eslint src test",
     "check": "npm run lint && npm run test",
     "test": "cross-env BABEL_ENV=commonjs jest",
     "coverage": "cross-env BABEL_ENV=commonjs jest --coverage",
@@ -68,11 +68,12 @@
     "babel-register": "^6.16.3",
     "check-es3-syntax-cli": "^0.1.1",
     "cross-env": "^3.1.4",
-    "eslint": "^3.8.1",
+    "eslint-config-airbnb-base": "^11.1.0",
     "eslint-plugin-import": "^2.2.0",
+    "eslint": "^3.8.1",
     "generate-release": "^0.10.2",
     "glob": "^7.1.1",
-    "jest": "^18.1.0",
+    "jest": "^19.0.2",
     "jison": "^0.4.17",
     "jscs": "^3.0.7",
     "null-loader": "^0.1.1",
@@ -88,9 +89,13 @@
     "testPathIgnorePatterns": [
       "./test/index.js"
     ],
-    "testPathDirs": [
+    "roots": [
       "./test"
     ],
-    "testRegex": "(test\\/index\\.js|/test/.*.js)$"
+    "testRegex": "(test\\/index\\.js|/test/.*.js)$",
+    "collectCoverageFrom": [
+      "**/*.{js}",
+      "!src/grammar-parser/**"
+    ]
   }
 }

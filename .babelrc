@@ -29,6 +29,6 @@
     }
   },
   "ignore": [
-    "src/grammar-parser/grammar-parser.js"
+
   ]
 }

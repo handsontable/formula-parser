@@ -25,15 +25,15 @@ const errors = {
  * @returns {String|null} Returns error id.
  */
 export default function error(type) {
-  let error;
+  let result;
 
   type = (type + '').replace(/#|!|\?/g, '');
 
   if (errors[type]) {
-    error = errors[type];
+    result = errors[type];
   }
 
-  return error ? error : null;
+  return result ? result : null;
 }
 
 /**
@@ -45,8 +45,8 @@ export default function error(type) {
 export function isValidStrict(type) {
   let valid = false;
 
-  for (var i in errors) {
-    if (errors.hasOwnProperty(i) && errors[i] === type) {
+  for (const i in errors) {
+    if (Object.prototype.hasOwnProperty.call(errors, i) && errors[i] === type) {
       valid = true;
       break;
     }

@@ -1,10 +1,8 @@
-import {default as evaluateByOperator, registerOperation} from '../../../src/evaluate-by-operator/evaluate-by-operator';
+import evaluateByOperator, {registerOperation} from '../../../src/evaluate-by-operator/evaluate-by-operator';
 
 describe('.registerOperation()', () => {
   it('should register new operator and evaluate it', () => {
-    registerOperation('foo', function(a, b) {
-      return a + b;
-    });
+    registerOperation('foo', (a, b) => a + b);
 
     expect(evaluateByOperator('foo', [2, 8.8])).toBe(10.8);
     expect(evaluateByOperator('foo', ['2', '8.8'])).toBe('28.8');
@@ -13,88 +11,88 @@ describe('.registerOperation()', () => {
 
 describe('.evaluateByOperator()', () => {
   it('should throw exception when operator do not exist', () => {
-    expect(function() {
+    expect(() => {
       evaluateByOperator('bar', [2, 8.8]);
     }).toThrow('NAME');
-    expect(function() {
+    expect(() => {
       evaluateByOperator('baz');
     }).toThrow('NAME');
   });
 
   it('should not to throw exception for `add` operator', () => {
-    expect(function() {
+    expect(() => {
       evaluateByOperator('+', [2, 8.8]);
     }).not.toThrow();
   });
 
   it('should not to throw exception for `ampersand` operator', () => {
-    expect(function() {
+    expect(() => {
       evaluateByOperator('&', [2, 8.8]);
     }).not.toThrow();
   });
 
   it('should not to throw exception for `divide` operator', () => {
-    expect(function() {
+    expect(() => {
       evaluateByOperator('/', [2, 8.8]);
     }).not.toThrow();
   });
 
   it('should not to throw exception for `equal` operator', () => {
-    expect(function() {
+    expect(() => {
       evaluateByOperator('=', [2, 8.8]);
     }).not.toThrow();
   });
 
   it('should not to throw exception for `formula function` operator', () => {
-    expect(function() {
+    expect(() => {
       evaluateByOperator('SUM', [2, 8.8]);
     }).not.toThrow();
   });
 
   it('should not to throw exception for `greater than` operator', () => {
-    expect(function() {
+    expect(() => {
       evaluateByOperator('>', [2, 8.8]);
     }).not.toThrow();
   });
 
   it('should not to throw exception for `greater than or equal` operator', () => {
-    expect(function() {
+    expect(() => {
       evaluateByOperator('>=', [2, 8.8]);
     }).not.toThrow();
   });
 
   it('should not to throw exception for `less than` operator', () => {
-    expect(function() {
+    expect(() => {
       evaluateByOperator('<', [2, 8.8]);
     }).not.toThrow();
   });
 
   it('should not to throw exception for `less than or equal` operator', () => {
-    expect(function() {
+    expect(() => {
       evaluateByOperator('<=', [2, 8.8]);
     }).not.toThrow();
   });
 
   it('should not to throw exception for `minus` operator', () => {
-    expect(function() {
+    expect(() => {
       evaluateByOperator('-', [2, 8.8]);
     }).not.toThrow();
   });
 
   it('should not to throw exception for `multiply` operator', () => {
-    expect(function() {
+    expect(() => {
       evaluateByOperator('*', [2, 8.8]);
     }).not.toThrow();
   });
 
   it('should not to throw exception for `not equal` operator', () => {
-    expect(function() {
+    expect(() => {
       evaluateByOperator('<>', [2, 8.8]);
     }).not.toThrow();
   });
 
   it('should not to throw exception for `power` operator', () => {
-    expect(function() {
+    expect(() => {
       evaluateByOperator('^', [2, 2]);
     }).not.toThrow();
   });

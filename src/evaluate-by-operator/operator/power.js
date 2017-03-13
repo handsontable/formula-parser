@@ -11,6 +11,6 @@ export default function func(exp1, exp2) {
   }
 
   return result;
-};
+}
 
 func.SYMBOL = SYMBOL;

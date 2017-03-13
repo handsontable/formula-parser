@@ -1,4 +1,4 @@
-import {default as error, isValidStrict} from '../../src/error';
+import error, {isValidStrict} from '../../src/error';
 
 describe('.error()', () => {
   it('should return null for unrecognized error types', () => {

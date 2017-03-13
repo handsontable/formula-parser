@@ -38,6 +38,6 @@ describe('.parse() general', () => {
   });
 
   it('should not parse array type data', () => {
-    expect(parser.parse(function() {})).toMatchObject({error: '#ERROR!', result: null});
+    expect(parser.parse(() => {})).toMatchObject({error: '#ERROR!', result: null});
   });
 });
