@@ -11,41 +11,41 @@
 return /******/ (function(modules) { // webpackBootstrap
 /******/ 	// The module cache
 /******/ 	var installedModules = {};
-
+/******/
 /******/ 	// The require function
 /******/ 	function __webpack_require__(moduleId) {
-
+/******/
 /******/ 		// Check if module is in cache
 /******/ 		if(installedModules[moduleId])
 /******/ 			return installedModules[moduleId].exports;
-
+/******/
 /******/ 		// Create a new module (and put it into the cache)
 /******/ 		var module = installedModules[moduleId] = {
 /******/ 			i: moduleId,
 /******/ 			l: false,
 /******/ 			exports: {}
 /******/ 		};
-
+/******/
 /******/ 		// Execute the module function
 /******/ 		modules[moduleId].call(module.exports, module, module.exports, __webpack_require__);
-
+/******/
 /******/ 		// Flag the module as loaded
 /******/ 		module.l = true;
-
+/******/
 /******/ 		// Return the exports of the module
 /******/ 		return module.exports;
 /******/ 	}
-
-
+/******/
+/******/
 /******/ 	// expose the modules object (__webpack_modules__)
 /******/ 	__webpack_require__.m = modules;
-
+/******/
 /******/ 	// expose the module cache
 /******/ 	__webpack_require__.c = installedModules;
-
+/******/
 /******/ 	// identity function for calling harmony imports with the correct context
 /******/ 	__webpack_require__.i = function(value) { return value; };
-
+/******/
 /******/ 	// define getter function for harmony exports
 /******/ 	__webpack_require__.d = function(exports, name, getter) {
 /******/ 		if(!__webpack_require__.o(exports, name)) {
@@ -56,7 +56,7 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 			});
 /******/ 		}
 /******/ 	};
-
+/******/
 /******/ 	// getDefaultExport function for compatibility with non-harmony modules
 /******/ 	__webpack_require__.n = function(module) {
 /******/ 		var getter = module && module.__esModule ?
@@ -65,13 +65,13 @@ return /******/ (function(modules) { // webpackBootstrap
 /******/ 		__webpack_require__.d(getter, 'a', getter);
 /******/ 		return getter;
 /******/ 	};
-
+/******/
 /******/ 	// Object.prototype.hasOwnProperty.call
 /******/ 	__webpack_require__.o = function(object, property) { return Object.prototype.hasOwnProperty.call(object, property); };
-
+/******/
 /******/ 	// __webpack_public_path__
 /******/ 	__webpack_require__.p = "";
-
+/******/
 /******/ 	// Load entry module and return exports
 /******/ 	return __webpack_require__(__webpack_require__.s = 81);
 /******/ })
@@ -122,15 +122,15 @@ var errors = (_errors = {}, _errors[ERROR] = '#ERROR!', _errors[ERROR_DIV_ZERO] 
  * @returns {String|null} Returns error id.
  */
 function error(type) {
-  var error = void 0;
+  var result = void 0;
 
   type = (type + '').replace(/#|!|\?/g, '');
 
   if (errors[type]) {
-    error = errors[type];
+    result = errors[type];
   }
 
-  return error ? error : null;
+  return result ? result : null;
 }
 
 /**
@@ -143,7 +143,7 @@ function isValidStrict(type) {
   var valid = false;
 
   for (var i in errors) {
-    if (errors.hasOwnProperty(i) && errors[i] === type) {
+    if (Object.prototype.hasOwnProperty.call(errors, i) && errors[i] === type) {
       valid = true;
       break;
     }
@@ -4452,54 +4452,44 @@ exports.VALUE = function(text) {
 
 
 exports.__esModule = true;
-exports.extractLabel = extractLabel;
-exports.toLabel = toLabel;
-exports.columnLabelToIndex = columnLabelToIndex;
-exports.columnIndexToLabel = columnIndexToLabel;
 exports.rowLabelToIndex = rowLabelToIndex;
 exports.rowIndexToLabel = rowIndexToLabel;
-var LABEL_EXTRACT_REGEXP = /^([$])?([A-Za-z]+)([$])?([0-9]+)$/;
-
+exports.columnLabelToIndex = columnLabelToIndex;
+exports.columnIndexToLabel = columnIndexToLabel;
+exports.extractLabel = extractLabel;
+exports.toLabel = toLabel;
 /**
- * Extract cell coordinates.
+ * Convert row label to index.
  *
- * @param {String} label Cell coordinates (eq. 'A1', '$B6', '$N$98').
- * @returns {Array} Returns an array of objects.
+ * @param {String} label Row label (eq. '1', '5')
+ * @returns {Number} Returns -1 if label is not recognized otherwise proper row index.
  */
-function extractLabel(label) {
-  if (typeof label !== 'string' || !LABEL_EXTRACT_REGEXP.test(label)) {
-    return [];
+function rowLabelToIndex(label) {
+  var result = parseInt(label, 10);
+
+  if (isNaN(result)) {
+    result = -1;
+  } else {
+    result = Math.max(result - 1, -1);
   }
 
-  var _label$toUpperCase$ma = label.toUpperCase().match(LABEL_EXTRACT_REGEXP),
-      columnAbs = _label$toUpperCase$ma[1],
-      column = _label$toUpperCase$ma[2],
-      rowAbs = _label$toUpperCase$ma[3],
-      row = _label$toUpperCase$ma[4];
-
-  return [{
-    index: rowLabelToIndex(row),
-    label: row,
-    isAbsolute: rowAbs === '$'
-  }, {
-    index: columnLabelToIndex(column),
-    label: column,
-    isAbsolute: columnAbs === '$'
-  }];
+  return result;
 }
 
 /**
- * Convert row and column indexes into cell label.
+ * Convert row index to label.
  *
- * @param {Object} row Object with `index` and `isAbsolute` properties.
- * @param {Object} column Object with `index` and `isAbsolute` properties.
- * @returns {String} Returns cell label.
+ * @param {Number} row Row index.
+ * @returns {String} Returns row label (eq. '1', '7').
  */
-function toLabel(row, column) {
-  var rowLabel = (row.isAbsolute ? '$' : '') + rowIndexToLabel(row.index);
-  var columnLabel = (column.isAbsolute ? '$' : '') + columnIndexToLabel(column.index);
+function rowIndexToLabel(row) {
+  var result = '';
 
-  return columnLabel + rowLabel;
+  if (row >= 0) {
+    result = '' + (row + 1);
+  }
+
+  return result;
 }
 
 var COLUMN_LABEL_BASE = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -4543,38 +4533,48 @@ function columnIndexToLabel(column) {
   return result.toUpperCase();
 }
 
-/**
- * Convert row label to index.
- *
- * @param {String} label Row label (eq. '1', '5')
- * @returns {Number} Returns -1 if label is not recognized otherwise proper row index.
- */
-function rowLabelToIndex(label) {
-  var result = parseInt(label, 10);
+var LABEL_EXTRACT_REGEXP = /^([$])?([A-Za-z]+)([$])?([0-9]+)$/;
 
-  if (isNaN(result)) {
-    result = -1;
-  } else {
-    result = Math.max(result - 1, -1);
+/**
+ * Extract cell coordinates.
+ *
+ * @param {String} label Cell coordinates (eq. 'A1', '$B6', '$N$98').
+ * @returns {Array} Returns an array of objects.
+ */
+function extractLabel(label) {
+  if (typeof label !== 'string' || !LABEL_EXTRACT_REGEXP.test(label)) {
+    return [];
   }
 
-  return result;
+  var _label$toUpperCase$ma = label.toUpperCase().match(LABEL_EXTRACT_REGEXP),
+      columnAbs = _label$toUpperCase$ma[1],
+      column = _label$toUpperCase$ma[2],
+      rowAbs = _label$toUpperCase$ma[3],
+      row = _label$toUpperCase$ma[4];
+
+  return [{
+    index: rowLabelToIndex(row),
+    label: row,
+    isAbsolute: rowAbs === '$'
+  }, {
+    index: columnLabelToIndex(column),
+    label: column,
+    isAbsolute: columnAbs === '$'
+  }];
 }
 
 /**
- * Convert row index to label.
+ * Convert row and column indexes into cell label.
  *
- * @param {Number} row Row index.
- * @returns {String} Returns row label (eq. '1', '7').
+ * @param {Object} row Object with `index` and `isAbsolute` properties.
+ * @param {Object} column Object with `index` and `isAbsolute` properties.
+ * @returns {String} Returns cell label.
  */
-function rowIndexToLabel(row) {
-  var result = '';
+function toLabel(row, column) {
+  var rowLabel = (row.isAbsolute ? '$' : '') + rowIndexToLabel(row.index);
+  var columnLabel = (column.isAbsolute ? '$' : '') + columnIndexToLabel(column.index);
 
-  if (row >= 0) {
-    result = '' + (row + 1);
-  }
-
-  return result;
+  return columnLabel + rowLabel;
 }
 
 /***/ }),
@@ -12208,21 +12208,8 @@ var _error = __webpack_require__(1);
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
+/* eslint-disable import/no-named-as-default-member */
 var availableOperators = Object.create(null);
-
-registerOperation(_add2['default'].SYMBOL, _add2['default']);
-registerOperation(_ampersand2['default'].SYMBOL, _ampersand2['default']);
-registerOperation(_divide2['default'].SYMBOL, _divide2['default']);
-registerOperation(_equal2['default'].SYMBOL, _equal2['default']);
-registerOperation(_power2['default'].SYMBOL, _power2['default']);
-registerOperation(_formulaFunction2['default'].SYMBOL, _formulaFunction2['default']);
-registerOperation(_greaterThan2['default'].SYMBOL, _greaterThan2['default']);
-registerOperation(_greaterThanOrEqual2['default'].SYMBOL, _greaterThanOrEqual2['default']);
-registerOperation(_lessThan2['default'].SYMBOL, _lessThan2['default']);
-registerOperation(_lessThanOrEqual2['default'].SYMBOL, _lessThanOrEqual2['default']);
-registerOperation(_multiply2['default'].SYMBOL, _multiply2['default']);
-registerOperation(_notEqual2['default'].SYMBOL, _notEqual2['default']);
-registerOperation(_minus2['default'].SYMBOL, _minus2['default']);
 
 /**
  * Evaluate values by operator id.git
@@ -12262,6 +12249,20 @@ function registerOperation(symbol, func) {
   });
 }
 
+registerOperation(_add2['default'].SYMBOL, _add2['default']);
+registerOperation(_ampersand2['default'].SYMBOL, _ampersand2['default']);
+registerOperation(_divide2['default'].SYMBOL, _divide2['default']);
+registerOperation(_equal2['default'].SYMBOL, _equal2['default']);
+registerOperation(_power2['default'].SYMBOL, _power2['default']);
+registerOperation(_formulaFunction2['default'].SYMBOL, _formulaFunction2['default']);
+registerOperation(_greaterThan2['default'].SYMBOL, _greaterThan2['default']);
+registerOperation(_greaterThanOrEqual2['default'].SYMBOL, _greaterThanOrEqual2['default']);
+registerOperation(_lessThan2['default'].SYMBOL, _lessThan2['default']);
+registerOperation(_lessThanOrEqual2['default'].SYMBOL, _lessThanOrEqual2['default']);
+registerOperation(_multiply2['default'].SYMBOL, _multiply2['default']);
+registerOperation(_notEqual2['default'].SYMBOL, _notEqual2['default']);
+registerOperation(_minus2['default'].SYMBOL, _minus2['default']);
+
 /***/ }),
 /* 18 */
 /***/ (function(module, exports, __webpack_require__) {
@@ -12293,7 +12294,7 @@ function func(first) {
   }
 
   return result;
-};
+}
 
 func.SYMBOL = SYMBOL;
 
@@ -12316,7 +12317,7 @@ function func() {
   return params.reduce(function (acc, value) {
     return acc + value.toString();
   }, '');
-};
+}
 
 func.SYMBOL = SYMBOL;
 
@@ -12354,7 +12355,7 @@ function func(first) {
   }
 
   return result;
-};
+}
 
 func.SYMBOL = SYMBOL;
 
@@ -12371,7 +12372,7 @@ var SYMBOL = exports.SYMBOL = '=';
 
 function func(exp1, exp2) {
   return exp1 === exp2;
-};
+}
 
 func.SYMBOL = SYMBOL;
 
@@ -12386,24 +12387,24 @@ exports.__esModule = true;
 exports.SYMBOL = undefined;
 exports['default'] = func;
 
+var _formulajs = __webpack_require__(33);
+
+var formulajs = _interopRequireWildcard(_formulajs);
+
 var _supportedFormulas = __webpack_require__(10);
 
 var _supportedFormulas2 = _interopRequireDefault(_supportedFormulas);
 
 var _error = __webpack_require__(1);
 
-var _formulajs = __webpack_require__(33);
-
-var formulajs = _interopRequireWildcard(_formulajs);
+function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 function _interopRequireWildcard(obj) { if (obj && obj.__esModule) { return obj; } else { var newObj = {}; if (obj != null) { for (var key in obj) { if (Object.prototype.hasOwnProperty.call(obj, key)) newObj[key] = obj[key]; } } newObj['default'] = obj; return newObj; } }
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 
 var SYMBOL = exports.SYMBOL = _supportedFormulas2['default'];
 
 function func(symbol) {
-  return function () {
+  return function __formulaFunction() {
     symbol = symbol.toUpperCase();
 
     var symbolParts = symbol.split('.');
@@ -12441,7 +12442,7 @@ function func(symbol) {
 
     return result;
   };
-};
+}
 
 func.isFactory = true;
 func.SYMBOL = SYMBOL;
@@ -12459,7 +12460,7 @@ var SYMBOL = exports.SYMBOL = '>=';
 
 function func(exp1, exp2) {
   return exp1 >= exp2;
-};
+}
 
 func.SYMBOL = SYMBOL;
 
@@ -12476,7 +12477,7 @@ var SYMBOL = exports.SYMBOL = '>';
 
 function func(exp1, exp2) {
   return exp1 > exp2;
-};
+}
 
 func.SYMBOL = SYMBOL;
 
@@ -12493,7 +12494,7 @@ var SYMBOL = exports.SYMBOL = '<=';
 
 function func(exp1, exp2) {
   return exp1 <= exp2;
-};
+}
 
 func.SYMBOL = SYMBOL;
 
@@ -12510,7 +12511,7 @@ var SYMBOL = exports.SYMBOL = '<';
 
 function func(exp1, exp2) {
   return exp1 < exp2;
-};
+}
 
 func.SYMBOL = SYMBOL;
 
@@ -12545,7 +12546,7 @@ function func(first) {
   }
 
   return result;
-};
+}
 
 func.SYMBOL = SYMBOL;
 
@@ -12580,7 +12581,7 @@ function func(first) {
   }
 
   return result;
-};
+}
 
 func.SYMBOL = SYMBOL;
 
@@ -12597,7 +12598,7 @@ var SYMBOL = exports.SYMBOL = '<>';
 
 function func(exp1, exp2) {
   return exp1 !== exp2;
-};
+}
 
 func.SYMBOL = SYMBOL;
 
@@ -12626,7 +12627,7 @@ function func(exp1, exp2) {
   }
 
   return result;
-};
+}
 
 func.SYMBOL = SYMBOL;
 
@@ -12639,6 +12640,7 @@ func.SYMBOL = SYMBOL;
 
 exports.__esModule = true;
 exports.trimEdges = trimEdges;
+/* eslint-disable import/prefer-default-export */
 /**
  * Trim value by cutting character starting from the beginning and ending at the same time.
  *
