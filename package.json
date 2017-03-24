@@ -1,6 +1,6 @@
 {
   "name": "hot-formula-parser",
-  "version": "1.5.8",
+  "version": "1.5.9",
   "description": "Formula parser",
   "main": "dist/formula-parser.js",
   "scripts": {
@@ -77,6 +77,7 @@
   },
   "dependencies": {
     "bignumber.js": "4.0.0",
+    "decimal.js": "^7.1.1",
     "formulajs": "github:vudknguyen/formula.js#1.1.4",
     "tiny-emitter": "^1.0.2"
   }

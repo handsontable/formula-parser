@@ -1,13 +1,13 @@
 import { toNumber } from './../../helper/number';
 import { ERROR_DIV_ZERO, ERROR_VALUE } from './../../error';
-import BigNumber from 'bignumber.js';
+import Decimal from 'decimal.js';
 
 export const SYMBOL = '/';
 
 export default function func(first, ...rest) {
   try {
     const result = rest.reduce((acc, value) => {
-      const tempValue = (new BigNumber(acc)).div(new BigNumber(toNumber(value))).toNumber();
+      const tempValue = (new Decimal(acc)).div(new Decimal(toNumber(value))).toNumber();
       if (tempValue === Infinity || tempValue === -Infinity) {
         throw Error(ERROR_DIV_ZERO);
       }
