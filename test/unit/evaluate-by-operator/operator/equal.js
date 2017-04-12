@@ -16,5 +16,6 @@ describe('equal operator', () => {
     expect(func(1, 1)).to.eq(true);
     expect(func(null, null)).to.eq(true);
     expect(func(void 0, void 0)).to.eq(true);
+    expect(func('text', 'TEXT')).to.eq(true);
   });
 });
