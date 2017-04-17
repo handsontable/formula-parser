@@ -6462,7 +6462,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  }
 	  var result = 1;
 	  for (var i = 0; i < args.length; i++) {
-	    result *= args[i];
+	    result = (new Decimal(result)).times(args[i]).toNumber();
 	  }
 	  return result;
 	};
