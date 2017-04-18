@@ -19135,6 +19135,14 @@ return /******/ (function(modules) { // webpackBootstrap
 	  return index ? index : error.na;
 	};
 	
+	function isEqual(exp1, exp2) {
+	  if ((typeof exp1 === 'string') && (typeof exp2 === 'string')) {
+	    return exp1.toUpperCase() === exp2.toUpperCase();
+	  } else {
+	    return exp1 === exp2;
+	  }
+	}
+	
 	exports.VLOOKUP = function (needle, table, index, rangeLookup) {
 	  if (process && process.env && process.env.NODE_ENV === 'compile') {
 	    return 0;
@@ -19148,7 +19156,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  for (var i = 0; i < table.length; i++) {
 	    var row = table[i];
 	    if (!rangeLookup) {
-	      if (row[0] === needle) {
+	      if (isEqual(row[0],needle)) {
 	        return (index < (row.length + 1) ? row[index - 1] : error.ref);
 	      }
 	    } else {
@@ -19192,7 +19200,7 @@ return /******/ (function(modules) { // webpackBootstrap
 	  for (var i = 0; i < transposedTable.length; i++) {
 	    var row = transposedTable[i];
 	    if ((!rangeLookup && row[0] === needle) ||
-	      ((row[0] === needle) ||
+	      ((isEqual(row[0], needle)) ||
 	        (rangeLookup && typeof row[0] === "string" && row[0].toLowerCase().indexOf(needle.toLowerCase()) !== -1))) {
 	      return (index < (row.length + 1) ? row[index - 1] : error.ref);
 	    }
