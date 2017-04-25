@@ -202,7 +202,12 @@ describe('.parse() engineering formulas', () => {
 
   it('IMCOS', () => {
     expect(parser.parse('IMCOS()')).toMatchObject({error: '#VALUE!', result: null});
-    expect(parser.parse('IMCOS("3+4i")')).toMatchObject({error: null, result: '-27.03494560307422-3.8511533348117766i'});
+
+    const result = parser.parse('IMCOS("3+4i")');
+
+    expect(result.error).toBeNull();
+    expect(parseFloat(result.result.split('-')[1])).toBeCloseTo(27.03494560307422);
+    expect(parseFloat(result.result.split('-')[2])).toBeCloseTo(3.8511533348117766);
   });
 
   it('IMCOSH', () => {
@@ -212,7 +217,12 @@ describe('.parse() engineering formulas', () => {
 
   it('IMCOT', () => {
     expect(parser.parse('IMCOT()')).toMatchObject({error: '#VALUE!', result: null});
-    expect(parser.parse('IMCOT("3+4i")')).toMatchObject({error: null, result: '-0.0001875877379836712-1.0006443924715591i'});
+
+    const result = parser.parse('IMCOT("3+4i")');
+
+    expect(result.error).toBeNull();
+    expect(parseFloat(result.result.split('-')[1])).toBeCloseTo(-0.0001875877379836712);
+    expect(parseFloat(result.result.split('-')[2])).toBeCloseTo(1.0006443924715591);
   });
 
   it('IMCSC', () => {
@@ -270,7 +280,12 @@ describe('.parse() engineering formulas', () => {
 
   it('IMSEC', () => {
     expect(parser.parse('IMSEC()')).toMatchObject({error: '#VALUE!', result: null});
-    expect(parser.parse('IMSEC("3+4i")')).toMatchObject({error: null, result: '-0.03625349691586888+0.005164344607753179i'});
+
+    const result = parser.parse('IMSEC("3+4i")');
+
+    expect(result.error).toBeNull();
+    expect(parseFloat(result.result.split('+')[0])).toBeCloseTo(-0.03625349691586888);
+    expect(parseFloat(result.result.split('+')[1])).toBeCloseTo(0.005164344607753179);
   });
 
   it('IMSECH', () => {
@@ -280,7 +295,12 @@ describe('.parse() engineering formulas', () => {
 
   it('IMSIN', () => {
     expect(parser.parse('IMSIN()')).toMatchObject({error: '#VALUE!', result: null});
-    expect(parser.parse('IMSIN("3+4i")')).toMatchObject({error: null, result: '3.8537380379193764-27.01681325800393i'});
+
+    const result = parser.parse('IMSIN("3+4i")');
+
+    expect(result.error).toBeNull();
+    expect(parseFloat(result.result.split('-')[0])).toBeCloseTo(3.8537380379193764);
+    expect(parseFloat(result.result.split('-')[1])).toBeCloseTo(27.01681325800393);
   });
 
   it('IMSINH', () => {
@@ -307,7 +327,12 @@ describe('.parse() engineering formulas', () => {
 
   it('IMTAN', () => {
     expect(parser.parse('IMTAN()')).toMatchObject({error: '#VALUE!', result: null});
-    expect(parser.parse('IMTAN("3+4i")')).toMatchObject({error: null, result: '-0.00018734620462949037+0.9993559873814729i'});
+
+    const result = parser.parse('IMTAN("3+4i")');
+
+    expect(result.error).toBeNull();
+    expect(parseFloat(result.result.split('+')[0])).toBeCloseTo(-0.00018734620462949037);
+    expect(parseFloat(result.result.split('+')[1])).toBeCloseTo(0.9993559873814729);
   });
 
   it('OCT2BIN', () => {

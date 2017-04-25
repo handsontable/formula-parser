@@ -361,20 +361,18 @@ describe('.parse() statistical formulas', () => {
     parser.setVariable('bar', [11, 12, 13, 14, 15, 16]);
     parser.setVariable('baz', [11, 12, 13, 14, 15, 16, 17, 18, 19]);
 
-    expect(parser.parse('GROWTH(foo, bar, baz)')).toMatchObject({
-      error: null,
-      result: [
-        32618.20377353843,
-        47729.422614746654,
-        69841.30085621699,
-        102197.07337883323,
-        149542.4867400496,
-        218821.8762146044,
-        320196.71836349065,
-        468536.05418408196,
-        685597.3889812973,
-      ],
-    });
+    const result = parser.parse('GROWTH(foo, bar, baz)');
+
+    expect(result.error).toBeNull();
+    expect(result.result[0]).toBeCloseTo(32618.20377353843);
+    expect(result.result[1]).toBeCloseTo(47729.422614746654);
+    expect(result.result[2]).toBeCloseTo(69841.30085621699);
+    expect(result.result[3]).toBeCloseTo(102197.07337883323);
+    expect(result.result[4]).toBeCloseTo(149542.4867400496);
+    expect(result.result[5]).toBeCloseTo(218821.8762146044);
+    expect(result.result[6]).toBeCloseTo(320196.71836349065);
+    expect(result.result[7]).toBeCloseTo(468536.05418408196);
+    expect(result.result[8]).toBeCloseTo(685597.3889812973);
   });
 
   it('HARMEAN', () => {
