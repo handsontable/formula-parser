@@ -1,10 +1,11 @@
 # Conf
-.idea
+.babelrc
 .codeclimate.yml
 .editorconfig
 .eslintignore
 .eslintrc
 .gitignore
+.idea
 .jscsrc
 .release.json
 .travis.yml
