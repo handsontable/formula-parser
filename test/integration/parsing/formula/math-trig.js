@@ -224,6 +224,14 @@ describe('.parse() math-trig formulas', () => {
     expect(parser.parse('EQ(12.2, 12.3)')).toMatchObject({error: null, result: false});
   });
 
+  it('EXP', () => {
+    expect(parser.parse('EXP()')).toMatchObject({error: '#N/A', result: null});
+    expect(parser.parse('EXP(MY_VAR)')).toMatchObject({error: '#NAME?', result: null});
+    expect(parser.parse('EXP("1")')).toMatchObject({error: '#ERROR!', result: null});
+    expect(parser.parse('EXP(1, 1)')).toMatchObject({error: '#ERROR!', result: null});
+    expect(parser.parse('EXP(1)')).toMatchObject({error: null, result: 2.718281828459045});
+  });
+
   it('FACT', () => {
     expect(parser.parse('FACT()')).toMatchObject({error: '#VALUE!', result: null});
     expect(parser.parse('FACT("value")')).toMatchObject({error: '#VALUE!', result: null});
