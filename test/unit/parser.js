@@ -127,6 +127,16 @@ describe('Parser', () => {
     });
   });
 
+  describe('.setFunction()/.getFunction()', () => {
+    it('should return custom functions', () => {
+      parser.setFunction('foo', () => 1234);
+      parser.setFunction('bar', (params) => params[0] + params[1]);
+
+      expect(parser.getFunction('foo')()).toBe(1234);
+      expect(parser.getFunction('bar')([1, 2])).toBe(3);
+    });
+  });
+
   describe('._callVariable()', () => {
     it('should return error (NAME) when variable not set', () => {
       parser.getVariable = jest.fn(() => void 0);
@@ -150,6 +160,35 @@ describe('Parser', () => {
 
       expect(parser._callVariable('bar')).toBe('foo');
       expect(parser._callVariable('barrr')).toBe('baz');
+    });
+  });
+
+  describe('._callFunction()', () => {
+    it('should return error (NAME) when function not set', () => {
+      expect(() => parser._callFunction('NOT_DEFINED()')).toThrow(/NAME/);
+    });
+
+    it('should call predefined function', () => {
+      parser.getFunction = jest.fn(() => void 0);
+
+      expect(parser._callFunction('SUM', [1, 2])).toBe(3);
+    });
+
+    it('should call custom funciton when it was set', () => {
+      parser.getFunction = jest.fn(() => (params) => params[0] + 1);
+
+      expect(parser._callFunction('ADD_1', [2])).toBe(3);
+    });
+
+    it('should return variable set by event emitter', () => {
+      parser.getFunction = jest.fn(() => (params) => params[0] + 1);
+
+      parser.on('callFunction', (name, params, done) => {
+        done(name === 'OVERRIDDEN' ? params[0] + 2 : void 0);
+      });
+
+      expect(parser._callFunction('ADD_1', [2])).toBe(3);
+      expect(parser._callFunction('OVERRIDDEN', [2])).toBe(4);
     });
   });
 
