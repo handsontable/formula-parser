@@ -43,7 +43,7 @@ It supports:
  * Relative and absolute cell coordinates like `A1`, `$A1`, `A$1`, `$A$1`;
  * Build-in variables like `TRUE`, `FALSE`, `NULL`
  * Custom variables;
- * [TODO] Custom functions/formulas;
+ * Custom functions/formulas;
  * Node and Browser environment.
 
 ## API (methods)
@@ -88,6 +88,37 @@ Get variable name.
 parser.setVariable('fooBar', 10);
 
 parser.getVariable('fooBar'); // returns `10`
+```
+
+### .setFunction(name, fn)
+
+Set custom function which can be visible while parsing formula expression.
+
+```js
+parser.setFunction('ADD_5', function(params) {
+  return params[0] + 5;
+});
+parser.setFunction('GET_LETTER', function(params) {
+  var string = params[0];
+  var index = params[1] - 1;
+
+  return string.charAt(index);
+});
+
+parser.parse('SUM(4, ADD_5(1))'); // returns `10`
+parser.parse('GET_LETTER("Some string", 3)'); // returns `m`
+```
+
+### .getFunction(name)
+
+Get custom function.
+
+```js
+parser.setFunction('ADD_5', function(params) {
+  return params[0] + 5;
+});
+
+parser.getFunction('ADD_5')([1]); // returns `6`
 ```
 
 ### .SUPPORTED_FORMULAS

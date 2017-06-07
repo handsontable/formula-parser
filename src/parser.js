@@ -20,11 +20,12 @@ class Parser extends Emitter {
       throwError: (errorName) => this._throwError(errorName),
       callVariable: (variable) => this._callVariable(variable),
       evaluateByOperator,
-      callFunction: evaluateByOperator,
+      callFunction: (name, params) => this._callFunction(name, params),
       cellValue: (value) => this._callCellValue(value),
       rangeValue: (start, end) => this._callRangeValue(start, end),
     };
     this.variables = Object.create(null);
+    this.functions = Object.create(null);
 
     this
       .setVariable('TRUE', true)
@@ -113,6 +114,54 @@ class Parser extends Emitter {
     }
 
     return value;
+  }
+
+  /**
+   * Set custom function which can be visible while parsing formula expression.
+   *
+   * @param {String} name Custom function name.
+   * @param {Function} fn Custom function.
+   * @returns {Parser}
+   */
+  setFunction(name, fn) {
+    this.functions[name] = fn;
+
+    return this;
+  }
+
+  /**
+   * Get custom function.
+   *
+   * @param {String} name Custom function name.
+   * @returns {*}
+   */
+  getFunction(name) {
+    return this.functions[name];
+  }
+
+  /**
+   * Call function with provided params.
+   *
+   * @param name Function name.
+   * @param params Function params.
+   * @returns {*}
+   * @private
+   */
+  _callFunction(name, params = []) {
+    const fn = this.getFunction(name);
+    let value;
+
+    if (fn) {
+      value = fn(params);
+    }
+
+    this.emit('callFunction', name, params, (newValue) => {
+      if (newValue !== void 0) {
+        value = newValue;
+      }
+    });
+
+    return value === void 0 ? evaluateByOperator(name, params) : value;
   }
 
   /**
