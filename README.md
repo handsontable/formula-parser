@@ -145,6 +145,21 @@ parser.on('callVariable', function(name, done) {
 parser.parse('SUM(SIN(foo), COS(foo))'); // returns `1`
 ```
 
+### 'callFunction' (name, params, done)
+
+Fired while calling function. If function was defined earlier using `setFunction` you can overwrite it's result by this hook.
+You can also use this to override result of build-in formulas.
+
+```js
+parser.on('callFunction', function(name, params, done) {
+  if (name === 'ADD_5') {
+    done(params[0] + 5);
+  }
+});
+
+parser.parse('ADD_5(3)'); // returns `8`
+```
+
 ### 'callCellValue' (cellCoord, done)
 
 Fired while retrieving cell value by its label (eq: `B3`, `B$3`, `B$3`, `$B$3`).
