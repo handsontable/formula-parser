@@ -3,16 +3,20 @@ language: node_js
 sudo: false
 
 node_js:
-  - "6"
+- '6'
 
 install:
-  - "npm install yarn -g"
-  - "yarn install"
-  - "yarn global add codeclimate-test-reporter"
+- npm install yarn -g
+- yarn install
+- yarn global add codeclimate-test-reporter
 
 before_script:
-  - "export TZ=Europe/Warsaw"
+- export TZ=Europe/Warsaw
 
 after_success:
-  - "npm run coverage"
-  - "codeclimate-test-reporter < coverage/lcov.info"
+- npm run coverage
+- codeclimate-test-reporter < coverage/lcov.info
+
+notifications:
+  slack:
+    secure: m548zGgvRHMY3sm2DutezQxxXbNOE8x0HlXHucJixwrastBsj82VfvkXldIuFZW93XGFM2o6oQ9+XJL9rPMDF9G30eTuIqS7u6Gw1UwPPTgH1VUuJej45iGujEnnitiEQS/D0wTxLCh+XD/6B/r+QwIn3ksxkVp+0lzVQof32+fonD1cqJelrKLsbuWikquIfzo/e9yxQD8tRLKNuibtIwj+y7aM1wdppKb97irNSrnwQ5P1yxDeJJtsjipDgwdOgUq5LfDepeWGNXTQCg47W0M2YHG7RGEs3UFbMBcZ1y2dhLmmhOO7vDueIWg7Hr/dQg18bLK3snEJEUZ0dEIRjwuSl6YVw2nuaGVihsXLiaNzgWAADxjCg1IhtDhwY4r8PS0Gmihg+5WoXmRHo9/CXZ4s+n9eXRO6KXOYBb6m9/rhna/t2vOf+WaKHL3wNep9RwhaVRMI91Ijy0LHADGtqRiUUObfbIeQBFWBP7ay7Q/ToIkECM4qkvFmh0ym5K7jay+nysi7OKtQEC3s52ynTToVlWvRfmg2bccLyfU5rOhLMxNT9kuzWLIrXrAm5eArQIXGD1KaWibSVH8g8YSb2vTlLsddWIew/++2/leUqbx25bfABRgTZPdFI/uJ+3EJAD+65e4WkUDH7mfun8/O2+q4Ar/Xjbg1M5D8BYyE1tI=
