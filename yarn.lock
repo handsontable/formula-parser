@@ -1913,9 +1913,15 @@ form-data@~2.1.1:
     combined-stream "^1.0.5"
     mime-types "^2.1.12"
 
+<<<<<<< HEAD
 "formulajs@github:handsontable/formula.js#1.2.1":
   version "1.2.1"
   resolved "https://codeload.github.com/handsontable/formula.js/tar.gz/84f410606b9e279bffcd1328d975ec463671a199"
+=======
+"formulajs@github:handsontable/formula.js#1.2.0":
+  version "1.2.0"
+  resolved "https://codeload.github.com/handsontable/formula.js/tar.gz/5e21c93bad1c37c3baf2a8e5fad4d080725159ba"
+>>>>>>> feature/issue-27
   dependencies:
     bessel "^0.2.0"
     jStat "^1.7.0"
