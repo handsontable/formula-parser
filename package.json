@@ -1,6 +1,6 @@
 {
   "name": "hot-formula-parser",
-  "version": "2.2.0",
+  "version": "2.3.0",
   "description": "Formula parser",
   "browser": "dist/formula-parser.js",
   "main": "lib/index.js",
