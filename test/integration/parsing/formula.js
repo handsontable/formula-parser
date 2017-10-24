@@ -11,12 +11,10 @@ describe('.parse()', () => {
   });
 
   it('should return error when number of arguments is not valid', () => {
-    // jscs:disable
-    /*eslint-disable */
+    /* eslint-disable */
     expect(parser.parse('ACOTH("foo")')).toMatchObject({error: '#VALUE!', result: null});
     expect(parser.parse("ACOTH('foo')")).toMatchObject({error: '#VALUE!', result: null});
-    /*eslint-enable */
-    // jscs:enable
+    /* eslint-enable */
   });
 
   it('should return error when used variable is not defined', () => {

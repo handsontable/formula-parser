@@ -1,6 +1,6 @@
 {
   "name": "hot-formula-parser",
-  "version": "2.3.0",
+  "version": "2.3.1",
   "description": "Formula parser",
   "browser": "dist/formula-parser.js",
   "main": "lib/index.js",
@@ -74,6 +74,7 @@
     "generate-release": "^0.10.2",
     "glob": "^7.1.2",
     "jest": "^20.0.4",
+    "jest-cli": "^21.2.1",
     "jison": "^0.4.17",
     "jscs": "^3.0.7",
     "null-loader": "^0.1.1",
@@ -81,7 +82,7 @@
     "webpack": "^3.2.0"
   },
   "dependencies": {
-    "formulajs": "github:handsontable/formula.js#1.2.1",
+    "formulajs": "github:handsontable/formula.js",
     "tiny-emitter": "^2.0.1"
   },
   "jest": {
