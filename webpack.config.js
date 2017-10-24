@@ -1,12 +1,23 @@
 'use strict';
 
-var webpack = require('webpack')
+const webpack = require('webpack');
+const path = require('path');
 
-var env = process.env.NODE_ENV
-var config = {
+const env = process.env.NODE_ENV
+const config = {
   module: {
-    loaders: [
-      { test: /\.js$/, loaders: ['babel-loader'], exclude: /node_modules|grammar\-parser\.js$/ }
+    rules: [
+      {
+        test: /\.js$/,
+        loaders: ['babel-loader'],
+        exclude: /node_modules|grammar\-parser\.js$/
+      },
+      {
+        test: [
+            /numbro\/languages/,
+        ],
+        loader: path.resolve(__dirname, 'loader/empty-loader.js'),
+      },
     ]
   },
   output: {
