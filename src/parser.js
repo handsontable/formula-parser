@@ -175,7 +175,7 @@ class Parser extends Emitter {
     const [row, column, sheet] = extractLabel(label);
     let value = void 0;
 
-    this.emit('callCellValue', {label: label, row, column, sheet}, (_value) => {
+    this.emit('callCellValue', {label, row, column, sheet}, (_value) => {
       value = _value;
     });
 

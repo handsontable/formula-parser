@@ -27,7 +27,7 @@ const errors = {
 export default function error(type) {
   let result;
 
-  type = (type + '').replace(/#|!|\?/g, '');
+  type = (`${type}`).replace(/#|!|\?/g, '');
 
   if (errors[type]) {
     result = errors[type];
