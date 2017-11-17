@@ -20,6 +20,20 @@ describe('.extractLabel()', () => {
         label: 'A',
         isAbsolute: false,
       },
+      undefined
+    ]);
+    expect(extractLabel('Sheet1!A1')).toMatchObject([
+      {
+        index: 0,
+        label: '1',
+        isAbsolute: false,
+      },
+      {
+        index: 0,
+        label: 'A',
+        isAbsolute: false,
+      },
+      'Sheet1'
     ]);
     expect(extractLabel('a1')).toMatchObject([
       {
@@ -32,6 +46,7 @@ describe('.extractLabel()', () => {
         label: 'A',
         isAbsolute: false,
       },
+      undefined
     ]);
     expect(extractLabel('A$1')).toMatchObject([
       {
@@ -44,6 +59,20 @@ describe('.extractLabel()', () => {
         label: 'A',
         isAbsolute: false,
       },
+      undefined
+    ]);
+    expect(extractLabel('Sheet1!A$1')).toMatchObject([
+      {
+        index: 0,
+        label: '1',
+        isAbsolute: true,
+      },
+      {
+        index: 0,
+        label: 'A',
+        isAbsolute: false,
+      },
+      'Sheet1'
     ]);
     expect(extractLabel('a$1')).toMatchObject([
       {
@@ -56,6 +85,7 @@ describe('.extractLabel()', () => {
         label: 'A',
         isAbsolute: false,
       },
+      undefined
     ]);
     expect(extractLabel('$A1')).toMatchObject([
       {
@@ -68,6 +98,20 @@ describe('.extractLabel()', () => {
         label: 'A',
         isAbsolute: true,
       },
+      undefined
+    ]);
+    expect(extractLabel('Sheet1!$A1')).toMatchObject([
+      {
+        index: 0,
+        label: '1',
+        isAbsolute: false,
+      },
+      {
+        index: 0,
+        label: 'A',
+        isAbsolute: true,
+      },
+      'Sheet1'
     ]);
     expect(extractLabel('$A$1')).toMatchObject([
       {
@@ -80,6 +124,20 @@ describe('.extractLabel()', () => {
         label: 'A',
         isAbsolute: true,
       },
+      undefined
+    ]);
+    expect(extractLabel('Sheet1!$A$1')).toMatchObject([
+      {
+        index: 0,
+        label: '1',
+        isAbsolute: true,
+      },
+      {
+        index: 0,
+        label: 'A',
+        isAbsolute: true,
+      },
+      'Sheet1'
     ]);
     expect(extractLabel('$AG199')).toMatchObject([
       {
@@ -92,6 +150,7 @@ describe('.extractLabel()', () => {
         label: 'AG',
         isAbsolute: true,
       },
+      undefined
     ]);
     expect(extractLabel('$Ag199')).toMatchObject([
       {
@@ -104,6 +163,7 @@ describe('.extractLabel()', () => {
         label: 'AG',
         isAbsolute: true,
       },
+      undefined
     ]);
     expect(extractLabel('$$AG199')).toMatchObject([]);
     expect(extractLabel('AG$$199')).toMatchObject([]);

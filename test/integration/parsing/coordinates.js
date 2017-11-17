@@ -36,7 +36,15 @@ describe('.parse() coordinates', () => {
 
     expect(parser.parse('a1')).toMatchObject({error: null, result: 55});
     expect(cellCoord).toMatchObject({
-      label: 'A1',
+      label: 'a1',
+      row: {index: 0, isAbsolute: false, label: '1'},
+      column: {index: 0, isAbsolute: false, label: 'A'},
+    });
+
+    expect(parser.parse('Sheet1!a1')).toMatchObject({error: null, result: 55});
+    expect(cellCoord).toMatchObject({
+      label: 'Sheet1!a1',
+      sheet: 'Sheet1',
       row: {index: 0, isAbsolute: false, label: '1'},
       column: {index: 0, isAbsolute: false, label: 'A'},
     });
@@ -52,7 +60,15 @@ describe('.parse() coordinates', () => {
 
     expect(parser.parse('$a$1')).toMatchObject({error: null, result: 55});
     expect(cellCoord).toMatchObject({
-      label: '$A$1',
+      label: '$a$1',
+      row: {index: 0, isAbsolute: true, label: '1'},
+      column: {index: 0, isAbsolute: true, label: 'A'},
+    });
+
+    expect(parser.parse('Sheet1!$a$1')).toMatchObject({error: null, result: 55});
+    expect(cellCoord).toMatchObject({
+      label: 'Sheet1!$a$1',
+      sheet: 'Sheet1',
       row: {index: 0, isAbsolute: true, label: '1'},
       column: {index: 0, isAbsolute: true, label: 'A'},
     });
@@ -78,7 +94,15 @@ describe('.parse() coordinates', () => {
 
     expect(parser.parse('a$1')).toMatchObject({error: null, result: 55});
     expect(cellCoord).toMatchObject({
-      label: 'A$1',
+      label: 'a$1',
+      row: {index: 0, isAbsolute: true, label: '1'},
+      column: {index: 0, isAbsolute: false, label: 'A'},
+    });
+
+    expect(parser.parse('Sheet1!a$1')).toMatchObject({error: null, result: 55});
+    expect(cellCoord).toMatchObject({
+      label: 'Sheet1!a$1',
+      sheet: 'Sheet1',
       row: {index: 0, isAbsolute: true, label: '1'},
       column: {index: 0, isAbsolute: false, label: 'A'},
     });
@@ -138,6 +162,18 @@ describe('.parse() coordinates', () => {
       row: {index: 1, isAbsolute: false, label: '2'},
       column: {index: 1, isAbsolute: false, label: 'B'},
     });
+
+    expect(parser.parse('Sheet1!a1:b2')).toMatchObject({error: null, result: [[3, 6, 10]]});
+    expect(startCellCoord).toMatchObject({
+      label: 'A1',
+      row: {index: 0, isAbsolute: false, label: '1'},
+      column: {index: 0, isAbsolute: false, label: 'A'},
+    });
+    expect(endCellCoord).toMatchObject({
+      label: 'B2',
+      row: {index: 1, isAbsolute: false, label: '2'},
+      column: {index: 1, isAbsolute: false, label: 'B'},
+    });
   });
 
   it('should parse absolute cells range', () => {
@@ -173,6 +209,19 @@ describe('.parse() coordinates', () => {
     });
     expect(endCellCoord).toMatchObject({
       label: '$B$2',
+      row: {index: 1, isAbsolute: true, label: '2'},
+      column: {index: 1, isAbsolute: true, label: 'B'},
+    });
+    expect(parser.parse('Sheet1!$a$1:$b$2')).toMatchObject({error: null, result: [[3, 6, 10]]});
+    expect(startCellCoord).toMatchObject({
+      label: '$A$1',
+      sheet: 'Sheet1',
+      row: {index: 0, isAbsolute: true, label: '1'},
+      column: {index: 0, isAbsolute: true, label: 'A'},
+    });
+    expect(endCellCoord).toMatchObject({
+      label: '$B$2',
+      sheet: 'Sheet1',
       row: {index: 1, isAbsolute: true, label: '2'},
       column: {index: 1, isAbsolute: true, label: 'B'},
     });

@@ -7,6 +7,7 @@
 "'"('\\'[']|[^'])*"'"                                                                           {return 'STRING';}
 [A-Za-z]{1,}[A-Za-z_0-9\.]+(?=[(])                                                              {return 'FUNCTION';}
 '#'[A-Z0-9\/]+('!'|'?')?                                                                        {return 'ERROR';}
+[A-Za-z0-9\\s]+'!'                                                                              {return 'SHEET_REF';}
 '$'[A-Za-z]+'$'[0-9]+                                                                           {return 'ABSOLUTE_CELL';}
 '$'[A-Za-z]+[0-9]+                                                                              {return 'MIXED_CELL';}
 [A-Za-z]+'$'[0-9]+                                                                              {return 'MIXED_CELL';}
@@ -147,38 +148,74 @@ cell
    : ABSOLUTE_CELL {
       $$ = yy.cellValue($1);
     }
+  | SHEET_REF ABSOLUTE_CELL {
+      $$ = yy.cellValue($1 + $2);
+    }
   | RELATIVE_CELL {
       $$ = yy.cellValue($1);
+    }
+  | SHEET_REF RELATIVE_CELL {
+      $$ = yy.cellValue($1 + $2);
     }
   | MIXED_CELL {
       $$ = yy.cellValue($1);
     }
+  | SHEET_REF MIXED_CELL {
+      $$ = yy.cellValue($1 + $2);
+    }
   | ABSOLUTE_CELL ':' ABSOLUTE_CELL {
       $$ = yy.rangeValue($1, $3);
+    }
+  | SHEET_REF ABSOLUTE_CELL ':' ABSOLUTE_CELL {
+      $$ = yy.rangeValue($1 + $2, $1 + $4);
     }
   | ABSOLUTE_CELL ':' RELATIVE_CELL {
       $$ = yy.rangeValue($1, $3);
     }
+  | SHEET_REF ABSOLUTE_CELL ':' RELATIVE_CELL {
+      $$ = yy.rangeValue($1 + $2, $1 + $4);
+    }
   | ABSOLUTE_CELL ':' MIXED_CELL {
       $$ = yy.rangeValue($1, $3);
+    }
+  | SHEET_REF ABSOLUTE_CELL ':' MIXED_CELL {
+      $$ = yy.rangeValue($1 + $2, $1 + $4);
     }
   | RELATIVE_CELL ':' ABSOLUTE_CELL {
       $$ = yy.rangeValue($1, $3);
     }
+  | SHEET_REF RELATIVE_CELL ':' ABSOLUTE_CELL {
+      $$ = yy.rangeValue($1 + $2, $1 + $4);
+    }
   | RELATIVE_CELL ':' RELATIVE_CELL {
       $$ = yy.rangeValue($1, $3);
+    }
+  | SHEET_REF RELATIVE_CELL ':' RELATIVE_CELL {
+      $$ = yy.rangeValue($1 + $2, $1 + $4);
     }
   | RELATIVE_CELL ':' MIXED_CELL {
       $$ = yy.rangeValue($1, $3);
     }
+  | SHEET_REF RELATIVE_CELL ':' MIXED_CELL {
+      $$ = yy.rangeValue($1 + $2, $1 + $4);
+    }
   | MIXED_CELL ':' ABSOLUTE_CELL {
       $$ = yy.rangeValue($1, $3);
+    }
+  | SHEET_REF MIXED_CELL ':' ABSOLUTE_CELL {
+      $$ = yy.rangeValue($1 + $2, $1 + $4);
     }
   | MIXED_CELL ':' RELATIVE_CELL {
       $$ = yy.rangeValue($1, $3);
     }
+  | SHEET_REF MIXED_CELL ':' RELATIVE_CELL {
+      $$ = yy.rangeValue($1 + $2, $1 + $4);
+    }
   | MIXED_CELL ':' MIXED_CELL {
       $$ = yy.rangeValue($1, $3);
+    }
+  | SHEET_REF MIXED_CELL ':' MIXED_CELL {
+      $$ = yy.rangeValue($1 + $2, $1 + $4);
     }
 ;
 
