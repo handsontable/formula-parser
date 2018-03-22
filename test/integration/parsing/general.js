@@ -40,4 +40,15 @@ describe('.parse() general', () => {
   it('should not parse array type data', () => {
     expect(parser.parse(() => {})).toMatchObject({error: '#ERROR!', result: null});
   });
+
+  it('should emit `callFunction` with operators', () => {
+    let emitted = false;
+    parser.on('callFunction', () => {
+      emitted = true;
+    });
+
+    parser.setVariable('a', 1);
+    expect(parser.parse('a+2').result).toBe(3);
+    expect(emitted).toBe(true);
+  });
 });

@@ -23,14 +23,22 @@ const availableOperators = Object.create(null);
  * @param {Array} [params=[]] Arguments to evaluate.
  * @returns {*}
  */
-export default function evaluateByOperator(operator, params = []) {
+export default function evaluateByOperator(operator, params = [], emitter) {
   operator = operator.toUpperCase();
 
   if (!availableOperators[operator]) {
     throw Error(ERROR_NAME);
   }
 
-  return availableOperators[operator](...params);
+  let value = availableOperators[operator](...params);
+  if (emitter) {
+    emitter.emit('callFunction', operator, params, (newValue) => {
+      if (newValue !== void 0) {
+        value = newValue;
+      }
+    });
+  }
+  return value;
 }
 
 /**
