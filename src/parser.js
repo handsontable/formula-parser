@@ -19,7 +19,7 @@ class Parser extends Emitter {
       invertNumber,
       throwError: (errorName) => this._throwError(errorName),
       callVariable: (variable) => this._callVariable(variable),
-      evaluateByOperator,
+      evaluateByOperator: (operator, params) => evaluateByOperator(operator, params, this),
       callFunction: (name, params) => this._callFunction(name, params),
       cellValue: (value) => this._callCellValue(value),
       rangeValue: (start, end) => this._callRangeValue(start, end),

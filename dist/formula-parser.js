@@ -12498,9 +12498,9 @@ var _tinyEmitter = __webpack_require__(18);
 
 var _tinyEmitter2 = _interopRequireDefault(_tinyEmitter);
 
-var _evaluateByOperator = __webpack_require__(19);
+var _evaluateByOperator2 = __webpack_require__(19);
 
-var _evaluateByOperator2 = _interopRequireDefault(_evaluateByOperator);
+var _evaluateByOperator3 = _interopRequireDefault(_evaluateByOperator2);
 
 var _grammarParser = __webpack_require__(41);
 
@@ -12544,7 +12544,9 @@ var Parser = function (_Emitter) {
       callVariable: function callVariable(variable) {
         return _this._callVariable(variable);
       },
-      evaluateByOperator: _evaluateByOperator2['default'],
+      evaluateByOperator: function evaluateByOperator(operator, params) {
+        return (0, _evaluateByOperator3['default'])(operator, params, _this);
+      },
       callFunction: function callFunction(name, params) {
         return _this._callFunction(name, params);
       },
@@ -12706,7 +12708,7 @@ var Parser = function (_Emitter) {
       }
     });
 
-    return value === void 0 ? (0, _evaluateByOperator2['default'])(name, params) : value;
+    return value === void 0 ? (0, _evaluateByOperator3['default'])(name, params) : value;
   };
 
   /**
@@ -12962,6 +12964,7 @@ var availableOperators = Object.create(null);
  */
 function evaluateByOperator(operator) {
   var params = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : [];
+  var emitter = arguments[2];
 
   operator = operator.toUpperCase();
 
@@ -12969,7 +12972,31 @@ function evaluateByOperator(operator) {
     throw Error(_error.ERROR_NAME);
   }
 
-  return availableOperators[operator].apply(availableOperators, params);
+  var value = void 0;
+  try {
+    value = availableOperators[operator].apply(availableOperators, params);
+    if (emitter) {
+      emitter.emit('callFunction', operator, params, function (newValue) {
+        if (newValue !== void 0) {
+          value = newValue;
+        }
+      });
+    }
+  } catch (e) {
+    if (emitter) {
+      emitter.emit('functionError', operator, params, function (newValue) {
+        if (newValue !== void 0) {
+          value = newValue;
+        }
+      });
+      if (value === void 0) {
+        throw e;
+      }
+    } else {
+      throw e;
+    }
+  }
+  return value;
 }
 
 /**
