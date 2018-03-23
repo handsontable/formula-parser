@@ -12568,7 +12568,7 @@ var Parser = function (_Emitter) {
    * Parse formula expression.
    *
    * @param {String} expression to parse.
-   * @return {*} Returns an object with two properties `error` and `result`.
+   * @return {*} Returns an object with tow properties `error` and `result`.
    */
 
 
@@ -12972,13 +12972,29 @@ function evaluateByOperator(operator) {
     throw Error(_error.ERROR_NAME);
   }
 
-  var value = availableOperators[operator].apply(availableOperators, params);
-  if (emitter) {
-    emitter.emit('callFunction', operator, params, function (newValue) {
-      if (newValue !== void 0) {
-        value = newValue;
+  var value = void 0;
+  try {
+    value = availableOperators[operator].apply(availableOperators, params);
+    if (emitter) {
+      emitter.emit('callFunction', operator, params, function (newValue) {
+        if (newValue !== void 0) {
+          value = newValue;
+        }
+      });
+    }
+  } catch (e) {
+    if (emitter) {
+      emitter.emit('functionError', operator, params, function (newValue) {
+        if (newValue !== void 0) {
+          value = newValue;
+        }
+      });
+      if (value === void 0) {
+        throw e;
       }
-    });
+    } else {
+      throw e;
+    }
   }
   return value;
 }

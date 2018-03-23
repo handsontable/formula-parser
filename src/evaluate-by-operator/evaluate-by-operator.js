@@ -30,13 +30,29 @@ export default function evaluateByOperator(operator, params = [], emitter) {
     throw Error(ERROR_NAME);
   }
 
-  let value = availableOperators[operator](...params);
-  if (emitter) {
-    emitter.emit('callFunction', operator, params, (newValue) => {
-      if (newValue !== void 0) {
-        value = newValue;
+  let value;
+  try {
+    value = availableOperators[operator](...params);
+    if (emitter) {
+      emitter.emit('callFunction', operator, params, (newValue) => {
+        if (newValue !== void 0) {
+          value = newValue;
+        }
+      });
+    }
+  } catch (e) {
+    if (emitter) {
+      emitter.emit('functionError', operator, params, (newValue) => {
+        if (newValue !== void 0) {
+          value = newValue;
+        }
+      });
+      if (value === void 0) {
+        throw e;
       }
-    });
+    } else {
+      throw e;
+    }
   }
   return value;
 }
