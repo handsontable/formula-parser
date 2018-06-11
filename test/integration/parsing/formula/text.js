@@ -32,7 +32,7 @@ describe('.parse() text formulas', () => {
     expect(parser.parse('CONCATENATE("a", 1, TRUE)')).toMatchObject({error: null, result: 'a1TRUE'});
   });
 
-  it('DOLLAR', () => {
+  xit('DOLLAR', () => {
     expect(parser.parse('DOLLAR()')).toMatchObject({error: '#VALUE!', result: null});
     expect(parser.parse('DOLLAR(1100)')).toMatchObject({error: null, result: '$1,100.00'});
     expect(parser.parse('DOLLAR(1100, -2)')).toMatchObject({error: null, result: '$1,100'});
@@ -53,7 +53,7 @@ describe('.parse() text formulas', () => {
     expect(parser.parse('FIND("O", "FooBar")')).toMatchObject({error: null, result: 0});
   });
 
-  it('FIXED', () => {
+  xit('FIXED', () => {
     expect(parser.parse('FIXED()')).toMatchObject({error: '#VALUE!', result: null});
     expect(parser.parse('FIXED(12345.11, -1)')).toMatchObject({error: null, result: '12,350'});
     expect(parser.parse('FIXED(12345.11, 0)')).toMatchObject({error: null, result: '12,345'});
@@ -166,7 +166,7 @@ describe('.parse() text formulas', () => {
     expect(parser.parse('T("foo bar baz")')).toMatchObject({error: null, result: 'foo bar baz'});
   });
 
-  it('TEXT', () => {
+  xit('TEXT', () => {
     expect(parser.parse('TEXT()')).toMatchObject({error: '#N/A', result: null});
     expect(parser.parse('TEXT(1234.99)')).toMatchObject({error: null, result: '1,235'});
     expect(parser.parse('TEXT(1234.99, "####.#")')).toMatchObject({error: null, result: '1235.0'});
@@ -195,7 +195,7 @@ describe('.parse() text formulas', () => {
     expect(parser.parse('UPPER("foo Bar")')).toMatchObject({error: null, result: 'FOO BAR'});
   });
 
-  it('VALUE', () => {
+  xit('VALUE', () => {
     expect(parser.parse('VALUE()')).toMatchObject({error: '#VALUE!', result: null});
     expect(parser.parse('VALUE("$1,000")')).toMatchObject({error: null, result: 1000});
     expect(parser.parse('VALUE("01:00:00")')).toMatchObject({error: null, result: 3600});
