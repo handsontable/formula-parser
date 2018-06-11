@@ -12,12 +12,6 @@ const config = {
         loaders: ['babel-loader'],
         exclude: /node_modules|grammar\-parser\.js$/
       },
-      {
-        test: [
-            /numbro\/languages/,
-        ],
-        loader: path.resolve(__dirname, 'loader/empty-loader.js'),
-      },
     ]
   },
   output: {
