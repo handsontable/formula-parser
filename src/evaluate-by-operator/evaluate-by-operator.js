@@ -1,4 +1,5 @@
 /* eslint-disable import/no-named-as-default-member */
+import and from './operator/and';
 import add from './operator/add';
 import ampersand from './operator/ampersand';
 import divide from './operator/divide';
@@ -11,6 +12,7 @@ import lessThanOrEqual from './operator/less-than-or-equal';
 import minus from './operator/minus';
 import multiply from './operator/multiply';
 import notEqual from './operator/not-equal';
+import or from './operator/or';
 import power from './operator/power';
 import {ERROR_NAME} from './../error';
 
@@ -52,6 +54,7 @@ export function registerOperation(symbol, func) {
   });
 }
 
+registerOperation(and.SYMBOL, and);
 registerOperation(add.SYMBOL, add);
 registerOperation(ampersand.SYMBOL, ampersand);
 registerOperation(divide.SYMBOL, divide);
@@ -64,4 +67,5 @@ registerOperation(lessThan.SYMBOL, lessThan);
 registerOperation(lessThanOrEqual.SYMBOL, lessThanOrEqual);
 registerOperation(multiply.SYMBOL, multiply);
 registerOperation(notEqual.SYMBOL, notEqual);
+registerOperation(or.SYMBOL, or);
 registerOperation(minus.SYMBOL, minus);

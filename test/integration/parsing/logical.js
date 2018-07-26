@@ -66,4 +66,18 @@ describe('.parse() logical', () => {
     expect(parser.parse('11.1 <> 11.1')).toMatchObject({error: null, result: false});
     expect(parser.parse('10.00001 <> 10.00001')).toMatchObject({error: null, result: false});
   });
+
+  it('operator: &&', () => {
+    expect(parser.parse('TRUE && TRUE')).toMatchObject({ error: null, result: true });
+    expect(parser.parse('TRUE && FALSE')).toMatchObject({ error: null, result: false });
+    expect(parser.parse('FALSE && FALSE')).toMatchObject({ error: null, result: false });
+    expect(parser.parse('FALSE && FALSE && FALSE')).toMatchObject({ error: null, result: false });
+  });
+
+  it('operator: ||', () => {
+    expect(parser.parse('TRUE || TRUE')).toMatchObject({ error: null, result: true });
+    expect(parser.parse('TRUE || TRUE || TRUE')).toMatchObject({ error: null, result: true });
+    expect(parser.parse('TRUE || FALSE')).toMatchObject({ error: null, result: true });
+    expect(parser.parse('FALSE || FALSE')).toMatchObject({ error: null, result: false });
+  });
 });
