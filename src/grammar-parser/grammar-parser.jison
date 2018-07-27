@@ -16,8 +16,9 @@
 [A-Za-z_]+                                                                                      {return 'VARIABLE';}
 [0-9]+                                                                                          {return 'NUMBER';}
 '['(.*)?']'                                                                                     {return 'ARRAY';}
+"&&"                                                                                            {return '&&';}
 "&"                                                                                             {return '&';}
-"|"                                                                                             {return '|';}
+"||"                                                                                            {return '||';}
 " "                                                                                             {return ' ';}
 [.]                                                                                             {return 'DECIMAL';}
 ":"                                                                                             {return ':';}
@@ -30,6 +31,9 @@
 "^"                                                                                             {return '^';}
 "("                                                                                             {return '(';}
 ")"                                                                                             {return ')';}
+">="                                                                                            {return '>=';}
+"<="                                                                                            {return '<=';}
+"<>"                                                                                            {return '<>';}
 ">"                                                                                             {return '>';}
 "<"                                                                                             {return '<';}
 "NOT"                                                                                           {return 'NOT';}
@@ -46,7 +50,7 @@
 %left '='
 %left '||'
 %left '&&'
-%left '<=' '>=' '<>' 'NOT' '||'
+%left '<=' '>=' '<>' 'NOT'
 %left '>' '<'
 %left '+' '-'
 %left '*' '/'
@@ -87,20 +91,20 @@ expression
   | '(' expression ')' {
       $$ = $2;
     }
-  | expression '|' '|' expression {
-      $$ = yy.evaluateByOperator('||', [$1, $4]);
+  | expression '||' expression {
+      $$ = yy.evaluateByOperator('||', [$1, $3]);
     }
-  | expression '&' '&' expression {
-      $$ = yy.evaluateByOperator('&&', [$1, $4]);
+  | expression '&&' expression {
+      $$ = yy.evaluateByOperator('&&', [$1, $3]);
     }
-  | expression '<' '=' expression {
-      $$ = yy.evaluateByOperator('<=', [$1, $4]);
+  | expression '<=' expression {
+      $$ = yy.evaluateByOperator('<=', [$1, $3]);
     }
-  | expression '>' '=' expression {
-      $$ = yy.evaluateByOperator('>=', [$1, $4]);
+  | expression '>=' expression {
+      $$ = yy.evaluateByOperator('>=', [$1, $3]);
     }
-  | expression '<' '>' expression {
-      $$ = yy.evaluateByOperator('<>', [$1, $4]);
+  | expression '<>' expression {
+      $$ = yy.evaluateByOperator('<>', [$1, $3]);
     }
   | expression NOT expression {
       $$ = yy.evaluateByOperator('NOT', [$1, $3]);

@@ -1,7 +1,9 @@
+import { toBoolean } from './../../helper/boolean';
+
 export const SYMBOL = '&&';
 
-export default function func(exp1, exp2) {
-  return exp1 && exp2;
+export default function func(first, ...rest) {
+  return rest.reduce((acc, value) => acc && toBoolean(value), toBoolean(first));
 }
 
 func.SYMBOL = SYMBOL;
