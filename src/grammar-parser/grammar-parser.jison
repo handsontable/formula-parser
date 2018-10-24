@@ -187,14 +187,7 @@ expseq
       $$ = [$1];
     }
   | ARRAY {
-      var result = [];
-      var arr = eval("[" + yytext + "]");
-
-      arr.forEach(function(item) {
-        result.push(item);
-      });
-
-      $$ = result;
+      $$ = yy.trimEdges(yytext).split(',');
     }
   | expseq ';' expression {
       $1.push($3);
