@@ -23,7 +23,7 @@ describe('.invertNumber()', () => {
     expect(invertNumber(19.9)).toBe(-19.9);
     expect(invertNumber(0.9)).toBe(-0.9);
     expect(invertNumber('0.9')).toBe(-0.9);
-    expect(invertNumber('0')).toBe(0);
+    expect(invertNumber('0')).toBe(-0);
     expect(invertNumber('-10')).toBe(10);
     expect(invertNumber(' -10 ')).toBe(10);
     expect(isNaN(invertNumber('foo'))).toBe(true);
