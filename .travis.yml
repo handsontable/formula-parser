@@ -6,9 +6,8 @@ node_js:
   - '10'
 
 install:
-  - npm install yarn -g
-  - yarn install
-  - yarn global add codeclimate-test-reporter
+  - npm ci
+  - npm install -g codeclimate-test-reporter
 
 before_script:
   - export TZ=Europe/Warsaw
