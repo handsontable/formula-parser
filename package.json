@@ -19,7 +19,7 @@
     "build:umd": "cross-env BABEL_ENV=commonjs NODE_ENV=development webpack src/index.js dist/formula-parser.js",
     "generate-parser": "cd src/grammar-parser && jison grammar-parser.jison",
     "release": "generate-release",
-    "prepublish": "npm run clean && npm run check && npm run build && check-es3-syntax lib/ dist/ --kill --print"
+    "prepublish": "npm run clean && npm run check && npm run build"
   },
   "repository": {
     "type": "git",
@@ -82,7 +82,7 @@
     "webpack": "^3.2.0"
   },
   "dependencies": {
-    "@handsontable/formulajs": "^2.0.0",
+    "@handsontable/formulajs": "^2.0.1",
     "tiny-emitter": "^2.0.1"
   },
   "jest": {
