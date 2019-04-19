@@ -24,4 +24,10 @@ describe('.parse() custom function', () => {
     expect(parser.parse('SUM(4, ADD_5(1))')).toMatchObject({error: null, result: 10});
     expect(parser.parse('GET_LETTER("Some string", 3)')).toMatchObject({error: null, result: 'm'});
   });
+
+  it('should evaluate function with arguments passed as an stringified array', () => {
+    expect(parser.parse('SUM([])')).toMatchObject({error: null, result: 0});
+    expect(parser.parse('SUM([1])')).toMatchObject({error: null, result: 1});
+    expect(parser.parse('SUM([1,2,3])')).toMatchObject({error: null, result: 6});
+  });
 });
