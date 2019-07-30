@@ -31,6 +31,8 @@
 ")"                                                                                             {return ')';}
 ">"                                                                                             {return '>';}
 "<"                                                                                             {return '<';}
+"{"                                                                                             {return '{';}
+"}"                                                                                             {return '}';}
 "NOT"                                                                                           {return 'NOT';}
 '"'                                                                                             {return '"';}
 "'"                                                                                             {return "'";}
@@ -83,6 +85,12 @@ expression
     }
   | '(' expression ')' {
       $$ = $2;
+    }
+  | '{' '}' {
+      $$ = []
+    }
+  | '{' expseq '}' {
+      $$ = $2
     }
   | expression '<' '=' expression {
       $$ = yy.evaluateByOperator('<=', [$1, $4]);
