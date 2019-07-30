@@ -1,5 +1,6 @@
 import {
   extractLabel,
+  extractSheetName,
   toLabel,
   columnIndexToLabel,
   columnLabelToIndex,
@@ -110,6 +111,16 @@ describe('.extractLabel()', () => {
     expect(extractLabel(null)).toMatchObject([]);
     expect(extractLabel(void 0)).toMatchObject([]);
     expect(extractLabel(0)).toMatchObject([]);
+  });
+});
+
+describe('.extractSheetName()', () => {
+  it('removes quotes from sheet names', () => {
+    expect(extractSheetName('\'Foo\'')).toEqual('Foo');
+  });
+
+  it('leaves unquoted names unchanged', () => {
+    expect(extractSheetName('Foo')).toEqual('Foo');
   });
 });
 

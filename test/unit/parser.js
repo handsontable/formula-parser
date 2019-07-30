@@ -224,6 +224,14 @@ describe('Parser', () => {
       expect(parser._callCellValue('$H4')).toBe(true);
       expect(parser._callCellValue('$H$5')).toBe(0.9);
     });
+
+    it('should unquote sheet names', () => {
+      const cb = jest.fn();
+
+      parser.on('callCellValue', cb);
+      parser._callCellValue('A1', '\'Sheet\'');
+      expect(cb.mock.calls[0][0]).toMatchObject({sheet: 'Sheet'});
+    });
   });
 
   describe('._callRangeValue()', () => {
@@ -296,6 +304,15 @@ describe('Parser', () => {
       };
 
       expect(cb).toHaveBeenCalledWith(startCell, endCell, expect.anything());
+    });
+
+    it('should unquote sheet names', () => {
+      const cb = jest.fn();
+
+      parser.on('callRangeValue', cb);
+      parser._callRangeValue('A1', 'B2', '\'Sheet\'');
+      expect(cb.mock.calls[0][0]).toMatchObject({sheet: 'Sheet'});
+      expect(cb.mock.calls[0][1]).toMatchObject({sheet: 'Sheet'});
     });
   });
 

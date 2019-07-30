@@ -180,6 +180,78 @@ cell
   | MIXED_CELL ':' MIXED_CELL {
       $$ = yy.rangeValue($1, $3);
     }
+  | STRING '!' ABSOLUTE_CELL {
+      $$ = yy.cellValue($3, $1);
+    }
+  | STRING '!' RELATIVE_CELL {
+      $$ = yy.cellValue($3, $1);
+    }
+  | STRING '!' MIXED_CELL {
+      $$ = yy.cellValue($3, $1);
+    }
+  | STRING '!' ABSOLUTE_CELL ':' ABSOLUTE_CELL {
+      $$ = yy.rangeValue($3, $5, $1);
+    }
+  | STRING '!' ABSOLUTE_CELL ':' RELATIVE_CELL {
+      $$ = yy.rangeValue($3, $5, $1);
+    }
+  | STRING '!' ABSOLUTE_CELL ':' MIXED_CELL {
+      $$ = yy.rangeValue($3, $5, $1);
+    }
+  | STRING '!' RELATIVE_CELL ':' ABSOLUTE_CELL {
+      $$ = yy.rangeValue($3, $5, $1);
+    }
+  | STRING '!' RELATIVE_CELL ':' RELATIVE_CELL {
+      $$ = yy.rangeValue($3, $5, $1);
+    }
+  | STRING '!' RELATIVE_CELL ':' MIXED_CELL {
+      $$ = yy.rangeValue($3, $5, $1);
+    }
+  | STRING '!' MIXED_CELL ':' ABSOLUTE_CELL {
+      $$ = yy.rangeValue($3, $5, $1);
+    }
+  | STRING '!' MIXED_CELL ':' RELATIVE_CELL {
+      $$ = yy.rangeValue($3, $5, $1);
+    }
+  | STRING '!' MIXED_CELL ':' MIXED_CELL {
+      $$ = yy.rangeValue($3, $5, $1);
+    }
+  | VARIABLE '!' ABSOLUTE_CELL {
+      $$ = yy.cellValue($3, $1);
+    }
+  | VARIABLE '!' RELATIVE_CELL {
+      $$ = yy.cellValue($3, $1);
+    }
+  | VARIABLE '!' MIXED_CELL {
+      $$ = yy.cellValue($3, $1);
+    }
+  | VARIABLE '!' ABSOLUTE_CELL ':' ABSOLUTE_CELL {
+      $$ = yy.rangeValue($3, $5, $1);
+    }
+  | VARIABLE '!' ABSOLUTE_CELL ':' RELATIVE_CELL {
+      $$ = yy.rangeValue($3, $5, $1);
+    }
+  | VARIABLE '!' ABSOLUTE_CELL ':' MIXED_CELL {
+      $$ = yy.rangeValue($3, $5, $1);
+    }
+  | VARIABLE '!' RELATIVE_CELL ':' ABSOLUTE_CELL {
+      $$ = yy.rangeValue($3, $5, $1);
+    }
+  | VARIABLE '!' RELATIVE_CELL ':' RELATIVE_CELL {
+      $$ = yy.rangeValue($3, $5, $1);
+    }
+  | VARIABLE '!' RELATIVE_CELL ':' MIXED_CELL {
+      $$ = yy.rangeValue($3, $5, $1);
+    }
+  | VARIABLE '!' MIXED_CELL ':' ABSOLUTE_CELL {
+      $$ = yy.rangeValue($3, $5, $1);
+    }
+  | VARIABLE '!' MIXED_CELL ':' RELATIVE_CELL {
+      $$ = yy.rangeValue($3, $5, $1);
+    }
+  | VARIABLE '!' MIXED_CELL ':' MIXED_CELL {
+      $$ = yy.rangeValue($3, $5, $1);
+    }
 ;
 
 expseq

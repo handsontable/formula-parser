@@ -183,6 +183,38 @@ describe('.parse() coordinates', () => {
     expect(parser.parse('$$A$1:$B$2')).toMatchObject({error: '#ERROR!', result: null});
   });
 
+  it('should parse references to other sheets', () => {
+    expect(parser.parse('Sheet!A1:B2')).toMatchObject({error: null, result: [[3, 6, 10]]});
+    expect(startCellCoord).toMatchObject({
+      label: 'A1',
+      row: {index: 0, isAbsolute: false, label: '1'},
+      column: {index: 0, isAbsolute: false, label: 'A'},
+      sheet: 'Sheet',
+    });
+    expect(endCellCoord).toMatchObject({
+      label: 'B2',
+      row: {index: 1, isAbsolute: false, label: '2'},
+      column: {index: 1, isAbsolute: false, label: 'B'},
+      sheet: 'Sheet',
+    });
+  });
+
+  it('should parse references to other sheets with non-alphanumeric sheet name', () => {
+    expect(parser.parse('\'Foo? Bar\'!A1:B2')).toMatchObject({error: null, result: [[3, 6, 10]]});
+    expect(startCellCoord).toMatchObject({
+      label: 'A1',
+      row: {index: 0, isAbsolute: false, label: '1'},
+      column: {index: 0, isAbsolute: false, label: 'A'},
+      sheet: 'Foo? Bar',
+    });
+    expect(endCellCoord).toMatchObject({
+      label: 'B2',
+      row: {index: 1, isAbsolute: false, label: '2'},
+      column: {index: 1, isAbsolute: false, label: 'B'},
+      sheet: 'Foo? Bar',
+    });
+  });
+
   it('should parse mixed cells range', () => {
     expect(parser.parse('$A$1:B2')).toMatchObject({error: null, result: [[3, 6, 10]]});
     expect(startCellCoord).toMatchObject({

@@ -101,6 +101,22 @@ export function extractLabel(label) {
   ];
 }
 
+const QUOTED_SHEET_REGEXP = /^(['"]).+\1$/;
+
+/**
+ * Unquote sheet name if necessary, e.g. 'Sheet' => Sheet. Unquoted names are
+ * returned unchanged.
+ *
+ * @param {String} sheet Sheet name
+ */
+export function extractSheetName(sheet) {
+  if (QUOTED_SHEET_REGEXP.test(sheet)) {
+    return sheet.substr(1, sheet.length - 2);
+  }
+
+  return sheet;
+}
+
 /**
  * Convert row and column indexes into cell label.
  *

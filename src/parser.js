@@ -4,7 +4,7 @@ import {Parser as GrammarParser} from './grammar-parser/grammar-parser';
 import {trimEdges} from './helper/string';
 import {toNumber, invertNumber} from './helper/number';
 import errorParser, {isValidStrict as isErrorValid, ERROR, ERROR_NAME} from './error';
-import {extractLabel, toLabel} from './helper/cell';
+import {extractLabel, extractSheetName, toLabel} from './helper/cell';
 
 /**
  * @class Parser
@@ -21,8 +21,8 @@ class Parser extends Emitter {
       callVariable: (variable) => this._callVariable(variable),
       evaluateByOperator,
       callFunction: (name, params) => this._callFunction(name, params),
-      cellValue: (value) => this._callCellValue(value),
-      rangeValue: (start, end) => this._callRangeValue(start, end),
+      cellValue: (value, sheet) => this._callCellValue(value, sheet),
+      rangeValue: (start, end, sheet) => this._callRangeValue(start, end, sheet),
     };
     this.variables = Object.create(null);
     this.functions = Object.create(null);
@@ -168,16 +168,23 @@ class Parser extends Emitter {
    * Retrieve value by its label (`B3`, `B$3`, `B$3`, `$B$3`).
    *
    * @param {String} label Coordinates.
+   * @param {String} sheet Optional sheet name.
    * @returns {*}
    * @private
    */
-  _callCellValue(label) {
+  _callCellValue(label, sheet) {
     label = label.toUpperCase();
+    sheet = sheet ? extractSheetName(sheet) : sheet;
 
     const [row, column] = extractLabel(label);
+    const cellCoord = {label, row, column};
     let value = void 0;
 
-    this.emit('callCellValue', {label, row, column}, (_value) => {
+    if (sheet !== void 0) {
+      cellCoord.sheet = sheet;
+    }
+
+    this.emit('callCellValue', cellCoord, (_value) => {
       value = _value;
     });
 
@@ -189,12 +196,14 @@ class Parser extends Emitter {
    *
    * @param {String} startLabel Coordinates of the first cell.
    * @param {String} endLabel Coordinates of the last cell.
+   * @param {String} sheet Optional sheet name.
    * @returns {Array} Returns an array of mixed values.
    * @private
    */
-  _callRangeValue(startLabel, endLabel) {
+  _callRangeValue(startLabel, endLabel, sheet) {
     startLabel = startLabel.toUpperCase();
     endLabel = endLabel.toUpperCase();
+    sheet = sheet ? extractSheetName(sheet) : sheet;
 
     const [startRow, startColumn] = extractLabel(startLabel);
     const [endRow, endColumn] = extractLabel(endLabel);
@@ -219,6 +228,11 @@ class Parser extends Emitter {
 
     startCell.label = toLabel(startCell.row, startCell.column);
     endCell.label = toLabel(endCell.row, endCell.column);
+
+    if (sheet !== void 0) {
+      startCell.sheet = sheet;
+      endCell.sheet = sheet;
+    }
 
     let value = [];
 
