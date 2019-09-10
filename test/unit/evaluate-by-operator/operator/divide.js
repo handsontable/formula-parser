@@ -13,5 +13,6 @@ describe('divide operator', () => {
     expect(() => func('foo', ' ', 'bar', ' baz')).toThrow('VALUE');
     expect(func(0, 1)).toBe(0);
     expect(() => func(1, 0)).toThrow('DIV/0');
+    expect(() => func(-1, 0)).toThrow('DIV/0');
   });
 });

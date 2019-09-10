@@ -11834,7 +11834,7 @@ function func(first) {
     return acc / (0, _number.toNumber)(value);
   }, (0, _number.toNumber)(first));
 
-  if (result === Infinity) {
+  if (result === Infinity || result === -Infinity) {
     throw Error(_error.ERROR_DIV_ZERO);
   }
   if (isNaN(result)) {
