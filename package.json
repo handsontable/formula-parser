@@ -82,8 +82,8 @@
     "webpack": "^3.2.0"
   },
   "dependencies": {
-    "@handsontable/formulajs": "^2.0.1",
-    "tiny-emitter": "^2.0.1"
+    "@handsontable/formulajs": "^2.0.2",
+    "tiny-emitter": "^2.1.0"
   },
   "jest": {
     "setupTestFrameworkScriptFile": "./test/index.js",
