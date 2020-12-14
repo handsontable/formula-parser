@@ -5,6 +5,14 @@ const path = require('path');
 
 const env = process.env.NODE_ENV
 const config = {
+  output: {
+    globalObject: `typeof self !== 'undefined' ? self : this`,
+    library: 'formulaParser',
+    libraryExport: 'default',
+    libraryTarget: 'umd',
+    path: path.resolve(__dirname, '../dist'),
+    umdNamedDefine: true,
+  },
   module: {
     rules: [
       {
@@ -14,9 +22,8 @@ const config = {
       },
     ]
   },
-  output: {
-    library: 'formulaParser',
-    libraryTarget: 'umd'
+  optimization: {
+    minimize: env === 'production',
   },
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
@@ -25,25 +32,5 @@ const config = {
     })
   ]
 };
-
-if (env === 'production') {
-  config.plugins.push(
-    new webpack.optimize.UglifyJsPlugin({
-      compressor: {
-        pure_getters: true,
-        unsafe: true,
-        unsafe_comps: true,
-        warnings: false,
-        screw_ie8: false
-      },
-      mangle: {
-        screw_ie8: false
-      },
-      output: {
-        screw_ie8: false
-      }
-    })
-  )
-}
 
 module.exports = config
