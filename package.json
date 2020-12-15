@@ -20,8 +20,8 @@
     "build": "npm run build:commonjs && npm run build:es && npm run build:umd && npm run build:umd:min",
     "build:commonjs": "cross-env BABEL_ENV=commonjs babel src --out-dir tmp",
     "build:es": "cross-env BABEL_ENV=es babel src --out-file-extension .mjs --out-dir tmp",
-    "build:umd:min": "cross-env BABEL_ENV=commonjs NODE_ENV=production webpack ./src/index.js",
-    "build:umd": "cross-env BABEL_ENV=commonjs NODE_ENV=development webpack ./src/index.js",
+    "build:umd:min": "cross-env BABEL_ENV=commonjs NODE_ENV=production webpack",
+    "build:umd": "cross-env BABEL_ENV=commonjs NODE_ENV=development webpack",
     "generate-parser": "cd src/grammar-parser && jison grammar-parser.jison",
     "release": "generate-release",
     "postbuild": "node ./scripts/prepare-package"

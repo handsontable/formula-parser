@@ -3,14 +3,20 @@
 const webpack = require('webpack');
 const path = require('path');
 
-const env = process.env.NODE_ENV
+const ROOT_DIRECTORY = process.cwd();
+const NODE_ENV = process.env.NODE_ENV;
+
 const config = {
+  mode: 'production',
+  devtool: false,
+  entry: {
+    main: path.resolve(ROOT_DIRECTORY, 'src/index.js'),
+  },
   output: {
-    globalObject: `typeof self !== 'undefined' ? self : this`,
     library: 'formulaParser',
-    libraryExport: 'default',
     libraryTarget: 'umd',
-    path: path.resolve(__dirname, '../dist'),
+    path: path.resolve(ROOT_DIRECTORY, 'dist'),
+    filename: `formula-parser${NODE_ENV === 'production' ? '.min' : ''}.js`,
     umdNamedDefine: true,
   },
   module: {
@@ -23,14 +29,14 @@ const config = {
     ]
   },
   optimization: {
-    minimize: env === 'production',
+    minimize: NODE_ENV === 'production',
   },
   plugins: [
     new webpack.optimize.OccurrenceOrderPlugin(),
     new webpack.DefinePlugin({
-      'process.env.NODE_ENV': JSON.stringify(env)
+      'process.env.NODE_ENV': JSON.stringify(NODE_ENV)
     })
   ]
 };
 
-module.exports = config
+module.exports = config;

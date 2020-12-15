@@ -11,7 +11,7 @@
   ],
   "post_commit_commands": [],
   "post_complete_commands": [
-    "npm publish"
+    "cd tmp && npm publish"
   ],
   "files_to_commit": [
     "./dist/**/*"
