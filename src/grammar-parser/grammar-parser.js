@@ -320,7 +320,6 @@ parse: function parse (input) {
         lstack.length = lstack.length - n;
     }
 
-_token_stack:
     var lex = function () {
         var token;
         token = lexer.lex() || EOF;
@@ -347,7 +346,6 @@ _token_stack:
             action = table[state] && table[state][symbol];
         }
 
-_handle_error:
         // handle parse error
         if (typeof action === 'undefined' || !action.length || !action[0]) {
             var error_rule_depth;
