@@ -5,6 +5,8 @@
   "main": "./index",
   "module": "./index.mjs",
   "jsnext:main": "./index.mjs",
+  "jsdelivr": "dist/formula-parser.min.js",
+  "unpkg": "dist/formula-parser.min.js",
   "exports": {
     ".": {
       "import": "./index.mjs",
