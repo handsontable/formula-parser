@@ -1,6 +1,6 @@
 {
   "name": "hot-formula-parser",
-  "version": "3.0.2",
+  "version": "4.0.0",
   "description": "Formula parser",
   "main": "./index",
   "module": "./index.mjs",
