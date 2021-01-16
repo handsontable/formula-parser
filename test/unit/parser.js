@@ -165,7 +165,7 @@ describe('Parser', () => {
     it('should return variable set by event emitter (json variable)', () => {
       parser.getVariable = jest.fn(() => 'baz');
 
-      parser.on('callJsonVariable', (name, done) => {console.log(name);
+      parser.on('callJsonVariable', (name, done) => {
         done((name[0] === 'bar' && name[1] === 'gol') ? 'foo' : void 0);
       });
 

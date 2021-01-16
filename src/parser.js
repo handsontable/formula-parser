@@ -123,9 +123,6 @@ class Parser extends Emitter {
       }
     });
 
-    if(firstPart === 'sew') console.log(name, value);
-
-
     if (value === void 0) {
       throw Error(ERROR_NAME);
     }
