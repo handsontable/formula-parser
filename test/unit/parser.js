@@ -161,6 +161,20 @@ describe('Parser', () => {
       expect(parser._callVariable('bar')).toBe('foo');
       expect(parser._callVariable('barrr')).toBe('baz');
     });
+
+    it('should return variable set by event emitter (json variable)', () => {
+      parser.getVariable = jest.fn(() => 'baz');
+
+      parser.on('callJsonVariable', (name, done) => {console.log(name);
+        done((name[0] === 'bar' && name[1] === 'gol') ? 'foo' : void 0);
+      });
+
+      expect(parser._callVariable('bar')).toBe('baz');
+      expect(parser._callVariable(['bar'])).toBe('baz');
+      expect(parser._callVariable(['bar', 'gol'])).toBe('foo');
+      expect(parser._callVariable(['bar', 'golf'])).toBe('baz');
+      expect(parser._callVariable('barrr')).toBe('baz');
+    });
   });
 
   describe('._callFunction()', () => {
@@ -174,7 +188,7 @@ describe('Parser', () => {
       expect(parser._callFunction('SUM', [1, 2])).toBe(3);
     });
 
-    it('should call custom funciton when it was set', () => {
+    it('should call custom function when it was set', () => {
       parser.getFunction = jest.fn(() => (params) => params[0] + 1);
 
       expect(parser._callFunction('ADD_1', [2])).toBe(3);

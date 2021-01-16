@@ -64,7 +64,7 @@ expressions
 
 expression
   : variableSequence {
-      $$ = yy.callVariable($1[0]);
+      $$ = yy.callVariable($1);
     }
   | number {
       $$ = yy.toNumber($1);

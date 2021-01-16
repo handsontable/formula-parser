@@ -101,13 +101,30 @@ class Parser extends Emitter {
    * @private
    */
   _callVariable(name) {
-    let value = this.getVariable(name);
+    
+    if(Array.isArray(name)){
+      var firstPart = name[0]
+    } else {
+      var firstPart = name;
+      name = [name];
+    }
 
-    this.emit('callVariable', name, (newValue) => {
+    let value = this.getVariable(firstPart);
+ 
+    this.emit('callVariable', firstPart, (newValue) => {
       if (newValue !== void 0) {
         value = newValue;
       }
     });
+
+    this.emit('callJsonVariable', name, (newValue) => {
+      if (newValue !== void 0) {
+        value = newValue;
+      }
+    });
+
+    if(firstPart === 'sew') console.log(name, value);
+
 
     if (value === void 0) {
       throw Error(ERROR_NAME);
