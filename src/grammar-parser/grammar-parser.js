@@ -71,7 +71,7 @@
     recoverable: (boolean: TRUE when the parser has a error recovery rule available for this particular error)
   }
 */
-
+var grammarParser = (function(){
 var o=function(k,v,o,l){for(o=o||{},l=k.length;l--;o[k[l]]=v);return o},$V0=[1,5],$V1=[1,8],$V2=[1,6],$V3=[1,7],$V4=[1,9],$V5=[1,14],$V6=[1,15],$V7=[1,16],$V8=[1,12],$V9=[1,13],$Va=[1,17],$Vb=[1,19],$Vc=[1,20],$Vd=[1,21],$Ve=[1,22],$Vf=[1,23],$Vg=[1,24],$Vh=[1,25],$Vi=[1,26],$Vj=[1,27],$Vk=[1,28],$Vl=[5,9,10,11,13,14,15,16,17,18,19,20,29,30],$Vm=[5,9,10,11,13,14,15,16,17,18,19,20,29,30,32],$Vn=[5,9,10,11,13,14,15,16,17,18,19,20,29,30,34],$Vo=[5,10,11,13,14,15,16,17,29,30],$Vp=[5,10,13,14,15,16,29,30],$Vq=[5,10,11,13,14,15,16,17,18,19,29,30],$Vr=[13,29,30];
 var parser = {trace: function trace () { },
 yy: {},
@@ -86,92 +86,92 @@ switch (yystate) {
 case 1:
 
       return $$[$0-1];
-
+    
 break;
 case 2:
 
-      this.$ = yy.callVariable($$[$0][0]);
-
+      this.$ = yy.callVariable($$[$0]);
+    
 break;
 case 3:
 
       this.$ = yy.toNumber($$[$0]);
-
+    
 break;
 case 4:
 
       this.$ = yy.trimEdges($$[$0]);
-
+    
 break;
 case 5:
 
       this.$ = yy.evaluateByOperator('&', [$$[$0-2], $$[$0]]);
-
+    
 break;
 case 6:
 
       this.$ = yy.evaluateByOperator('=', [$$[$0-2], $$[$0]]);
-
+    
 break;
 case 7:
 
       this.$ = yy.evaluateByOperator('+', [$$[$0-2], $$[$0]]);
-
+    
 break;
 case 8:
 
       this.$ = $$[$0-1];
-
+    
 break;
 case 9:
 
       this.$ = yy.evaluateByOperator('<=', [$$[$0-3], $$[$0]]);
-
+    
 break;
 case 10:
 
       this.$ = yy.evaluateByOperator('>=', [$$[$0-3], $$[$0]]);
-
+    
 break;
 case 11:
 
       this.$ = yy.evaluateByOperator('<>', [$$[$0-3], $$[$0]]);
-
+    
 break;
 case 12:
 
       this.$ = yy.evaluateByOperator('NOT', [$$[$0-2], $$[$0]]);
-
+    
 break;
 case 13:
 
       this.$ = yy.evaluateByOperator('>', [$$[$0-2], $$[$0]]);
-
+    
 break;
 case 14:
 
       this.$ = yy.evaluateByOperator('<', [$$[$0-2], $$[$0]]);
-
+    
 break;
 case 15:
 
       this.$ = yy.evaluateByOperator('-', [$$[$0-2], $$[$0]]);
-
+    
 break;
 case 16:
 
       this.$ = yy.evaluateByOperator('*', [$$[$0-2], $$[$0]]);
-
+    
 break;
 case 17:
 
       this.$ = yy.evaluateByOperator('/', [$$[$0-2], $$[$0]]);
-
+    
 break;
 case 18:
 
       this.$ = yy.evaluateByOperator('^', [$$[$0-2], $$[$0]]);
-
+    
 break;
 case 19:
 
@@ -182,7 +182,7 @@ case 19:
       if (isNaN(this.$)) {
           this.$ = 0;
       }
-
+    
 break;
 case 20:
 
@@ -193,69 +193,69 @@ case 20:
       if (isNaN(this.$)) {
           this.$ = 0;
       }
-
+    
 break;
 case 21:
 
       this.$ = yy.callFunction($$[$0-2]);
-
+    
 break;
 case 22:
 
       this.$ = yy.callFunction($$[$0-3], $$[$0-1]);
-
+    
 break;
 case 26: case 27: case 28:
 
       this.$ = yy.cellValue($$[$0]);
-
+    
 break;
 case 29: case 30: case 31: case 32: case 33: case 34: case 35: case 36: case 37:
 
       this.$ = yy.rangeValue($$[$0-2], $$[$0]);
-
+    
 break;
 case 38: case 42:
 
       this.$ = [$$[$0]];
-
+    
 break;
 case 39:
 
       this.$ = yy.trimEdges(yytext).split(',');
-
+    
 break;
 case 40: case 41:
 
       $$[$0-2].push($$[$0]);
       this.$ = $$[$0-2];
-
+    
 break;
 case 43:
 
       this.$ = (Array.isArray($$[$0-2]) ? $$[$0-2] : [$$[$0-2]]);
       this.$.push($$[$0]);
-
+    
 break;
 case 44:
 
       this.$ = $$[$0];
-
+    
 break;
 case 45:
 
       this.$ = ($$[$0-2] + '.' + $$[$0]) * 1;
-
+    
 break;
 case 46:
 
       this.$ = $$[$0-1] * 0.01;
-
+    
 break;
 case 47:
 
       this.$ = yy.throwError($$[$0]);
-
+    
 break;
 }
 },
@@ -320,6 +320,7 @@ parse: function parse (input) {
         lstack.length = lstack.length - n;
     }
 
+_token_stack:
     var lex = function () {
         var token;
         token = lexer.lex() || EOF;
@@ -346,6 +347,7 @@ parse: function parse (input) {
             action = table[state] && table[state][symbol];
         }
 
+_handle_error:
         // handle parse error
         if (typeof action === 'undefined' || !action.length || !action[0]) {
             var error_rule_depth;
@@ -917,8 +919,27 @@ conditions: {"INITIAL":{"rules":[0,1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,
 return lexer;
 })();
 parser.lexer = lexer;
-export function Parser () {
+function Parser () {
   this.yy = {};
 }
-Parser.prototype = parser;
-parser.Parser = Parser;
+Parser.prototype = parser;parser.Parser = Parser;
+return new Parser;
+})();
+
+
+if (typeof require !== 'undefined' && typeof exports !== 'undefined') {
+exports.parser = grammarParser;
+exports.Parser = grammarParser.Parser;
+exports.parse = function () { return grammarParser.parse.apply(grammarParser, arguments); };
+exports.main = function commonjsMain (args) {
+    if (!args[1]) {
+        console.log('Usage: '+args[0]+' FILE');
+        process.exit(1);
+    }
+    var source = require('fs').readFileSync(require('path').normalize(args[1]), "utf8");
+    return exports.parser.parse(source);
+};
+if (typeof module !== 'undefined' && require.main === module) {
+  exports.main(process.argv.slice(1));
+}
+}
